@@ -7,7 +7,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import xcs.spring.StartUp;
+import com.xchushi.spring.StartUp;
 
 @Component
 public class InitEsRunner implements ApplicationRunner {
