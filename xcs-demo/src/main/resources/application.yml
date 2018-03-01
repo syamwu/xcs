@@ -1,0 +1,53 @@
+#spring Configuration 目前只有一个配置文件,如果有需要,可以分为dev和prod,然后再通过spring.profiles.active=prod 来切换生产或开发环境的配置文件.
+spring:
+  profiles:
+    active: default #控制不同环境的不同配置文件
+
+  datasource:
+      #***+++++++++++注意+++++++++++***,由于为了更精简配置,当更新datasoruce的url,username,password,driver-class-name的时候,还要改logback.xml的dbAppender的datasource的配置.
+      url: jdbc:mysql://localhost:3306/front_zhongbafutian?useUnicode=true&characterEncoding=UTF-8&useSSL=false #注意!
+      username: yunyi
+      password: yunyi2016
+      driver-class-name: com.mysql.jdbc.Driver
+
+#Server Configuration
+server:
+  port: 8087
+  context-path: /
+#   ssl:
+#     key-store: classpath:.keystore
+#     key-store-password: 123123
+#     key-alias: tomcat
+
+#Logback Configuration
+# logging:
+ #  config: classpath:logback/logback.xml
+
+# Mybatis Configuration
+# mybatis:
+#   mapper-locations: classpath*:mybatis/mapper/*.xml
+
+
+#His Properties
+# his:
+#   url: http://121.15.139.21:7094/ServiceOfHis.asmx?wsdl
+
+#调度中心签名相关
+# sign:
+#   key: bca7e7b41d0e4c7193954d69b7ef5a6c
+#   validated: true
+  
+# eureka:
+#     instance:
+#         hostname: localhost
+
+#     client:
+#         serviceUrl:
+#             defaultZone: http://register.com:999/eureka/
+
+eslogger:
+  serverHosts: 120.76.98.17:7777,120.76.98.17:7777
+  failSendFileEnable: true
+  appname: xcs_test
+  loadBalanc: 
+    endable: true
