@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.xchushi.demo</groupId>
+	<groupId>com.xchushi</groupId>
 	<artifactId>xcs-demo</artifactId>
-	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>xcs-demo Maven Webapp</name>
+	<version>1.0-SNAPSHOT</version>
+	<name>xcs-demo</name>
+	<url>http://maven.apache.org</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -80,32 +80,6 @@
                                         junit
                                     </excludeArtifactIds>
                                     <overWriteSnapshots>true</overWriteSnapshots>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.0.2</version>
-                        <executions>
-                            <execution>
-                                <id>copy-resources</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${outputDir}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include>**/*.*</include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                    <overwrite>false</overwrite>
                                 </configuration>
                             </execution>
                         </executions>
@@ -264,7 +238,20 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
-		
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+            <version>1.16.14</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.xchushi</groupId>
+            <artifactId>xcs-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
 	</dependencies>
 <!-- 	<properties>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>

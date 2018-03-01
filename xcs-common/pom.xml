@@ -4,23 +4,95 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>cn.yunyichina.log</groupId>
-		<artifactId>log-sys</artifactId>
+		<groupId>com.xchushi</groupId>
+		<artifactId>xcs-root</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-
-	<artifactId>log-elasticsearch</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<artifactId>xcs-common</artifactId>
+	
+	    <properties>
+        <java.version>1.7</java.version>
+        <mainClass></mainClass>
+        <jarName>${project.artifactId}</jarName>
+        <outputDir>target</outputDir>
+        <classpathPrefix>lib/</classpathPrefix>
+        <!---->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
+    </properties>
+	
+    <profiles>
+        <profile>
+            <id>pkg</id>
+            <activation>
+                <jdk>${java.version}</jdk>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <finalName>${jarName}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.0.2</version>
+                        <configuration>
+                            <outputDirectory>${outputDir}</outputDirectory>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>${classpathPrefix}</classpathPrefix>
+                                    <mainClass>${mainClass}</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${outputDir}/lib</outputDirectory>
+                                    <excludeArtifactIds>
+                                        spring-boot-devtools,
+                                        junit
+                                    </excludeArtifactIds>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.19.1</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 	
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
+			<version>1.16.14</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
+			<version>1.2.28</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,11 +103,13 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
 		</dependency>
 		<dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>1.1.11</version>
         </dependency>
-	</dependencies>
+	</dependencies> 
 
 </project>
