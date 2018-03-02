@@ -32,7 +32,7 @@ public class HttpClientUtils {
      */
     public static CloseableHttpResponse sendRequest(String xml, String url, String charset, int timeOut)
             throws IOException {
-        Header[] headers = { new BasicHeader("Content-Type", "text/plain"), new BasicHeader("Accept", "text/plain"),
+        Header[] headers = { new BasicHeader("Content-Type", "text/plain"),
                 new BasicHeader("Content-Encoding", "gzip") };
         ByteArrayOutputStream originalContent = new ByteArrayOutputStream();
         originalContent.write(xml.getBytes(charset));

@@ -10,15 +10,15 @@ import java.util.TimeZone;
 import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
-import com.xchushi.log.SysLogger;
+import com.xchushi.log.SysLoggerFactory;
 import com.xchushi.log.constant.EsLoggerConstant;
 import com.xchushi.log.constant.LoggerType;
 import com.xchushi.log.elasticsearch.EsLogger;
 import com.xchushi.log.elasticsearch.MDCBus;
 import com.xchushi.log.elasticsearch.changer.Changer;
 import com.xchushi.log.elasticsearch.changer.NomalChanger;
-import com.xchushi.transfer.sender.HttpSender;
 import com.xchushi.transfer.sender.Sender;
+import com.xchushi.transfer.sender.SenderFactory;
 
 public class TCPEsLogger implements EsLogger {
 
@@ -28,7 +28,7 @@ public class TCPEsLogger implements EsLogger {
     
     // private static final String HTTPBULKHEAD = "{\"index\":{}}\n";
 
-    private static Logger logger = SysLogger.getLogger(TCPEsLogger.class);
+    private static Logger logger = SysLoggerFactory.getLogger(TCPEsLogger.class);
 
     @SuppressWarnings("unused")
     private Class<?> cls;
@@ -36,7 +36,7 @@ public class TCPEsLogger implements EsLogger {
     public TCPEsLogger(Class<?> cls) {
         this.cls = cls;
         this.changer = NomalChanger.getChanger(null);
-        this.sender = HttpSender.getSender();
+        this.sender = SenderFactory.getSender(cls);
     }
 
     public TCPEsLogger(Class<?> cls, Changer changer, Sender sender) {

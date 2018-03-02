@@ -12,7 +12,7 @@ spring:
 
 #Server Configuration
 server:
-  port: 8087
+  port: 8077
   context-path: /
 #   ssl:
 #     key-store: classpath:.keystore
@@ -46,6 +46,10 @@ server:
 #             defaultZone: http://register.com:999/eureka/
 
 eslogger:
+  collectSendEnable: true
+  index: yunyi_log
+  type: test
+  uri: yunyi_log/test
   serverHosts: 120.76.98.17:7777,120.76.98.17:7777
   failSendFileEnable: true
   appname: xcs_test

@@ -1,0 +1,9 @@
+[2018-03-02 17:04:50][INFO ][main][com.xchushi.transfer.runner.DefalutCollectSendRunner.<init>:71]:CollectSendRunner created
+[2018-03-02 17:04:50][INFO ][pool-1-thread-3][com.xchushi.transfer.sender.HttpSender.synSend:237]:synSend status:200, response msg:ok
+[2018-03-02 17:04:50][INFO ][pool-1-thread-2][com.xchushi.transfer.sender.HttpSender.synSend:237]:synSend status:200, response msg:ok
+[2018-03-02 17:04:50][INFO ][pool-1-thread-3][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:151]:succes failQueue.size:0
+[2018-03-02 17:04:50][INFO ][pool-1-thread-2][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:151]:succes failQueue.size:0
+[2018-03-02 17:04:50][INFO ][pool-1-thread-5][com.xchushi.transfer.sender.HttpSender.synSend:237]:synSend status:200, response msg:ok
+[2018-03-02 17:04:50][INFO ][pool-1-thread-4][com.xchushi.transfer.sender.HttpSender.synSend:237]:synSend status:200, response msg:ok
+[2018-03-02 17:04:50][INFO ][pool-1-thread-4][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:151]:succes failQueue.size:0
+[2018-03-02 17:04:50][INFO ][pool-1-thread-5][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:151]:succes failQueue.size:0

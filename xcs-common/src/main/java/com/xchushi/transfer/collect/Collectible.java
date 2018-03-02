@@ -1,11 +1,13 @@
 package com.xchushi.transfer.collect;
 
-import com.xchushi.common.entity.Entity;
-
-public interface Collectible<T> {
+public interface Collectible<T extends Splice<R>, R> {
     
-    Entity<T> collect() throws Exception;
+    T collect() throws Exception;
     
-    void collect(T t) throws Exception;
+    T collect(int count, long waitTime) throws Exception;
+    
+    void collect(R t) throws Exception;
+    
+    T collect(T t) throws Exception;
     
 }

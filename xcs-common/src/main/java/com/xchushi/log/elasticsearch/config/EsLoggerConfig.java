@@ -3,8 +3,11 @@ package com.xchushi.log.elasticsearch.config;
 
 import org.springframework.core.env.Environment;
 
+import com.xchushi.common.environment.Configure;
+import com.xchushi.config.ConfigureFactory;
 import com.xchushi.log.constant.LEVEL;
 import com.xchushi.log.elasticsearch.exception.EsLoggerInitException;
+import com.xchushi.transfer.runner.DefalutCollectSendRunner;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +48,16 @@ public class EsLoggerConfig {
     static EsLoggerConfig cfg;
     
     public static Environment env;
+    
+    static{
+        try{
+            Configure config = ConfigureFactory.getConfigure(EsLoggerConfig.class);
+            initConfig(config);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+    }
 
     public static EsLoggerConfig getCfg() {
         if (cfg == null) {
@@ -58,6 +71,23 @@ public class EsLoggerConfig {
             cfg = new EsLoggerConfig();
         }
         EsLoggerConfig.env = env;
+        String levelStr = env.getProperty("eslogger.level", "INFO");
+        cfg.level = LEVEL.valueOf(levelStr);
+        if (cfg.level == null) {
+            throw new EsLoggerInitException("eslogger.level is a wrong value.");
+        }
+        cfg.index = env.getProperty("eslogger.index", "yunyi_log");
+        cfg.type = env.getProperty("eslogger.type", "front");
+        cfg.appname = env.getProperty("eslogger.appname", "front_app");
+        cfg.ipAddress = env.getProperty("eslogger.ipAddress", "");
+        cfg.docVersion = env.getProperty("eslogger.docVersion", Integer.class, 1);
+        return cfg;
+    }
+    
+    public synchronized static EsLoggerConfig initConfig(Configure env) {
+        if (cfg == null) {
+            cfg = new EsLoggerConfig();
+        }
         String levelStr = env.getProperty("eslogger.level", "INFO");
         cfg.level = LEVEL.valueOf(levelStr);
         if (cfg.level == null) {

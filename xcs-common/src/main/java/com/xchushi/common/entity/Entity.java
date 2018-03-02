@@ -1,10 +1,14 @@
 package com.xchushi.common.entity;
 
-public class Entity<T>{
+import java.util.concurrent.atomic.AtomicInteger;
 
-    private T message;
+public abstract class Entity<T> implements Value<T>{
 
-    private EntityType entityType;
+    protected T message;
+
+    protected EntityType entityType;
+    
+    protected AtomicInteger count = new AtomicInteger(0);
     
     public Entity(T message, EntityType entityType) {
         this.message = message;
@@ -13,10 +17,6 @@ public class Entity<T>{
 
     public static enum EntityType {
         nomal, reSend
-    }
-
-    public T getMessage() {
-        return message;
     }
 
     public void setMessage(T message) {
@@ -29,6 +29,10 @@ public class Entity<T>{
 
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
+    }
+    
+    public int count(){
+        return count.get();
     }
 
 }

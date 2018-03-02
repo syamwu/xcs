@@ -1,0 +1,46 @@
+[2018-03-02 16:26:00][INFO ][pool-1-thread-5][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-7][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-3][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-6][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-5][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-7][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-3][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-6][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-2][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-2][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-5][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-5][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-6][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-6][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-7][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-7][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-2][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-2][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-3][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-3][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-5][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-5][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-2][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-6][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-2][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-6][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-7][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-7][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-4][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-8][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0
+[2018-03-02 16:26:00][INFO ][pool-1-thread-3][com.xchushi.transfer.sender.HttpSender.synSend:232]:synSend status:200, response msg:ok
+[2018-03-02 16:26:00][INFO ][pool-1-thread-3][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:150]:succes failQueue.size:0

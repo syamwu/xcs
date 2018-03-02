@@ -2,13 +2,9 @@ package com.xchushi.common.entity;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 
-import com.xchushi.common.entity.Entity.EntityType;
-
-public class HttpClientResponseEntity {
+public class HttpClientResponseEntity extends Entity<CloseableHttpResponse> {
 
     private CloseableHttpResponse response;
-
-    private EntityType entityType;
 
     private boolean success = false;
 
@@ -20,14 +16,6 @@ public class HttpClientResponseEntity {
         this.response = response;
     }
 
-    public EntityType getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
-    }
-
     public boolean isSuccess() {
         return success;
     }
@@ -37,16 +25,27 @@ public class HttpClientResponseEntity {
     }
 
     public HttpClientResponseEntity(CloseableHttpResponse response, EntityType entityType) {
+        super(response, entityType);
         this.response = response;
         this.entityType = entityType;
         if (response == null) {
             this.success = false;
-        }
-        if (response.getStatusLine().getStatusCode() == 200) {
-            this.success = true;
         } else {
-            this.success = false;
+            if (response.getStatusLine().getStatusCode() == 200) {
+                this.success = true;
+            } else {
+                this.success = false;
+            }
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Entity.class.isAssignableFrom(HttpClientResponseEntity.class));
+    }
+
+    @Override
+    public CloseableHttpResponse getMessage() {
+        return response;
     }
 
 }
