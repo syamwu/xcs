@@ -7,11 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.springframework.core.env.Environment;
 
-import com.xchushi.common.exception.InitException;
-import com.xchushi.log.SysLoggerFactory;
-import com.xchushi.log.elasticsearch.config.EsLoggerConfig;
-import com.xchushi.transfer.runner.DefalutCollectSendRunner;
-import com.xchushi.transfer.sender.HttpSender;
+import com.xchushi.fw.common.exception.InitException;
+import com.xchushi.fw.log.SysLoggerFactory;
 
 public class StartUp {
     
@@ -32,7 +29,6 @@ public class StartUp {
         }
         // ==================eslogger init==================
         SpringConfigure esloggerConfig = new SpringConfigure(environment, "eslogger.");
-        EsLoggerConfig.initConfig(environment);
 //        boolean collectSendEnable = esloggerConfig.getProperty("collectSendEnable", Boolean.class, true);
 //        if (collectSendEnable) {
 //            DefalutCollectSendRunner.initAndStart(esloggerConfig,
@@ -40,7 +36,7 @@ public class StartUp {
 //        } else {
 //            HttpSender.getSender(esloggerConfig, threadPoolExecutor);
 //        }
-        HttpSender.getSender(esloggerConfig, threadPoolExecutor);
+        //HttpSender.getSender(esloggerConfig, threadPoolExecutor);
         logger.info("=====Initialize eslogger successful=====");
     }
 

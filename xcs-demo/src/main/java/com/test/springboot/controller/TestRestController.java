@@ -5,14 +5,14 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.test.springboot.utils.ServletUtils;
-import com.xchushi.log.elasticsearch.EsLogger;
-import com.xchushi.log.elasticsearch.EsLoggerFactory;
-import com.xchushi.log.elasticsearch.MDCBus;
+import com.xchushi.fw.log.XcsLoggerFactory;
+import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xcs.utils.StreamUtils;
 
 @Controller
@@ -33,7 +33,7 @@ public class TestRestController {
 //    }
 //    
     
-    static EsLogger eslogger = EsLoggerFactory.getLogger(TestRestController.class);
+    static Logger logger = LoggerFactory.getLogger(TestRestController.class);
     
      static String[] strs = new String[10];
     
@@ -48,13 +48,15 @@ public class TestRestController {
     public String testHome(HttpServletRequest request, HttpServletResponse response) {
         //ServletUtils.printHttpServletRequest(request,true);
 //        for (int i = 0; i < 10; i++) {
-        try{
-            MDCBus.put("requestSessionId", request.getSession().getId());
-            eslogger.error("232",new Throwable("12323"));
-            eslogger.info(strs[new Random().nextInt(10)]);
-        }finally{
-            MDCBus.remove();
-        }
+//        try{
+//            MDCBus.put("requestSessionId", request.getSession().getId());
+//            eslogger.error("232",new Throwable("12323"));
+//            eslogger.info(strs[new Random().nextInt(10)]);
+//        }finally{
+//            MDCBus.remove();
+//        }
+        
+        logger.info(strs[new Random().nextInt(10)]);
 //        }
         return "Hello World!!";
     }

@@ -2,7 +2,7 @@ package cn.yunyichina.front;
 
 import org.springframework.core.env.Environment;
 
-import com.xchushi.common.environment.Configure;
+import com.xchushi.fw.common.environment.Configure;
 
 public class SpringConfigure implements Configure {
 

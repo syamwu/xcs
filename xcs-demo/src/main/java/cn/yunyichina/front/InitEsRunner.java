@@ -1,7 +1,5 @@
 package cn.yunyichina.front;
 
-import java.util.Random;
-
 import javax.annotation.Resource;
 
 import org.springframework.boot.ApplicationArguments;
@@ -9,11 +7,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.test.springboot.controller.TestRestController;
-import com.xchushi.common.Asset;
-import com.xchushi.log.elasticsearch.EsLogger;
-import com.xchushi.log.elasticsearch.EsLoggerFactory;
-import com.xchushi.transfer.sender.HttpSender;
+import com.xchushi.fw.common.Asset;
+import com.xchushi.fw.transfer.sender.HttpSender;
 import com.xcs.utils.StreamUtils;
 
 @Component
@@ -27,8 +22,6 @@ public class InitEsRunner implements ApplicationRunner {
         StartUp.start(env);
     }
 
-    static EsLogger eslogger = EsLoggerFactory.getLogger(TestRestController.class);
-
     static String[] strs = new String[10];
 
     static {
@@ -39,10 +32,10 @@ public class InitEsRunner implements ApplicationRunner {
 
     public static void main(String[] args) {
         try {
-            final int count = 10000;
+            final int count = 100;
             final long time = System.currentTimeMillis();
             for (int i = 0; i < count; i++) {
-                eslogger.info(strs[new Random().nextInt(10)]);
+               // eslogger.info(strs[new Random().nextInt(10)]);
             }
             new Thread(new Runnable() {
                 public void run() {
@@ -66,7 +59,7 @@ public class InitEsRunner implements ApplicationRunner {
                 }
             }).start();
         } catch (Exception e) {
-            eslogger.error(e.getMessage(), e);
+           // eslogger.error(e.getMessage(), e);
         }
 
     }

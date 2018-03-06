@@ -1,0 +1,88 @@
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-5][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.shutdown:96]:http-outgoing-9: Shutdown connection
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-5][org.apache.http.impl.execchain.ConnectionHolder.abortConnection:129]:Connection discarded
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-5][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.releaseConnection:326]:Connection released: [id: 9][route: {}->http://127.0.0.1:80][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-5][com.xchushi.fw.transfer.sender.HttpSender.sendingFailed:200]:sendingFailed:class org.apache.http.conn.HttpHostConnectException-Connect to 127.0.0.1:80 [/127.0.0.1] failed: Connection refused: connect
+[2018-03-06 16:41:00][ERROR][pool-1-thread-5][com.xchushi.fw.transfer.sender.HttpSender.sendingFailed:201]:Connect to 127.0.0.1:80 [/127.0.0.1] failed: Connection refused: connect
+org.apache.http.conn.HttpHostConnectException: Connect to 127.0.0.1:80 [/127.0.0.1] failed: Connection refused: connect
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:159)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:359)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:381)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:237)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
+	at com.xchushi.fw.common.util.HttpClientUtils.sendRequest(HttpClientUtils.java:61)
+	at com.xchushi.fw.common.util.HttpClientUtils.sendRequest(HttpClientUtils.java:44)
+	at com.xchushi.fw.transfer.sender.HttpSender.synSend(HttpSender.java:232)
+	at com.xchushi.fw.transfer.sender.HttpSender.synSend(HttpSender.java:211)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner$SendTask.call(DefalutCollectSendRunner.java:210)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner$SendTask.call(DefalutCollectSendRunner.java:1)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 19 common frames omitted
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-6][org.apache.http.client.protocol.RequestAddCookies.process:123]:CookieSpec selected: default
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-6][org.apache.http.client.protocol.RequestAuthCache.process:77]:Auth cache not set in the context
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-6][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.requestConnection:255]:Connection request: [route: {}->http://127.0.0.1:80][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-6][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection:288]:Connection leased: [id: 10][route: {}->http://127.0.0.1:80][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-6][org.apache.http.impl.execchain.MainClientExec.execute:235]:Opening connection {}->http://127.0.0.1:80
+[2018-03-06 16:41:00][DEBUG][pool-1-thread-6][org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect:139]:Connecting to /127.0.0.1:80
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-6][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.shutdown:96]:http-outgoing-10: Shutdown connection
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-6][org.apache.http.impl.execchain.ConnectionHolder.abortConnection:129]:Connection discarded
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-6][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.releaseConnection:326]:Connection released: [id: 10][route: {}->http://127.0.0.1:80][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-6][com.xchushi.fw.transfer.sender.HttpSender.sendingFailed:200]:sendingFailed:class org.apache.http.conn.HttpHostConnectException-Connect to 127.0.0.1:80 [/127.0.0.1] failed: Connection refused: connect
+[2018-03-06 16:41:01][ERROR][pool-1-thread-6][com.xchushi.fw.transfer.sender.HttpSender.sendingFailed:201]:Connect to 127.0.0.1:80 [/127.0.0.1] failed: Connection refused: connect
+org.apache.http.conn.HttpHostConnectException: Connect to 127.0.0.1:80 [/127.0.0.1] failed: Connection refused: connect
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:159)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:359)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:381)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:237)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
+	at com.xchushi.fw.common.util.HttpClientUtils.sendRequest(HttpClientUtils.java:61)
+	at com.xchushi.fw.common.util.HttpClientUtils.sendRequest(HttpClientUtils.java:44)
+	at com.xchushi.fw.transfer.sender.HttpSender.synSend(HttpSender.java:232)
+	at com.xchushi.fw.transfer.sender.HttpSender.synSend(HttpSender.java:211)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner$SendTask.call(DefalutCollectSendRunner.java:210)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner$SendTask.call(DefalutCollectSendRunner.java:1)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 19 common frames omitted
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-7][org.apache.http.client.protocol.RequestAddCookies.process:123]:CookieSpec selected: default
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-7][org.apache.http.client.protocol.RequestAuthCache.process:77]:Auth cache not set in the context
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-7][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.requestConnection:255]:Connection request: [route: {}->http://127.0.0.1:80][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-7][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection:288]:Connection leased: [id: 11][route: {}->http://127.0.0.1:80][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-7][org.apache.http.impl.execchain.MainClientExec.execute:235]:Opening connection {}->http://127.0.0.1:80
+[2018-03-06 16:41:01][DEBUG][pool-1-thread-7][org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect:139]:Connecting to /127.0.0.1:80

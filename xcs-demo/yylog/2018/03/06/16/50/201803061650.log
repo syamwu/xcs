@@ -1,0 +1,884 @@
+[2018-03-06 16:49:58][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton:221]:Creating shared instance of singleton bean 'platformTransactionManagerCustomizers'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'platformTransactionManagerCustomizers'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton:221]:Creating shared instance of singleton bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [servletConfigInitParams] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [servletContextInitParams] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [systemProperties] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [systemEnvironment] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [random] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [applicationConfig: [classpath:/application.yml]] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addLast:109]:Adding [localProperties] PropertySource with lowest search precedence
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'platformTransactionManagerCustomizers' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'platformTransactionManagerCustomizers'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.web.HttpEncodingAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'characterEncodingFilter'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'localeCharsetMappingsCustomizer'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'multipartConfigElement'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton:221]:Creating shared instance of singleton bean 'multipartResolver'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'multipartResolver'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'multipartResolver' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'multipartResolver'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'spring.http.multipart-org.springframework.boot.autoconfigure.web.MultipartProperties'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.web.ServerPropertiesAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'serverProperties'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'duplicateServerPropertiesDetector'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton:221]:Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration$RestTemplateConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration$RestTemplateConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.LocalVariableTableParameterNameDiscoverer.inspectClass:106]:Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration$RestTemplateConfiguration$$EnhancerBySpringCGLIB$$6c51445d] - unable to determine constructor/method parameter names
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration$RestTemplateConfiguration' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration$RestTemplateConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton:221]:Creating shared instance of singleton bean 'restTemplateBuilder'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'restTemplateBuilder'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration$RestTemplateConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'messageConverters'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'restTemplateBuilder' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'restTemplateBuilder'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton:221]:Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean:529]:Eagerly caching bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration' to allow for resolving potential circular references
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.context.event.internalEventListenerFactory'
+[2018-03-06 16:50:00][INFO ][main][org.springframework.jmx.export.MBeanExporter.afterSingletonsInstantiated:431]:Registering beans for JMX exposure on startup
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.jmx.export.MBeanExporter.registerBeans:538]:Autodetecting user-defined JMX MBeans
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.jms.config.internalJmsListenerEndpointRegistry'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.context.support.AbstractApplicationContext.initLifecycleProcessor:779]:Unable to locate LifecycleProcessor with name 'lifecycleProcessor': using default [org.springframework.context.support.DefaultLifecycleProcessor@2d3c7941]
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.jms.config.internalJmsListenerEndpointRegistry'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'lifecycleProcessor'
+[2018-03-06 16:50:00][INFO ][main][org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start:341]:Starting beans in phase 2147483647
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.context.support.DefaultLifecycleProcessor.doStart:170]:Starting bean 'org.springframework.jms.config.internalJmsListenerEndpointRegistry' of type [class org.springframework.jms.config.JmsListenerEndpointRegistry]
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.context.support.DefaultLifecycleProcessor.doStart:179]:Successfully started bean 'org.springframework.jms.config.internalJmsListenerEndpointRegistry'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'mvcResourceUrlProvider'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'org.springframework.jms.config.internalJmsListenerEndpointRegistry'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer.logAutoConfigurationReport:107]:
+
+
+=========================
+AUTO-CONFIGURATION REPORT
+=========================
+
+
+Positive matches:
+-----------------
+
+   ActiveMQAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.jms.ConnectionFactory', 'org.apache.activemq.ActiveMQConnectionFactory'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnMissingBean (types: javax.jms.ConnectionFactory; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ActiveMQConnectionFactoryConfiguration matched:
+      - @ConditionalOnMissingBean (types: javax.jms.ConnectionFactory; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ActiveMQConnectionFactoryConfiguration#jmsConnectionFactory matched:
+      - @ConditionalOnProperty (spring.activemq.pool.enabled=false) matched (OnPropertyCondition)
+
+   DispatcherServletAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.servlet.DispatcherServlet'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.servlet.ServletRegistration'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - Default DispatcherServlet did not find dispatcher servlet beans (DispatcherServletAutoConfiguration.DefaultDispatcherServletCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletRegistrationConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.servlet.ServletRegistration'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - DispatcherServlet Registration did not find servlet registration bean (DispatcherServletAutoConfiguration.DispatcherServletRegistrationCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletRegistrationConfiguration#dispatcherServletRegistration matched:
+      - @ConditionalOnBean (names: dispatcherServlet; types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found beans 'dispatcherServlet', 'dispatcherServlet' (OnBeanCondition)
+
+   EmbeddedServletContainerAutoConfiguration matched:
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+
+   EmbeddedServletContainerAutoConfiguration.EmbeddedTomcat matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.apache.catalina.startup.Tomcat'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.boot.context.embedded.EmbeddedServletContainerFactory; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+
+   ErrorMvcAutoConfiguration#basicErrorController matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.ErrorController; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration#errorAttributes matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.ErrorAttributes; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.DefaultErrorViewResolverConfiguration#conventionErrorViewResolver matched:
+      - @ConditionalOnBean (types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'; @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.DefaultErrorViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration matched:
+      - @ConditionalOnProperty (server.error.whitelabel.enabled) matched (OnPropertyCondition)
+      - ErrorTemplate Missing did not find error template view (ErrorMvcAutoConfiguration.ErrorTemplateMissingCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration#beanNameViewResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration#defaultErrorView matched:
+      - @ConditionalOnMissingBean (names: error; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   GenericCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration automatic cache type (CacheCondition)
+
+   HttpEncodingAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.filter.CharacterEncodingFilter'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+      - @ConditionalOnProperty (spring.http.encoding.enabled) matched (OnPropertyCondition)
+
+   HttpEncodingAutoConfiguration#characterEncodingFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.CharacterEncodingFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   HttpMessageConvertersAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.HttpMessageConverter'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   HttpMessageConvertersAutoConfiguration#messageConverters matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.HttpMessageConverters; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   HttpMessageConvertersAutoConfiguration.StringHttpMessageConverterConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.StringHttpMessageConverter'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   HttpMessageConvertersAutoConfiguration.StringHttpMessageConverterConfiguration#stringHttpMessageConverter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.StringHttpMessageConverter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'com.fasterxml.jackson.databind.ObjectMapper'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration matched:
+      - @ConditionalOnClass found required classes 'com.fasterxml.jackson.databind.ObjectMapper', 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperBuilderConfiguration matched:
+      - @ConditionalOnClass found required classes 'com.fasterxml.jackson.databind.ObjectMapper', 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperBuilderConfiguration#jacksonObjectMapperBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.json.Jackson2ObjectMapperBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration matched:
+      - @ConditionalOnClass found required classes 'com.fasterxml.jackson.databind.ObjectMapper', 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper matched:
+      - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonHttpMessageConvertersConfiguration.MappingJackson2HttpMessageConverterConfiguration matched:
+      - @ConditionalOnClass found required class 'com.fasterxml.jackson.databind.ObjectMapper'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnProperty (spring.http.converters.preferred-json-mapper=jackson) matched (OnPropertyCondition)
+      - @ConditionalOnBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) found bean 'jacksonObjectMapper' (OnBeanCondition)
+
+   JacksonHttpMessageConvertersConfiguration.MappingJackson2HttpMessageConverterConfiguration#mappingJackson2HttpMessageConverter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.json.MappingJackson2HttpMessageConverter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmsAnnotationDrivenConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.jms.annotation.EnableJms'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JmsAnnotationDrivenConfiguration#jmsListenerContainerFactory matched:
+      - @ConditionalOnMissingBean (names: jmsListenerContainerFactory; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmsAnnotationDrivenConfiguration#jmsListenerContainerFactoryConfigurer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmsAnnotationDrivenConfiguration.EnableJmsConfiguration matched:
+      - @ConditionalOnMissingBean (names: org.springframework.jms.config.internalJmsListenerAnnotationProcessor; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmsAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.jms.Message', 'org.springframework.jms.core.JmsTemplate'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnBean (types: javax.jms.ConnectionFactory; SearchStrategy: all) found bean 'jmsConnectionFactory' (OnBeanCondition)
+
+   JmsAutoConfiguration.JmsTemplateConfiguration#jmsTemplate matched:
+      - @ConditionalOnSingleCandidate (types: javax.jms.ConnectionFactory; SearchStrategy: all) found a primary bean from beans 'jmsConnectionFactory'; @ConditionalOnMissingBean (types: org.springframework.jms.core.JmsTemplate; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmsAutoConfiguration.MessagingTemplateConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.jms.core.JmsMessagingTemplate'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JmsAutoConfiguration.MessagingTemplateConfiguration#jmsMessagingTemplate matched:
+      - @ConditionalOnSingleCandidate (types: org.springframework.jms.core.JmsTemplate; SearchStrategy: all) found a primary bean from beans 'jmsTemplate'; @ConditionalOnMissingBean (types: org.springframework.jms.core.JmsMessagingTemplate; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmxAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.jmx.export.MBeanExporter'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnProperty (spring.jmx.enabled=true) matched (OnPropertyCondition)
+
+   JmxAutoConfiguration#mbeanExporter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.jmx.export.MBeanExporter; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   JmxAutoConfiguration#mbeanServer matched:
+      - @ConditionalOnMissingBean (types: javax.management.MBeanServer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmxAutoConfiguration#objectNamingStrategy matched:
+      - @ConditionalOnMissingBean (types: org.springframework.jmx.export.naming.ObjectNamingStrategy; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   MultipartAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.multipart.support.StandardServletMultipartResolver', 'javax.servlet.MultipartConfigElement'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnProperty (spring.http.multipart.enabled) matched (OnPropertyCondition)
+
+   MultipartAutoConfiguration#multipartConfigElement matched:
+      - @ConditionalOnMissingBean (types: javax.servlet.MultipartConfigElement; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   MultipartAutoConfiguration#multipartResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   NoOpCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration automatic cache type (CacheCondition)
+
+   PersistenceExceptionTranslationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   PersistenceExceptionTranslationAutoConfiguration#persistenceExceptionTranslationPostProcessor matched:
+      - @ConditionalOnProperty (spring.dao.exceptiontranslation.enabled) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   PropertyPlaceholderAutoConfiguration#propertySourcesPlaceholderConfigurer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.context.support.PropertySourcesPlaceholderConfigurer; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   RedisCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration automatic cache type (CacheCondition)
+
+   ServerPropertiesAutoConfiguration matched:
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+
+   ServerPropertiesAutoConfiguration#serverProperties matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.ServerProperties; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   SimpleCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration automatic cache type (CacheCondition)
+
+   TransactionAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.transaction.PlatformTransactionManager'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   TransactionAutoConfiguration#platformTransactionManagerCustomizers matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.validation.executable.ExecutableValidator'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnResource found location classpath:META-INF/services/javax.validation.spi.ValidationProvider (OnResourceCondition)
+
+   ValidationAutoConfiguration#defaultValidator matched:
+      - @ConditionalOnMissingBean (types: javax.validation.Validator; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration#methodValidationPostProcessor matched:
+      - @ConditionalOnMissingBean (types: org.springframework.validation.beanvalidation.MethodValidationPostProcessor; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebClientAutoConfiguration.RestTemplateConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.client.RestTemplate'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   WebClientAutoConfiguration.RestTemplateConfiguration#restTemplateBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.web.client.RestTemplateBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet', 'org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration#hiddenHttpMethodFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.HiddenHttpMethodFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration#httpPutFormContentFilter matched:
+      - @ConditionalOnProperty (spring.mvc.formcontent.putfilter.enabled) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.HttpPutFormContentFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#defaultViewResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.InternalResourceViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#requestContextFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.context.request.RequestContextListener,org.springframework.web.filter.RequestContextFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#viewResolver matched:
+      - @ConditionalOnBean (types: org.springframework.web.servlet.ViewResolver; SearchStrategy: all) found beans 'beanNameViewResolver', 'mvcViewResolver', 'defaultViewResolver'; @ConditionalOnMissingBean (names: viewResolver; types: org.springframework.web.servlet.view.ContentNegotiatingViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter.FaviconConfiguration matched:
+      - @ConditionalOnProperty (spring.mvc.favicon.enabled) matched (OnPropertyCondition)
+
+   WebSocketAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'javax.websocket.server.ServerContainer'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+      - @ConditionalOnWebApplication (required) found StandardServletEnvironment (OnWebApplicationCondition)
+
+   WebSocketAutoConfiguration.TomcatWebSocketConfiguration matched:
+      - @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.tomcat.websocket.server.WsSci'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   WebSocketAutoConfiguration.TomcatWebSocketConfiguration#websocketContainerCustomizer matched:
+      - @ConditionalOnJava (1.7 or newer) found 1.7 (OnJavaCondition)
+      - @ConditionalOnMissingBean (names: websocketContainerCustomizer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+   ActiveMQConnectionFactoryConfiguration.PooledConnectionFactoryConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.activemq.pool.PooledConnectionFactory' (OnClassCondition)
+
+   ActiveMQXAConnectionFactoryConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.transaction.TransactionManager' (OnClassCondition)
+
+   AopAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.aspectj.lang.annotation.Aspect', 'org.aspectj.lang.reflect.Advice' (OnClassCondition)
+
+   ArtemisAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory' (OnClassCondition)
+
+   BatchAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.batch.core.launch.JobLauncher', 'org.springframework.jdbc.core.JdbcOperations' (OnClassCondition)
+
+   CacheAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.cache.interceptor.CacheAspectSupport; SearchStrategy: all) did not find any beans (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.cache.CacheManager'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   CacheAutoConfiguration.CacheManagerJpaDependencyConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' (OnClassCondition)
+         - Ancestor org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration did not match (ConditionEvaluationReport.AncestorsMatchedCondition)
+
+   CaffeineCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.github.benmanes.caffeine.cache.Caffeine', 'org.springframework.cache.caffeine.CaffeineCacheManager' (OnClassCondition)
+
+   CassandraAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.datastax.driver.core.Cluster' (OnClassCondition)
+
+   CassandraDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.datastax.driver.core.Cluster', 'org.springframework.data.cassandra.core.CassandraAdminOperations' (OnClassCondition)
+
+   CassandraRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.datastax.driver.core.Session', 'org.springframework.data.cassandra.repository.CassandraRepository' (OnClassCondition)
+
+   CloudAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.cloud.config.java.CloudScanConfiguration' (OnClassCondition)
+
+   CouchbaseAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.couchbase.client.java.CouchbaseBucket', 'com.couchbase.client.java.Cluster' (OnClassCondition)
+
+   CouchbaseCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.couchbase.client.java.Bucket', 'com.couchbase.client.spring.cache.CouchbaseCacheManager' (OnClassCondition)
+
+   CouchbaseDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.couchbase.client.java.Bucket', 'org.springframework.data.couchbase.repository.CouchbaseRepository' (OnClassCondition)
+
+   CouchbaseRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.couchbase.client.java.Bucket', 'org.springframework.data.couchbase.repository.CouchbaseRepository' (OnClassCondition)
+
+   DataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+   DataSourceTransactionManagerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.core.JdbcTemplate' (OnClassCondition)
+
+   DeviceDelegatingViewResolverAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.mobile.device.view.LiteDeviceDelegatingViewResolver' (OnClassCondition)
+
+   DeviceResolverAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.mobile.device.DeviceResolverHandlerInterceptor', 'org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver' (OnClassCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletConfiguration#multipartResolver:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   EhCacheCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.cache.ehcache.EhCacheCacheManager' (OnClassCondition)
+
+   ElasticsearchAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.elasticsearch.client.Client', 'org.springframework.data.elasticsearch.client.TransportClientFactoryBean', 'org.springframework.data.elasticsearch.client.NodeClientFactoryBean' (OnClassCondition)
+
+   ElasticsearchDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.elasticsearch.client.Client', 'org.springframework.data.elasticsearch.core.ElasticsearchTemplate' (OnClassCondition)
+
+   ElasticsearchRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.elasticsearch.client.Client', 'org.springframework.data.elasticsearch.repository.ElasticsearchRepository' (OnClassCondition)
+
+   EmbeddedLdapAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.unboundid.ldap.listener.InMemoryDirectoryServer' (OnClassCondition)
+
+   EmbeddedMongoAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.mongodb.Mongo', 'de.flapdoodle.embed.mongo.MongodStarter' (OnClassCondition)
+
+   EmbeddedServletContainerAutoConfiguration.EmbeddedJetty:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.eclipse.jetty.server.Server', 'org.eclipse.jetty.util.Loader', 'org.eclipse.jetty.webapp.WebAppContext' (OnClassCondition)
+
+   EmbeddedServletContainerAutoConfiguration.EmbeddedUndertow:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'io.undertow.Undertow', 'org.xnio.SslClientAuthMode' (OnClassCondition)
+
+   FacebookAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.social.config.annotation.SocialConfigurerAdapter', 'org.springframework.social.facebook.connect.FacebookConnectionFactory' (OnClassCondition)
+
+   FallbackWebSecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   FlywayAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.flywaydb.core.Flyway' (OnClassCondition)
+
+   FreeMarkerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'freemarker.template.Configuration', 'org.springframework.ui.freemarker.FreeMarkerConfigurationFactory' (OnClassCondition)
+
+   GroovyTemplateAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'groovy.text.markup.MarkupTemplateEngine' (OnClassCondition)
+
+   GsonAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.google.gson.Gson' (OnClassCondition)
+
+   GsonHttpMessageConvertersConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.google.gson.Gson' (OnClassCondition)
+
+   GuavaCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.cache.guava.GuavaCacheManager' (OnClassCondition)
+
+   H2ConsoleAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.h2.server.web.WebServlet' (OnClassCondition)
+
+   HazelcastAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.hazelcast.core.HazelcastInstance' (OnClassCondition)
+
+   HazelcastCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.hazelcast.core.HazelcastInstance', 'com.hazelcast.spring.cache.HazelcastCacheManager' (OnClassCondition)
+
+   HazelcastJpaDependencyAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.hazelcast.core.HazelcastInstance', 'org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' (OnClassCondition)
+
+   HibernateJpaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean', 'javax.persistence.EntityManager' (OnClassCondition)
+
+   HypermediaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.hateoas.Resource', 'org.springframework.plugin.core.Plugin' (OnClassCondition)
+
+   InfinispanCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.infinispan.spring.provider.SpringEmbeddedCacheManager' (OnClassCondition)
+
+   IntegrationAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.integration.config.EnableIntegration' (OnClassCondition)
+
+   JCacheCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'javax.cache.Caching', 'org.springframework.cache.jcache.JCacheCacheManager' (OnClassCondition)
+
+   JacksonAutoConfiguration.JodaDateTimeJacksonConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.joda.time.DateTime', 'com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer', 'com.fasterxml.jackson.datatype.joda.cfg.JacksonJodaDateFormat' (OnClassCondition)
+
+   JacksonAutoConfiguration.ParameterNamesModuleConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.fasterxml.jackson.module.paramnames.ParameterNamesModule' (OnClassCondition)
+
+   JacksonHttpMessageConvertersConfiguration.MappingJackson2XmlHttpMessageConverterConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.fasterxml.jackson.dataformat.xml.XmlMapper' (OnClassCondition)
+
+   JdbcTemplateAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.core.JdbcTemplate' (OnClassCondition)
+
+   JerseyAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.glassfish.jersey.server.spring.SpringComponentProvider' (OnClassCondition)
+
+   JestAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.searchbox.client.JestClient' (OnClassCondition)
+
+   JmsAnnotationDrivenConfiguration.JndiConfiguration:
+      Did not match:
+         - @ConditionalOnJndi JNDI environment is not available (OnJndiCondition)
+
+   JndiConnectionFactoryAutoConfiguration:
+      Did not match:
+         - AnyNestedCondition 0 matched 2 did not; NestedCondition on JndiConnectionFactoryAutoConfiguration.JndiOrPropertyCondition.Property @ConditionalOnProperty (spring.jms.jndi-name) did not find property 'jndi-name'; NestedCondition on JndiConnectionFactoryAutoConfiguration.JndiOrPropertyCondition.Jndi @ConditionalOnJndi JNDI environment is not available (JndiConnectionFactoryAutoConfiguration.JndiOrPropertyCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.jms.core.JmsTemplate'; @ConditionalOnMissingClass did not find unwanted class (OnClassCondition)
+
+   JndiDataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+   JooqAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.jooq.DSLContext' (OnClassCondition)
+
+   JpaRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.jpa.repository.JpaRepository' (OnClassCondition)
+
+   JtaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.transaction.Transaction' (OnClassCondition)
+
+   KafkaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.kafka.core.KafkaTemplate' (OnClassCondition)
+
+   LdapAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.ldap.core.ContextSource' (OnClassCondition)
+
+   LdapDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.ldap.repository.LdapRepository' (OnClassCondition)
+
+   LdapRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.ldap.repository.LdapRepository' (OnClassCondition)
+
+   LinkedInAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.social.config.annotation.SocialConfigurerAdapter', 'org.springframework.social.linkedin.connect.LinkedInConnectionFactory' (OnClassCondition)
+
+   LiquibaseAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'liquibase.integration.spring.SpringLiquibase' (OnClassCondition)
+
+   MailSenderAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.mail.internet.MimeMessage' (OnClassCondition)
+
+   MailSenderValidatorAutoConfiguration:
+      Did not match:
+         - @ConditionalOnProperty (spring.mail.test-connection) did not find property 'test-connection' (OnPropertyCondition)
+
+   MessageSourceAutoConfiguration:
+      Did not match:
+         - ResourceBundle did not find bundle with basename messages (MessageSourceAutoConfiguration.ResourceBundleCondition)
+
+   MongoAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.MongoClient' (OnClassCondition)
+
+   MongoDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.mongodb.Mongo', 'org.springframework.data.mongodb.core.MongoTemplate' (OnClassCondition)
+
+   MongoRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.mongodb.Mongo', 'org.springframework.data.mongodb.repository.MongoRepository' (OnClassCondition)
+
+   MustacheAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.samskivert.mustache.Mustache' (OnClassCondition)
+
+   Neo4jDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.neo4j.ogm.session.SessionFactory' (OnClassCondition)
+
+   Neo4jRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.neo4j.ogm.session.Neo4jSession', 'org.springframework.data.neo4j.repository.GraphRepository' (OnClassCondition)
+
+   OAuth2AutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.oauth2.common.OAuth2AccessToken' (OnClassCondition)
+
+   ProjectInfoAutoConfiguration#buildProperties:
+      Did not match:
+         - @ConditionalOnResource did not find resource '${spring.info.build.location:classpath:META-INF/build-info.properties}' (OnResourceCondition)
+
+   ProjectInfoAutoConfiguration#gitProperties:
+      Did not match:
+         - GitResource did not find git info at classpath:git.properties (ProjectInfoAutoConfiguration.GitResourceAvailableCondition)
+
+   RabbitAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.amqp.rabbit.core.RabbitTemplate', 'com.rabbitmq.client.Channel' (OnClassCondition)
+
+   ReactorAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'reactor.spring.context.config.EnableReactor', 'reactor.Environment' (OnClassCondition)
+
+   RedisAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.data.redis.connection.jedis.JedisConnection', 'org.springframework.data.redis.core.RedisOperations' (OnClassCondition)
+
+   RedisRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.redis.repository.configuration.EnableRedisRepositories' (OnClassCondition)
+
+   RepositoryRestMvcAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration' (OnClassCondition)
+
+   SecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.security.authentication.AuthenticationManager', 'org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter' (OnClassCondition)
+
+   SecurityFilterAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer', 'org.springframework.security.config.http.SessionCreationPolicy' (OnClassCondition)
+
+   SendGridAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.sendgrid.SendGrid' (OnClassCondition)
+
+   SessionAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.session.Session' (OnClassCondition)
+
+   SitePreferenceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor', 'org.springframework.mobile.device.site.SitePreferenceHandlerMethodArgumentResolver' (OnClassCondition)
+
+   SocialWebAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.social.connect.web.ConnectController', 'org.springframework.social.config.annotation.SocialConfigurerAdapter' (OnClassCondition)
+
+   SolrAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.apache.solr.client.solrj.impl.HttpSolrClient', 'org.apache.solr.client.solrj.impl.CloudSolrClient' (OnClassCondition)
+
+   SolrRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.apache.solr.client.solrj.SolrClient', 'org.springframework.data.solr.repository.SolrRepository' (OnClassCondition)
+
+   SpringApplicationAdminJmxAutoConfiguration:
+      Did not match:
+         - @ConditionalOnProperty (spring.application.admin.enabled=true) did not find property 'enabled' (OnPropertyCondition)
+
+   SpringDataWebAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.web.PageableHandlerMethodArgumentResolver' (OnClassCondition)
+
+   ThymeleafAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.thymeleaf.spring4.SpringTemplateEngine' (OnClassCondition)
+
+   TransactionAutoConfiguration.EnableTransactionManagementConfiguration:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.transaction.PlatformTransactionManager; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TransactionAutoConfiguration.EnableTransactionManagementConfiguration.CglibAutoProxyConfiguration:
+      Did not match:
+         - Ancestor org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$EnableTransactionManagementConfiguration did not match (ConditionEvaluationReport.AncestorsMatchedCondition)
+      Matched:
+         - @ConditionalOnProperty (spring.aop.proxy-target-class=true) matched (OnPropertyCondition)
+
+   TransactionAutoConfiguration.EnableTransactionManagementConfiguration.JdkDynamicAutoProxyConfiguration:
+      Did not match:
+         - @ConditionalOnProperty (spring.aop.proxy-target-class=false) did not find property 'proxy-target-class' (OnPropertyCondition)
+         - Ancestor org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$EnableTransactionManagementConfiguration did not match (ConditionEvaluationReport.AncestorsMatchedCondition)
+
+   TransactionAutoConfiguration.TransactionTemplateConfiguration:
+      Did not match:
+         - @ConditionalOnSingleCandidate (types: org.springframework.transaction.PlatformTransactionManager; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TwitterAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.springframework.social.config.annotation.SocialConfigurerAdapter', 'org.springframework.social.twitter.connect.TwitterConnectionFactory' (OnClassCondition)
+
+   WebMvcAutoConfiguration.ResourceChainCustomizerConfiguration:
+      Did not match:
+         - @ConditionalOnEnabledResourceChain did not find class org.webjars.WebJarAssetLocator (OnEnabledResourceChainCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#beanNameViewResolver:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) found bean 'beanNameViewResolver' (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#dateFormatter:
+      Did not match:
+         - @ConditionalOnProperty (spring.mvc.date-format) did not find property 'date-format' (OnPropertyCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#localeResolver:
+      Did not match:
+         - @ConditionalOnProperty (spring.mvc.locale) did not find property 'locale' (OnPropertyCondition)
+
+   WebServicesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.ws.transport.http.MessageDispatcherServlet' (OnClassCondition)
+
+   WebSocketAutoConfiguration.JettyWebSocketConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer' (OnClassCondition)
+
+   WebSocketAutoConfiguration.UndertowWebSocketConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.undertow.websockets.jsr.Bootstrap' (OnClassCondition)
+
+   WebSocketMessagingAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer' (OnClassCondition)
+
+   XADataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'javax.transaction.TransactionManager', 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
+
+    org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+
+    org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+
+    org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration
+
+
+
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.web.servlet.resource.ResourceUrlProvider.detectResourceHandlers:149]:Looking for resource handler mappings
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'resourceHandlerMapping'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'faviconHandlerMapping'
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.web.servlet.resource.ResourceUrlProvider.detectResourceHandlers:161]:Found resource handler mapping: URL pattern="/**/favicon.ico", locations=[ServletContext resource [/], class path resource [META-INF/resources/], class path resource [resources/], class path resource [static/], class path resource [public/], class path resource []], resolvers=[org.springframework.web.servlet.resource.PathResourceResolver@4da5b98a]
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.web.servlet.resource.ResourceUrlProvider.detectResourceHandlers:161]:Found resource handler mapping: URL pattern="/webjars/**", locations=[class path resource [META-INF/resources/webjars/]], resolvers=[org.springframework.web.servlet.resource.PathResourceResolver@3b383ad9]
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.web.servlet.resource.ResourceUrlProvider.detectResourceHandlers:161]:Found resource handler mapping: URL pattern="/**", locations=[ServletContext resource [/], class path resource [META-INF/resources/], class path resource [resources/], class path resource [static/], class path resource [public/]], resolvers=[org.springframework.web.servlet.resource.PathResourceResolver@689f9aee]
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.PropertySourcesPropertyResolver.getProperty:91]:Could not find key 'spring.liveBeansView.mbeanDomain' in any property source
+[2018-03-06 16:50:00][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Initializing ProtocolHandler ["http-nio-8077"]
+[2018-03-06 16:50:00][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting ProtocolHandler ["http-nio-8077"]
+[2018-03-06 16:50:00][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Using a shared selector for servlet write/read
+[2018-03-06 16:50:00][INFO ][main][org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start:201]:Tomcat started on port(s): 8077 (http)
+[2018-03-06 16:50:00][DEBUG][main][org.springframework.core.env.MutablePropertySources.addFirst:97]:Adding [server.ports] PropertySource with highest search precedence
+[2018-03-06 16:50:01][DEBUG][main][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'initEsRunner'
+[2018-03-06 16:50:01][INFO ][main][cn.yunyichina.front.StartUp.start:40]:=====Initialize eslogger successful=====
+[2018-03-06 16:50:01][INFO ][main][org.springframework.boot.StartupInfoLogger.logStarted:57]:Started TestSpringBoot in 7.406 seconds (JVM running for 8.014)
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.HttpServletBean.init:118]:Initializing servlet 'dispatcherServlet'
+[2018-03-06 16:50:05][INFO ][http-nio-8077-exec-4][org.apache.juli.logging.DirectJDKLog.log:179]:Initializing Spring FrameworkServlet 'dispatcherServlet'
+[2018-03-06 16:50:05][INFO ][http-nio-8077-exec-4][org.springframework.web.servlet.FrameworkServlet.initServletBean:489]:FrameworkServlet 'dispatcherServlet': initialization started
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'multipartResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.initMultipartResolver:504]:Using MultipartResolver [org.springframework.web.multipart.support.StandardServletMultipartResolver@1921d367]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.initLocaleResolver:533]:Unable to locate LocaleResolver with name 'localeResolver': using default [org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver@3077a26d]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'org.springframework.web.servlet.theme.FixedThemeResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.web.servlet.theme.FixedThemeResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.initThemeResolver:555]:Unable to locate ThemeResolver with name 'themeResolver': using default [org.springframework.web.servlet.theme.FixedThemeResolver@79d7df34]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'requestMappingHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'viewControllerHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'beanNameHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'resourceHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'defaultServletHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'faviconHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'welcomePageHandlerMapping'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'requestMappingHandlerAdapter'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'httpRequestHandlerAdapter'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'simpleControllerHandlerAdapter'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'errorAttributes'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'handlerExceptionResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.initRequestToViewNameTranslator:692]:Unable to locate RequestToViewNameTranslator with name 'viewNameTranslator': using default [org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@7ac4968c]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'beanNameViewResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'mvcViewResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'defaultViewResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'viewResolver'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:448]:Creating instance of bean 'org.springframework.web.servlet.support.SessionFlashMapManager'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean:484]:Finished creating instance of bean 'org.springframework.web.servlet.support.SessionFlashMapManager'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.initFlashMapManager:753]:Unable to locate FlashMapManager with name 'flashMapManager': using default [org.springframework.web.servlet.support.SessionFlashMapManager@71a8c0f1]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext:568]:Published WebApplicationContext of servlet 'dispatcherServlet' as ServletContext attribute with name [org.springframework.web.servlet.FrameworkServlet.CONTEXT.dispatcherServlet]
+[2018-03-06 16:50:05][INFO ][http-nio-8077-exec-4][org.springframework.web.servlet.FrameworkServlet.initServletBean:508]:FrameworkServlet 'dispatcherServlet': initialization completed in 66 ms
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.HttpServletBean.init:139]:Servlet 'dispatcherServlet' configured successfully
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.filter.RequestContextFilter.initContextHolders:114]:Bound request context to thread: org.apache.catalina.connector.RequestFacade@1b7cc20e
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.doService:865]:DispatcherServlet with name 'dispatcherServlet' processing GET request for [/]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal:310]:Looking up handler method for path /
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal:317]:Returning handler method [public java.lang.String com.test.springboot.controller.TestRestController.testHome(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean:251]:Returning cached instance of singleton bean 'testRestController'
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.doDispatch:951]:Last-Modified value for [/] is: -1
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters:250]:Written [Hello World!!] as "text/html" using [org.springframework.http.converter.StringHttpMessageConverter@7e054262]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.DispatcherServlet.processDispatchResult:1044]:Null ModelAndView returned to DispatcherServlet with name 'dispatcherServlet': assuming HandlerAdapter completed request handling
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.servlet.FrameworkServlet.processRequest:1000]:Successfully completed request
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-4][org.springframework.web.filter.RequestContextFilter.doFilterInternal:104]:Cleared thread-bound request context: org.apache.catalina.connector.RequestFacade@1b7cc20e
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.filter.RequestContextFilter.initContextHolders:114]:Bound request context to thread: org.apache.catalina.connector.RequestFacade@1b7cc20e
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.DispatcherServlet.doService:865]:DispatcherServlet with name 'dispatcherServlet' processing GET request for [/favicon.ico]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.lookupHandler:190]:Matching patterns for request [/favicon.ico] are [/**/favicon.ico]
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.lookupHandler:219]:URI Template variables for request [/favicon.ico] are {}
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.handler.AbstractUrlHandlerMapping.getHandlerInternal:140]:Mapping [/favicon.ico] to HandlerExecutionChain with handler [ResourceHttpRequestHandler [locations=[ServletContext resource [/], class path resource [META-INF/resources/], class path resource [resources/], class path resource [static/], class path resource [public/], class path resource []], resolvers=[org.springframework.web.servlet.resource.PathResourceResolver@4da5b98a]]] and 1 interceptor
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.DispatcherServlet.doDispatch:951]:Last-Modified value for [/favicon.ico] is: -1
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.DispatcherServlet.processDispatchResult:1044]:Null ModelAndView returned to DispatcherServlet with name 'dispatcherServlet': assuming HandlerAdapter completed request handling
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.servlet.FrameworkServlet.processRequest:1000]:Successfully completed request
+[2018-03-06 16:50:05][DEBUG][http-nio-8077-exec-8][org.springframework.web.filter.RequestContextFilter.doFilterInternal:104]:Cleared thread-bound request context: org.apache.catalina.connector.RequestFacade@1b7cc20e
+[2018-03-06 16:50:05][DEBUG][pool-1-thread-3][org.apache.http.client.protocol.RequestAddCookies.process:123]:CookieSpec selected: default
+[2018-03-06 16:50:05][DEBUG][pool-1-thread-3][org.apache.http.client.protocol.RequestAuthCache.process:77]:Auth cache not set in the context
+[2018-03-06 16:50:05][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.requestConnection:255]:Connection request: [route: {}->http://120.76.98.17:7777][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+[2018-03-06 16:50:05][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection:288]:Connection leased: [id: 0][route: {}->http://120.76.98.17:7777][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+[2018-03-06 16:50:05][DEBUG][pool-1-thread-3][org.apache.http.impl.execchain.MainClientExec.execute:235]:Opening connection {}->http://120.76.98.17:7777
+[2018-03-06 16:50:05][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect:139]:Connecting to /120.76.98.17:7777
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect:146]:Connection established 192.168.1.31:61155<->120.76.98.17:7777
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.setSocketTimeout:88]:http-outgoing-0: set socket timeout to 10000
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.execchain.MainClientExec.execute:256]:Executing request POST /yunyi_log/test HTTP/1.1
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.execchain.MainClientExec.execute:261]:Target auth state: UNCHALLENGED
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.execchain.MainClientExec.execute:267]:Proxy auth state: UNCHALLENGED
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:133]:http-outgoing-0 >> POST /yunyi_log/test HTTP/1.1
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> Content-Type: text/plain
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> Content-Encoding: gzip
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> Content-Length: 1214
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> Host: 120.76.98.17:7777
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> Connection: Keep-Alive
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> User-Agent: Apache-HttpClient/4.5.3 (Java/1.7.0_79)
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onRequestSubmitted:136]:http-outgoing-0 >> Accept-Encoding: gzip,deflate
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "POST /yunyi_log/test HTTP/1.1[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "Content-Type: text/plain[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "Content-Encoding: gzip[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "Content-Length: 1214[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "Host: 120.76.98.17:7777[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "Connection: Keep-Alive[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "User-Agent: Apache-HttpClient/4.5.3 (Java/1.7.0_79)[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0x1f][0x8b][0x8][0x0][0x0][0x0][0x0][0x0][0x0][0x0][0xed][0x9c]Ok[0x13]A[0x14][0xc0][0xef]~[0x8c]=g[0xc3][0xcc][0xec]f[0x93][0xce]IPD/[\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0xd2][0x93][0xae][0x94]m[0xb2]m[0x83][0x9b]l[0xc8]n[0x8b]Xz[0x14][0xa4]R[0xf5][0xa2][0x88]U[0x84][0xe2][0x9f][0x83]`[0xab] [\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0xa2]~[0x19][0x9b][0xd6][0x93]_[0xc1][0xd9][0xb4]i[0x93]P[0xf1][0x5][0x9c][0xe0]{}[0xa5][0x85][0xee][0xec][0xce][0xdb][0xcd][0xaf]0[0xfd][0xcd][0xbc][0x9d][0xb7][0xea]D[0x9d]N;j[0xc5][0x8e]v[0x16][0xba]i;[0x9f]3[0xc7]N[0xc9]i[0xa4][0xf5][0xb9][0x95][0xb8][0x9b]5[0xd3][0xb6]9#MK[0xb3]3[0x17]5[0x1a][0xdd]8[0xcb][0x8a][0x86][0x19]U[0x96]A[0xad],[0xcb]^q._[0xea][0xc6]Q[0xc3][0xb4][0xb7][0xa2]f[0xdb]][0xca][0xf3][0x8e][0xdb]n[0xa6]nMT[0xab]n|+[0xae][0xbb][0xbe][0xab][0x94][0xb9][0xae][0x9e]D[0xfd][0xee][0xf5][0xb4]U[0xce][0xe3],/g[0x9d]n[0xb3][0xbd]8[0x9f][0xa6]y[0xb9]nn[0xde]M[0x93]$[0xee][0x96]g[0xcd][0xa9][0xab][0xe6][0xe7][0xdc]Q[0x93][0xe9][0xdb][0x8a][0xf3][0xa5][0xb4][0xb8]G[0xd1][0xf1]bj[0x9e][0xb8][0xe4]$[0xcd][0xb6]y[0xf0]@[0x98][0xdf][0xe2][0x95]81'/][0xbe]p[0xc5]9<[0x9c][[0x89]L[0x93][0x12][0xe6][0xab][0xe8][0x9e]e[0xd1]b[0xf1]1WC[0xc7]|[0x8a][0xe5][0xc4][0x84]o[0xc4][0xa1][0xa3]CG[0x86]Ni[0xd0]x>[0xce][0xea][0xfd][0xc6][0xfd][0xed]/[0xbb][0xf][0x1e][0xf7][0x1e][0xed][0xf4]6[0xde][0xf5][0xee]>[0xdc]]1tU[0xd2][0xcc]rs[0xd5]u[0x13][0xab]~sA[0x8][0xcf][0x1c]([0xdf][0x9c][0x9e]7G[0x81][0xdf][0xf][0xf0][0xe3][0xf3][0xc6][0xfe][0xf6][0xeb]~[0xa7]~ke[0xe8]^[0xa6][0x93][0x14][0xb2][0xdf][0xa0][0x84][0xac]J[0xa9][0xd4][0xa0]][0x88][0xa2][0xbb][0x1c][0xf4][0xf2][0xc6]cE[0xd1]mu[0xd8]*[0x95]<[0xe][0x1f][0xc][0x1e]![0x8a]b[0xa1][0xe]b[0xef][0xef]l[0xed]m[0xae][0xef]>z[0x1c][0xfc][0xe0][0x84][0xa8]i![0x8e][0x1b][0xd5]A[0xb8][0xaa][0xf6][0xc5][0xe1]=L[0x88][0xa2][0xb1][0xbd][0x9c]$[0x83][0xc7]UG[0x8f][0xeb]Ji[0xfe][0x9e][0xca]3[0xb1][0xd6]J[0xd6][0x10](F[0xe0]1[0x2][0x9f][0x11]T[0x18]A[0xc0][0x8][0xaa][0x8c][0xa0][0xc6][0x8]f[0x18][0x81][0x14][0xcc]@[0xb2][0x1f]j[0xc9][0x82][0xa8]%[0x1b][0xa2][0x96][0xac][0x88]Z[0xb2]#j[0xc9][0x92][0xa8]%[[0xa2][0x96][0xac][0x89]Z[0xb2]'j[0xc5][0x9e][0xa8][0x15]{[0xa2]V[0xec][0x89]Z[0xb1]'[0xe][0x5][0xc3][0xc5]@[0x80][0x18][0x4][0xc0][0xc]0[0x6][0xfe][0x18][0x3]1[0xca]`w[0xe7]e[0xef][0xe3][0xa7][0xbd][0xfb][0x1f]`[0xc][0xa4][0x99][0xb3]O[0xc2][0xa0]b[0x97][0x1]p< [0xcd][0x0]8[0x1e][0x90]f[0x0][0x1c][0xf]H3[0x0][0xce][0x1b]I3[0x0][0xce][0x1b]I3[0x0][0xce][0x1b]I3[0x0][0xce][0x1b]I3[0x0][0xce][0x1b]I3[0x80]&[0x18]hC`S[0x84][0xa7][0x18]hC`W[0x84]'[0x19]@[0x10]~}[0xff]:[0xfc][0x8d][0x13][0x8][0x9b]#<[0xe5]@[0x1b][0x2][0xbb]#<[0xe9]@[0x1b][0x2][0xdb]#<[0xed][0xf0][0x9f]A[0xf0][0xa6][0xbf][0xcc][0xe8][0xcf][0x4][0xa3][0xc][0xbc]1[0x6]?[0xb7][0x9e][0xf5][0xee][0xbc][0xd9][0xbb][0xff]v[0x9c][0x81][0xf4]Ob[0x10]hU[0x99][0x84][0x81]o[0x97][0x1][0xc8][0x1d][0x89]3[0x0][0xa9]#q[0x6] s$[0xce][0x0]$[0x8b][0xc4][0x19][0x80]\[0x91]8[0x3][0x90]*[0x12]g[0x0]2E[0xe2][0xc]@[0xa2]H[0x9c][0x1]l[0x99][0x91]:[0x4]6E[0xe8]2#u[0x8][0xec][0x8a][0xd0]eF[0xea][0x10][0xd8][0x16][0xa1]K[0x8b][0xd4]![0xb0]/B[0x97][0x16][0xa9]C`c[0x84].-R[0x87][0xc0][0xc6][0x8]}[0xa7][0x99]:[0x4]6F[0xe8][[0xcd][0xd4]![0xb0]1[0x1a][0x8]l[0x8c][0x6][0x2][0x1b][0xa3][0x81][0xc0][0xc6]h [0xb0]1[0xe]GC[0x5][0x1][0xb6][0xef][0xe7][0xf0]&[0x9f];@[0x18]([0xe1][0xd5]F![0x8c]o[0xfc][0xe9]m~[0xeb]=y[0xb5][0xef][0xfd]8[0x84]?e[0xe4]+[0x13]e[0xe4][0x3][0xbb][0x10][0xc6][0x84][0xf1][0xe0][0xcd][0xb3]S[0xc8][0x1][0xe4][0x8c][0xd4]![0x80][0x9c][0x91]:[0x4][0x90]3R[0x87][0x0]rF[0xea][0x10]@[0xce]H[0x1d][0x2][0xc8][0x19][0xa9]C[0x0]9#u[0x8][0xb0][0xc4]4y[\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0xac][0x8d]!45M[0x9e][0x2][c[0x8]MN[0x93][0xa7][0xc0][0xde][0x18]B[0xd3][0xd3][0xe4])[0xb0]9[0x86][0xd0][0x4]5y[\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0xec][0x8e]!4EM[0x9e][0x2][0xbb]c[0x8]MR[0x93][0xa7][0xc0][0xee]8[0x12][0xed]4S[0xb0]=,[0x9c][0x9c][0x8e][0xa9]N[0x8][0xa1]:[0xd5]L[0xc4][0xe9][0x84]`{P@[0x1][0xc1][0xf6][0x98][0x80][0x2][0x82][0xed][0xe9]$[\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0x8][0xb6]g[0x93]( [0xd8][0x9e]L[0xa2][0x80]`{.[0x89][0x2][0x82][0xed][0xa9]$[\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 >> "[0x8][0xd6][0xd3][0x10]8([0xb0]3[0x86]SHC[0xe0][0xa0][0xc0][0xd6][0x18]N![\r][0x81][0x83][0x2]{c8[0x85]4[0x4][0xe][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:87]:http-outgoing-0 >> "l[0x8e][0xe1][0x14][0xd2][0x10]8([0xb0];[0x86]SHC[0xe0][0xa0][0xc0][0xee][0x18]N![\r][0x81][0x83][0x2][0xbb][0xe3]H4\[0x14]PU[0xe7];9[0x15]#&[0xdc][0x14][0xe2][0xa1][0xae][0xce][0x87][0x82][0x81][0xe5][0xfd][0xb3]([0x18]X[0xde]>[0x8b][0x82][0x81][0xe5][0xdd][0xb3]([0x18]X[0xde]<[0x8b][0x82][0x81][0xe5][0xbd][0xb3]([0x18]X[0xde]:[0x8b][0x82][0x81][0xe5][0x9d][0xb3]([0x18][0xd8][0xae][0xce][0x87][0x3][0x2][0x9b][0xa2][0xfd][0xea]|8 [0xb0]+[0xda][0xaf][0xce][0x87][0x3][0x2][0xdb][0xa2][0xfd][0xea]|8 [0xb0]/[0xda][0xaf][0xce][0x87][0x3][0x2][0x1b][0xa3][0xfd][0xea]|8 [0xb0]1[0xda][0xaf][0xce][0x87][0x3][0x2][0x1b][0xa3][0xfd][0xea]|8 [0xb0]1[0xda][0xaf][0xce][0x87][0x3][0x2][0x1b][0xa3][0xfd][0xea]|8 [0xb0]1[0xda][0xaf][0xce][0xf7][0xef] [0xdc]XsJ[0xce][0xd9][0xbc][0xd9][0x8a][0xb3]<ju[0x1c]]\Qs[0x85][0xe7][0x8a]`[0xd6][0xdc][0xa6]"[0xb4][0xa8][0x94]}o[0xe6][0x9a][0xb3]v[0xe6]7I[0x19][0xe0][0xb6]T[0x9c][0x0][0x0]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 << "HTTP/1.1 200 [\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 << "Content-Type: text/plain;charset=UTF-8[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 << "Content-Length: 2[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 << "Date: Tue, 06 Mar 2018 08:49:51 GMT[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:73]:http-outgoing-0 << "[\r][\n]"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.Wire.wire:87]:http-outgoing-0 << "ok"
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onResponseReceived:122]:http-outgoing-0 << HTTP/1.1 200 
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onResponseReceived:125]:http-outgoing-0 << Content-Type: text/plain;charset=UTF-8
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onResponseReceived:125]:http-outgoing-0 << Content-Length: 2
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.LoggingManagedHttpClientConnection.onResponseReceived:125]:http-outgoing-0 << Date: Tue, 06 Mar 2018 08:49:51 GMT
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.execchain.MainClientExec.execute:285]:Connection can be kept alive indefinitely
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.releaseConnection:320]:Connection [id: 0][route: {}->http://120.76.98.17:7777] can be kept alive indefinitely
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.apache.http.impl.conn.PoolingHttpClientConnectionManager.releaseConnection:326]:Connection released: [id: 0][route: {}->http://120.76.98.17:7777][total kept alive: 1; route allocated: 1 of 2; total allocated: 1 of 20]
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.slf4j.helpers.SubstituteLogger.debug:121]:synSend status:200, response msg:ok
+[2018-03-06 16:50:06][DEBUG][pool-1-thread-3][org.slf4j.helpers.SubstituteLogger.debug:121]:succes failQueue.size:0

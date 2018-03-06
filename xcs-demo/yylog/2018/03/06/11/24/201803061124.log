@@ -1,0 +1,14 @@
+[2018-03-06 11:24:02][INFO ][main][org.springframework.boot.StartupInfoLogger.logStarting:48]:Starting TestSpringBoot on USER-20160201BI with PID 7216 (E:\work\xcs\xcs-demo\target\classes started by Administrator in E:\work\xcs\xcs-demo)
+[2018-03-06 11:24:02][INFO ][main][org.springframework.boot.SpringApplication.logStartupProfileInfo:597]:The following profiles are active: default
+[2018-03-06 11:24:02][INFO ][main][org.springframework.context.support.AbstractApplicationContext.prepareRefresh:581]:Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@76ca287f: startup date [Tue Mar 06 11:24:02 CST 2018]; root of context hierarchy
+[2018-03-06 11:24:03][INFO ][background-preinit][org.hibernate.validator.internal.util.Version.<clinit>:30]:HV000001: Hibernate Validator 5.3.5.Final
+[2018-03-06 11:24:04][INFO ][main][org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.initialize:89]:Tomcat initialized with port(s): 8077 (http)
+[2018-03-06 11:24:04][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting service [Tomcat]
+[2018-03-06 11:24:04][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting Servlet Engine: Apache Tomcat/8.5.16
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.apache.juli.logging.DirectJDKLog.log:179]:Initializing Spring embedded WebApplicationContext
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.prepareEmbeddedWebApplicationContext:276]:Root WebApplicationContext: initialization completed in 1552 ms
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.ServletRegistrationBean.onStartup:190]:Mapping servlet: 'dispatcherServlet' to [/]
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'characterEncodingFilter' to: [/*]
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'httpPutFormContentFilter' to: [/*]
+[2018-03-06 11:24:04][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'requestContextFilter' to: [/*]

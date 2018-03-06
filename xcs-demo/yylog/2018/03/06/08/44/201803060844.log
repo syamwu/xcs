@@ -1,0 +1,5 @@
+[2018-03-06 08:44:24][INFO ][http-nio-8077-exec-4][org.apache.juli.logging.DirectJDKLog.log:179]:Initializing Spring FrameworkServlet 'dispatcherServlet'
+[2018-03-06 08:44:24][INFO ][http-nio-8077-exec-4][org.springframework.web.servlet.FrameworkServlet.initServletBean:489]:FrameworkServlet 'dispatcherServlet': initialization started
+[2018-03-06 08:44:24][INFO ][http-nio-8077-exec-4][org.springframework.web.servlet.FrameworkServlet.initServletBean:508]:FrameworkServlet 'dispatcherServlet': initialization completed in 30 ms
+[2018-03-06 08:44:24][INFO ][http-nio-8077-exec-4][com.test.springboot.controller.TestRestController.testHome:62]:11111111111111
+[2018-03-06 08:44:36][INFO ][http-nio-8077-exec-1][com.test.springboot.controller.TestRestController.testHome:62]:11111111111111
