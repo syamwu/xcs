@@ -1,15 +1,12 @@
 
 package com.xchushi.fw.arithmetic.loadbalanc;
 
-import org.slf4j.Logger;
-
 import com.xchushi.fw.arithmetic.loadbalanc.balance.RandomBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.code.HashUniqueCode;
 import com.xchushi.fw.arithmetic.loadbalanc.code.UniqueCode;
 import com.xchushi.fw.arithmetic.loadbalanc.exception.LoadBalanceException;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicLoad;
-import com.xchushi.fw.log.SysLoggerFactory;
 
 /**
  * 简单的负载均衡算法，负载算法使用动态负载DynamicLoad，均衡算法使用随机算法RandomBalance
@@ -19,8 +16,6 @@ import com.xchushi.fw.log.SysLoggerFactory;
  */
 public class SimpleLoadBalance<T> extends AbstractLoadBalance<T> {
     
-    private static Logger logger = SysLoggerFactory.getLogger(SimpleLoadBalance.class);
-
     public SimpleLoadBalance(T[] objs, int[] loads, int scaleBase) {
         super(loads);
         if (objs == null || objs.length < 1 || loads == null || loads.length < 1 || objs.length != loads.length) {
@@ -73,7 +68,6 @@ public class SimpleLoadBalance<T> extends AbstractLoadBalance<T> {
                 ((DynamicAble<T>) load).dynamicLoad(i, weightCount);
             }
         }
-        logger.debug("name:" + obj + " useTime:" + weightCount);
     }
     
     @SuppressWarnings("rawtypes")

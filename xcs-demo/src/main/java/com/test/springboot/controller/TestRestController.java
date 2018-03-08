@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,8 +56,11 @@ public class TestRestController {
 //        }finally{
 //            MDCBus.remove();
 //        }
-        
+        MDC.put("sessionId", request.getSession().getId());
+        long time = System.currentTimeMillis();
         logger.info(strs[new Random().nextInt(10)]);
+        System.out.println(System.currentTimeMillis()-time);
+       new Object();
 //        }
         return "Hello World!!";
     }

@@ -1,0 +1,50 @@
+[2018-03-08 11:55:33][INFO ][main][org.springframework.boot.StartupInfoLogger.logStarting:48]:Starting TestSpringBoot on USER-20160201BI with PID 12988 (E:\work\xcs\xcs-demo\target\classes started by Administrator in E:\work\xcs\xcs-demo)
+[2018-03-08 11:55:33][ERROR][main][com.xchushi.fw.transfer.sender.HttpSender.<init>:73]:initHttpSender fail:initCollectSendExecutor fail:系统找不到指定的路径。
+com.xchushi.fw.common.exception.InitException: initCollectSendExecutor fail:系统找不到指定的路径。
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.<init>(DefalutCollectSendRunner.java:69)
+	at com.xchushi.fw.transfer.sender.HttpSender.initHttpSender(HttpSender.java:115)
+	at com.xchushi.fw.transfer.sender.HttpSender.<init>(HttpSender.java:71)
+	at com.xchushi.fw.transfer.sender.HttpSender.<init>(HttpSender.java:65)
+	at com.xchushi.fw.transfer.sender.HttpSender.<init>(HttpSender.java:61)
+	at com.xchushi.fw.transfer.sender.HttpSender.getSender(HttpSender.java:154)
+	at com.xchushi.fw.transfer.sender.SenderFactory.getSender(SenderFactory.java:6)
+	at com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger.<init>(TCPEsLogger.java:39)
+	at com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger.getLogger(TCPEsLogger.java:53)
+	at com.xchushi.fw.log.XcsLoggerFactory.getLogger(XcsLoggerFactory.java:10)
+	at com.xchushi.fw.log.logback.XcsLogbackAppender.initXcsLogbackLogger(XcsLogbackAppender.java:54)
+	at com.xchushi.fw.log.logback.XcsLogbackAppender.append(XcsLogbackAppender.java:31)
+	at com.xchushi.fw.log.logback.XcsLogbackAppender.append(XcsLogbackAppender.java:17)
+	at ch.qos.logback.core.AppenderBase.doAppend(AppenderBase.java:82)
+	at ch.qos.logback.core.spi.AppenderAttachableImpl.appendLoopOnAppenders(AppenderAttachableImpl.java:51)
+	at ch.qos.logback.classic.Logger.appendLoopOnAppenders(Logger.java:270)
+	at ch.qos.logback.classic.Logger.callAppenders(Logger.java:257)
+	at ch.qos.logback.classic.Logger.buildLoggingEventAndAppend(Logger.java:421)
+	at ch.qos.logback.classic.Logger.filterAndLog_0_Or3Plus(Logger.java:383)
+	at ch.qos.logback.classic.Logger.log(Logger.java:765)
+	at org.apache.commons.logging.impl.SLF4JLocationAwareLog.info(SLF4JLocationAwareLog.java:155)
+	at org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:48)
+	at org.springframework.boot.SpringApplication.logStartupInfo(SpringApplication.java:579)
+	at org.springframework.boot.SpringApplication.prepareContext(SpringApplication.java:341)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:301)
+	at com.test.springboot.TestSpringBoot.main(TestSpringBoot.java:11)
+Caused by: java.io.IOException: 系统找不到指定的路径。
+	at java.io.WinNTFileSystem.createFileExclusively(Native Method)
+	at java.io.File.createNewFile(File.java:1006)
+	at com.xchushi.fw.common.util.SimpleFileQueue.<init>(SimpleFileQueue.java:39)
+	at com.xchushi.fw.common.util.SimpleFileQueue.<init>(SimpleFileQueue.java:31)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.initCollectSendExecutor(DefalutCollectSendRunner.java:82)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.<init>(DefalutCollectSendRunner.java:67)
+	... 25 common frames omitted
+[2018-03-08 11:55:33][INFO ][main][org.springframework.boot.SpringApplication.logStartupProfileInfo:597]:The following profiles are active: default
+[2018-03-08 11:55:33][INFO ][main][org.springframework.context.support.AbstractApplicationContext.prepareRefresh:581]:Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@24356511: startup date [Thu Mar 08 11:55:33 CST 2018]; root of context hierarchy
+[2018-03-08 11:55:34][INFO ][background-preinit][org.hibernate.validator.internal.util.Version.<clinit>:30]:HV000001: Hibernate Validator 5.3.5.Final
+[2018-03-08 11:55:35][INFO ][main][org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.initialize:89]:Tomcat initialized with port(s): 8077 (http)
+[2018-03-08 11:55:35][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting service [Tomcat]
+[2018-03-08 11:55:35][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting Servlet Engine: Apache Tomcat/8.5.16
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.apache.juli.logging.DirectJDKLog.log:179]:Initializing Spring embedded WebApplicationContext
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.prepareEmbeddedWebApplicationContext:276]:Root WebApplicationContext: initialization completed in 1531 ms
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.ServletRegistrationBean.onStartup:190]:Mapping servlet: 'dispatcherServlet' to [/]
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'characterEncodingFilter' to: [/*]
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'httpPutFormContentFilter' to: [/*]
+[2018-03-08 11:55:35][INFO ][localhost-startStop-1][org.springframework.boot.web.servlet.AbstractFilterRegistrationBean.configure:258]:Mapping filter: 'requestContextFilter' to: [/*]

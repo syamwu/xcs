@@ -1,7 +1,5 @@
 package com.xchushi.fw.log.constant;
 
-import ch.qos.logback.classic.Level;
-
 public enum LoggerType {
 
     OFF("OFF", Integer.MAX_VALUE), 

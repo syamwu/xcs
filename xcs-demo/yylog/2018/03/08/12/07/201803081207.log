@@ -1,0 +1,55 @@
+[2018-03-08 12:07:18][INFO ][main][org.springframework.boot.StartupInfoLogger.logStarting:48]:Starting TestSpringBoot on USER-20160201BI with PID 6400 (E:\work\xcs\xcs-demo\target\classes started by Administrator in E:\work\xcs\xcs-demo)
+[2018-03-08 12:07:18][ERROR][pool-1-thread-1][com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.initFailQueue:114]:/E:/work/xcs/xcs-demo/target/classes/eslogger/test.txt doesn't have pollIndex
+java.lang.RuntimeException: /E:/work/xcs/xcs-demo/target/classes/eslogger/test.txt doesn't have pollIndex
+	at com.xchushi.fw.common.util.SimpleFileQueue.getMessages(SimpleFileQueue.java:74)
+	at com.xchushi.fw.common.util.SimpleFileQueue.getMessages(SimpleFileQueue.java:61)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.initFailQueue(DefalutCollectSendRunner.java:98)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.access$1(DefalutCollectSendRunner.java:93)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner$1.run(DefalutCollectSendRunner.java:86)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+[2018-03-08 12:07:18][INFO ][main][org.springframework.boot.SpringApplication.logStartupProfileInfo:597]:The following profiles are active: default
+[2018-03-08 12:07:18][INFO ][main][org.springframework.context.support.AbstractApplicationContext.prepareRefresh:581]:Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@55dbe543: startup date [Thu Mar 08 12:07:18 CST 2018]; root of context hierarchy
+[2018-03-08 12:07:18][INFO ][background-preinit][org.hibernate.validator.internal.util.Version.<clinit>:30]:HV000001: Hibernate Validator 5.3.5.Final
+[2018-03-08 12:07:20][INFO ][main][org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.initialize:89]:Tomcat initialized with port(s): 8077 (http)
+[2018-03-08 12:07:20][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting service [Tomcat]
+[2018-03-08 12:07:20][INFO ][main][org.apache.juli.logging.DirectJDKLog.log:179]:Starting Servlet Engine: Apache Tomcat/8.5.16
+[2018-03-08 12:07:29][INFO ][main][org.springframework.boot.StartupInfoLogger.logStarting:48]:Starting TestSpringBoot on USER-20160201BI with PID 10236 (E:\work\xcs\xcs-demo\target\classes started by Administrator in E:\work\xcs\xcs-demo)
+[2018-03-08 12:07:29][ERROR][main][com.xchushi.fw.transfer.sender.HttpSender.<init>:73]:initHttpSender fail:initCollectSendExecutor fail:null
+com.xchushi.fw.common.exception.InitException: initCollectSendExecutor fail:null
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.<init>(DefalutCollectSendRunner.java:69)
+	at com.xchushi.fw.transfer.sender.HttpSender.initHttpSender(HttpSender.java:115)
+	at com.xchushi.fw.transfer.sender.HttpSender.<init>(HttpSender.java:71)
+	at com.xchushi.fw.transfer.sender.HttpSender.<init>(HttpSender.java:65)
+	at com.xchushi.fw.transfer.sender.HttpSender.<init>(HttpSender.java:61)
+	at com.xchushi.fw.transfer.sender.HttpSender.getSender(HttpSender.java:154)
+	at com.xchushi.fw.transfer.sender.SenderFactory.getSender(SenderFactory.java:6)
+	at com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger.<init>(TCPEsLogger.java:39)
+	at com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger.getLogger(TCPEsLogger.java:53)
+	at com.xchushi.fw.log.XcsLoggerFactory.getLogger(XcsLoggerFactory.java:10)
+	at com.xchushi.fw.log.logback.XcsLogbackAppender.initXcsLogbackLogger(XcsLogbackAppender.java:54)
+	at com.xchushi.fw.log.logback.XcsLogbackAppender.append(XcsLogbackAppender.java:31)
+	at com.xchushi.fw.log.logback.XcsLogbackAppender.append(XcsLogbackAppender.java:17)
+	at ch.qos.logback.core.AppenderBase.doAppend(AppenderBase.java:82)
+	at ch.qos.logback.core.spi.AppenderAttachableImpl.appendLoopOnAppenders(AppenderAttachableImpl.java:51)
+	at ch.qos.logback.classic.Logger.appendLoopOnAppenders(Logger.java:270)
+	at ch.qos.logback.classic.Logger.callAppenders(Logger.java:257)
+	at ch.qos.logback.classic.Logger.buildLoggingEventAndAppend(Logger.java:421)
+	at ch.qos.logback.classic.Logger.filterAndLog_0_Or3Plus(Logger.java:383)
+	at ch.qos.logback.classic.Logger.log(Logger.java:765)
+	at org.apache.commons.logging.impl.SLF4JLocationAwareLog.info(SLF4JLocationAwareLog.java:155)
+	at org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:48)
+	at org.springframework.boot.SpringApplication.logStartupInfo(SpringApplication.java:579)
+	at org.springframework.boot.SpringApplication.prepareContext(SpringApplication.java:341)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:301)
+	at com.test.springboot.TestSpringBoot.main(TestSpringBoot.java:11)
+Caused by: java.lang.NullPointerException: null
+	at com.xchushi.fw.common.util.SimpleFileQueue.<init>(SimpleFileQueue.java:38)
+	at com.xchushi.fw.common.util.SimpleFileQueue.<init>(SimpleFileQueue.java:32)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.initCollectSendExecutor(DefalutCollectSendRunner.java:82)
+	at com.xchushi.fw.transfer.runner.DefalutCollectSendRunner.<init>(DefalutCollectSendRunner.java:67)
+	... 25 common frames omitted
+[2018-03-08 12:07:30][INFO ][main][org.springframework.boot.SpringApplication.logStartupProfileInfo:597]:The following profiles are active: default
+[2018-03-08 12:07:30][INFO ][main][org.springframework.context.support.AbstractApplicationContext.prepareRefresh:581]:Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@2ad4cd45: startup date [Thu Mar 08 12:07:30 CST 2018]; root of context hierarchy
+[2018-03-08 12:07:30][INFO ][background-preinit][org.hibernate.validator.internal.util.Version.<clinit>:30]:HV000001: Hibernate Validator 5.3.5.Final

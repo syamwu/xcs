@@ -15,13 +15,14 @@ import java.util.Map;
 import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
+import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
 import com.xchushi.fw.log.constant.LoggerType;
-import com.xchushi.fw.log.elasticsearch.MDCBus;
 
+@ConfigSetting(prefix = "eslogger")
 public class NomalChanger implements Changer {
 
     private static Logger logger = SysLoggerFactory.getLogger(NomalChanger.class);
@@ -45,9 +46,9 @@ public class NomalChanger implements Changer {
         this.config = config;
         if (this.config != null) {
             appname = this.config.getProperty("appname", "front_app");
-            docVersion = this.config.getProperty("docVersion", "1");
+            docVersion = this.config.getProperty("doc_version", "1");
             try {
-                ipAddress = this.config.getProperty("ipAddress", InetAddress.getLocalHost().getHostAddress());
+                ipAddress = this.config.getProperty("ip_address", InetAddress.getLocalHost().getHostAddress());
             } catch (UnknownHostException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -61,7 +62,7 @@ public class NomalChanger implements Changer {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public Object change(LoggerType loggerType, Thread thread, StackTraceElement st, Map<String, Object> threadParams,
+    public Object change(LoggerType loggerType, Thread thread, StackTraceElement st, Map<String, ?> threadParams,
             String message, Throwable t, Object... args) throws Exception {
         Map allParamsMap = new LinkedHashMap<>();
         if (normalParams != null) {
@@ -73,14 +74,14 @@ public class NomalChanger implements Changer {
         allParamsMap.put(EsLoggerConstant.APPNAME, appname);
         allParamsMap.put(EsLoggerConstant.DOC_VERSION, docVersion);
         allParamsMap.put(EsLoggerConstant.IP_ADDRESS, ipAddress);
-        String sessionId = (String) MDCBus.get(thread, EsLoggerConstant.SESSION_ID);
-        String processMethod = (String) MDCBus.get(thread, EsLoggerConstant.PROCESS_METHOD);
-        if (sessionId != null) {
-            allParamsMap.put(EsLoggerConstant.SESSION_ID, sessionId);
-        }
-        if (processMethod != null) {
-            allParamsMap.put(EsLoggerConstant.PROCESS_METHOD, processMethod);
-        }
+//        String sessionId = (String) MDCBus.get(thread, EsLoggerConstant.SESSION_ID);
+//        String processMethod = (String) MDCBus.get(thread, EsLoggerConstant.PROCESS_METHOD);
+//        if (sessionId != null) {
+//            allParamsMap.put(EsLoggerConstant.SESSION_ID, sessionId);
+//        }
+//        if (processMethod != null) {
+//            allParamsMap.put(EsLoggerConstant.PROCESS_METHOD, processMethod);
+//        }
         allParamsMap.put(EsLoggerConstant._THREAD, buildThreadId(thread));
         allParamsMap.put(EsLoggerConstant._CLASS, st.getClassName());
         allParamsMap.put(EsLoggerConstant._METHOD, st.getMethodName());

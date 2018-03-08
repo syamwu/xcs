@@ -11,12 +11,11 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
-import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.entity.Entity;
-import com.xchushi.fw.common.entity.SimpleEntity;
 import com.xchushi.fw.common.entity.Entity.EntityType;
+import com.xchushi.fw.common.entity.SimpleEntity;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.util.MessageUtil;
@@ -26,7 +25,6 @@ import com.xchushi.fw.transfer.collect.StringQueueCollector;
 import com.xchushi.fw.transfer.sender.AbstractSender;
 import com.xchushi.fw.transfer.sender.HttpSender;
 
-@ConfigSetting(prefix = "collect")
 public final class DefalutCollectSendRunner extends AbstractCollectRunner {
 
     /**
@@ -75,7 +73,7 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
         mainQueue = new StringQueueCollector(config, new LinkedBlockingQueue<String>(Integer.MAX_VALUE));
         if (config != null) {
             this.failSendFileEnable = config.getProperty("failSendFileEnable", Boolean.class, true);
-            this.failSendFile = config.getProperty("failSendFile", String.class, "D:\\upload\\data18.txt");
+            this.failSendFile = config.getProperty("failSendFile", String.class, "eslogger/logSendFail.txt");
             this.sendTimeOut = config.getProperty("sendTimeOut", Integer.class, 10_000);
         }
         if (failSendFileEnable) {
@@ -83,18 +81,17 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
             tpe.execute(new Runnable() {
                 @Override
                 public void run() {
-                    initFailQueue(failSendFile);
+                    initFailQueue(failFileQueue);
                 }
             });
         }
         sd.setCollectible(mainQueue);
     }
 
-    private static void initFailQueue(String filePath) {
-        Asset.notNull(filePath);
+    private static void initFailQueue(SimpleFileQueue failFileQueue) {
+        Asset.notNull(failFileQueue);
         try {
             long time = System.currentTimeMillis();
-            failFileQueue = new SimpleFileQueue(filePath);
             List<String> msgs = failFileQueue.getMessages();
             if (msgs != null) {
                 for (String msg : msgs) {
@@ -109,7 +106,7 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
                     failQueue.offer(new SimpleEntity<String>(strBuff.toString(), EntityType.reSend));
                 }
             }
-            System.out.println("加载文件用时:"+(System.currentTimeMillis()-time));
+            logger.info("加载日志发送失败文件:" + failFileQueue.getFilePath() + ",用时:" + (System.currentTimeMillis() - time));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

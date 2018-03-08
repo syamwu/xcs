@@ -1,12 +1,10 @@
 package com.xchushi.fw.log.logback;
 
-import org.slf4j.Logger;
-
+import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.util.StringUtil;
 import com.xchushi.fw.config.XcsConfigure;
-import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.XcsLogger;
 import com.xchushi.fw.log.XcsLoggerFactory;
 import com.xchushi.fw.log.constant.LoggerType;
@@ -18,13 +16,13 @@ import ch.qos.logback.core.AppenderBase;
 
 public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
 
-    public String fileName;
+    protected String fileName;
 
-    Configure config;
+    protected Configure config;
 
-    XcsLogger xcsLogger;
+    protected XcsLogger xcsLogger;
 
-    boolean isInit = false;
+    protected boolean isInit = false;
 
     @Override
     protected void append(LoggingEvent eventObject) {
@@ -58,23 +56,13 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
         isInit = true;
     }
 
-    private LoggerType exchangeLevel(Level level) {
-        if (level == Level.OFF) {
-            return LoggerType.OFF;
-        } else if (level == Level.ERROR) {
-            return LoggerType.ERROR;
-        } else if (level == Level.WARN) {
-            return LoggerType.WARN;
-        } else if (level == Level.INFO) {
-            return LoggerType.INFO;
-        } else if (level == Level.DEBUG) {
-            return LoggerType.DEBUG;
-        } else if (level == Level.TRACE) {
-            return LoggerType.TRACE;
-        } else if (level == Level.ALL) {
-            return LoggerType.ALL;
+    protected LoggerType exchangeLevel(Level level) {
+        Asset.notNull(level);
+        LoggerType logType = LoggerType.valueOf(level.levelStr);
+        if (logType == null) {
+            return LoggerType.UNKNOWN;
         }
-        return LoggerType.UNKNOWN;
+        return logType;
     }
 
     public String getFileName() {

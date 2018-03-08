@@ -23,7 +23,7 @@ public final class Asset {
     }
 
     public final static void isTrue(boolean bl, String message) {
-        if (bl) {
+        if (!bl) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -33,7 +33,7 @@ public final class Asset {
     }
 
     public static void isFalse(boolean bl, String message) {
-        if (!bl) {
+        if (bl) {
             throw new IllegalArgumentException(message);
         }
     }

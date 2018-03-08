@@ -12,7 +12,6 @@ import com.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.code.UniqueCode;
 import com.xchushi.fw.arithmetic.loadbalanc.exception.LoadBalanceException;
 import com.xchushi.fw.log.SysLoggerFactory;
-import com.xchushi.fw.log.elasticsearch.changer.NomalChanger;
 
 /**
  * 动态负载器
@@ -83,6 +82,23 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
         return loads();
     }
 
+    public void dynamicLoad(UniqueCode uc, long weightCount) {
+        if (uc == null) {
+            throw new LoadBalanceException("UniqueCode can't be null");
+        }
+        int index = -1;
+        for (int i = 0; i < loads.length; i++) {
+            if (uniqueCodes[i].get() == uc.get()) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            throw new LoadBalanceException("UniqueCode:" + uc.get() + ",din't exist");
+        }
+        dynamicLoad(index, weightCount);
+    }
+    
     @Override
     public void dynamicLoad(int index, long weightCount) {
         if (loads.length < 2) {
@@ -105,30 +121,13 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
                 loadCounts[index]++;
             }
             avgValues[index] = addAvg(avgValues[index], avgCount, weightCount);
-            reloads();
+            reloads(weightCount);
         } finally {
             avgLock.unlock();
         }
     }
 
-    public void dynamicLoad(UniqueCode uc, long weightCount) {
-        if (uc == null) {
-            throw new LoadBalanceException("UniqueCode can't be null");
-        }
-        int index = -1;
-        for (int i = 0; i < loads.length; i++) {
-            if (uniqueCodes[i].get() == uc.get()) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            throw new LoadBalanceException("UniqueCode:" + uc.get() + ",din't exist");
-        }
-        dynamicLoad(index, weightCount);
-    }
-
-    private void reloads() {
+    private void reloads(long weightCount) {
         try {
             loadLock.lock();
             BigDecimal[] newWeights = new BigDecimal[loads.length];
@@ -154,8 +153,9 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
             }
 
             // 测试输出
-            logger.debug("权值请求数:" + Arrays.toString(loadCounts) + ",平均权值:" + Arrays.toString(avgValues)
-                    + ",当次权值比:" + Arrays.toString(newWeights) + ",新的权值比:" + Arrays.toString(loads));
+            logger.debug("weightCount:" + weightCount + ",loadCounts:" + Arrays.toString(loadCounts) + ",avgValues:"
+                    + Arrays.toString(avgValues) + ",newWeights:" + Arrays.toString(newWeights) + ",new_loads:"
+                    + Arrays.toString(loads));
         } finally {
             loadLock.unlock();
         }

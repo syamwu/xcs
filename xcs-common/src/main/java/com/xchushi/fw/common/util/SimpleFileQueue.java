@@ -4,14 +4,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.fastjson.JSON;
-import com.xchushi.fw.common.entity.Entity.EntityType;
-import com.xchushi.fw.common.entity.SimpleEntity;
+import com.xchushi.fw.common.Asset;
 
 public class SimpleFileQueue {
 
@@ -25,7 +25,7 @@ public class SimpleFileQueue {
 
     private String charsetName = "";
 
-    private String fileName = "";
+    private String filePath = "";
 
     private RandomAccessFile rFile = null;
 
@@ -33,21 +33,49 @@ public class SimpleFileQueue {
         this(fileName, "UTF-8");
     }
 
-    public SimpleFileQueue(String fileName, String charsetName) throws IOException {
-        this.fileName = fileName;
+    public SimpleFileQueue(String filePath, String charsetName) throws IOException {
         this.charsetName = charsetName;
-        File file = new File(fileName);
-        if (!file.exists()) {
-            file.createNewFile();
-            clear();
+        URL url = SimpleFileQueue.class.getClassLoader().getResource(filePath);
+        File file = null;
+        if (url == null) {
+            url = SimpleFileQueue.class.getClassLoader().getResource("");
+            this.filePath = url.getFile() + filePath;
+            file = new File(this.filePath);
+            if (!file.exists()) {
+                Asset.isTrue(FileUtil.createFile(file), "create file fail:" + this.filePath);
+                clear();
+            }
+        } else {
+            this.filePath = url.getFile();
+            file = new File(this.filePath);
+            if (!file.exists()) {
+                Asset.isTrue(FileUtil.createFile(file));
+                clear();
+            }
         }
-        this.rFile = new RandomAccessFile(fileName, "rw");
+        this.rFile = new RandomAccessFile(this.filePath, "rw");
     }
-    
+
+//    public static void main(String[] args) {
+//        String filePath = "eslogger/sdasd/dasds/test.txt";
+//        URL url = SimpleFileQueue.class.getClassLoader().getResource(filePath);
+//        if (url == null) {
+//            url = SimpleFileQueue.class.getClassLoader().getResource("");
+//            File file = new File(url.getFile() + filePath);
+//            if (!file.exists()) {
+//                System.out.println("创建文件:" + FileUtil.createFile(file));
+//            }
+//        }
+//    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
     public static List<String> getMessages(String fileName, boolean rePolled) throws IOException {
         return new SimpleFileQueue(fileName).getMessages(true);
     }
-    
+
     public List<String> getMessages() throws IOException {
         return getMessages(true);
     }
@@ -60,9 +88,9 @@ public class SimpleFileQueue {
             String offerIndexStr = rFile.readLine();
             String pollIndexStr = rFile.readLine();
             long pollIndex = 0l;
-            if (rePolled){
+            if (rePolled) {
                 if (pollIndexStr == null || pollIndexStr.length() < 1) {
-                    throw new RuntimeException(fileName + " doesn't have pollIndex");
+                    throw new RuntimeException(filePath + " doesn't have pollIndex");
                 } else {
                     pollIndex = Long.valueOf(pollIndexStr.trim());
                     if (pollIndex < 0) {
@@ -73,17 +101,8 @@ public class SimpleFileQueue {
                             + SEPARATOR_BYTES.length + pollIndex);
                 }
             }
-//            String message = rFile.readLine();
-//            while (message != null && message.length() > 0) {
-//                System.out.println(System.currentTimeMillis());
-//                if (list == null) {
-//                    list = new ArrayList<String>();
-//                }
-//                list.add(new String(message.getBytes("ISO-8859-1"), charsetName));
-//                message = rFile.readLine();
-//            }
             String msgLenStr = rFile.readLine();
-            while(msgLenStr!=null && msgLenStr.length() >0){
+            while (msgLenStr != null && msgLenStr.length() > 0) {
                 if (msgLenStr == null || msgLenStr.length() < 1) {
                     return null;
                 }
@@ -92,7 +111,7 @@ public class SimpleFileQueue {
                 rFile.read(messageByte, 0, msgLen);
                 rFile.read(new byte[SEPARATOR_BYTES.length]);
                 if (list == null) {
-                  list = new ArrayList<String>();
+                    list = new ArrayList<String>();
                 }
                 list.add(new String(messageByte, charsetName));
                 msgLenStr = rFile.readLine();
@@ -116,7 +135,7 @@ public class SimpleFileQueue {
                 offerIndexStr = rFile.readLine();
                 pollIndexStr = rFile.readLine();
                 if (offerIndexStr == null || offerIndexStr.length() < 1) {
-                    throw new RuntimeException(fileName + " doesn't have offerIndexStr");
+                    throw new RuntimeException(filePath + " doesn't have offerIndexStr");
                 }
             } else {
                 offerIndex = Long.valueOf(offerIndexStr.trim());
@@ -144,7 +163,7 @@ public class SimpleFileQueue {
             String pollIndexStr = rFile.readLine();
             long pollIndex = 0l;
             if (pollIndexStr == null || pollIndexStr.length() < 1) {
-                throw new RuntimeException(fileName + " doesn't have pollIndex");
+                throw new RuntimeException(filePath + " doesn't have pollIndex");
             } else {
                 pollIndex = Long.valueOf(pollIndexStr.trim());
                 if (pollIndex < 0) {
@@ -183,7 +202,7 @@ public class SimpleFileQueue {
             String pollIndexStr = rFile.readLine();
             long pollIndex = 0l;
             if (pollIndexStr == null || pollIndexStr.length() < 1) {
-                throw new RuntimeException(fileName + " doesn't have pollIndex");
+                throw new RuntimeException(filePath + " doesn't have pollIndex");
             } else {
                 pollIndex = Long.valueOf(pollIndexStr.trim());
                 if (pollIndex < 0) {
@@ -206,11 +225,11 @@ public class SimpleFileQueue {
     }
 
     private void clear() throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName);
+        FileWriter fileWriter = new FileWriter(filePath);
         fileWriter.write("");
         fileWriter.flush();
         fileWriter.close();
-        RandomAccessFile rFile = new RandomAccessFile(fileName, "rw");
+        RandomAccessFile rFile = new RandomAccessFile(filePath, "rw");
         rFile.write((String.valueOf(0) + getEmtyStr(EMPTY_LEN)).getBytes());
         rFile.write(SEPARATOR_BYTES);
         rFile.write((String.valueOf(0) + getEmtyStr(EMPTY_LEN)).getBytes());
@@ -225,72 +244,54 @@ public class SimpleFileQueue {
         }
         return strBuff.toString();
     }
-    
-    
-    
-    
-    
 
-    public static void main(String[] args) throws IOException {
-        //test();
-//        System.out.println(System.currentTimeMillis());
-//        RandomAccessFile re = new RandomAccessFile("D:\\upload\\data18.txt","rw");
-//        System.out.println(System.currentTimeMillis());
-//        String str1 =re.readLine();
-//        String str2 =re.readLine();
-//        System.out.println(System.currentTimeMillis()+"---"+str1+str2);
-//        String str = re.readLine()+re.readLine();
-//        System.out.println(System.currentTimeMillis()+"---"+str);
-//        int len = str.getBytes().length;
-//        System.out.println(System.currentTimeMillis()+"---"+len);
-//        byte[] by = new byte[10024];
-//        re.read(by,0,10024);
-//        re.seek(0);
-//        byte[] by1 = new byte[10024];
-//        re.read(by1,0,10024);
-//        String str = new String(by);
-//        String str5 = new String(by1);
-//        System.out.println(System.currentTimeMillis());
+    public static void test3(String[] args) throws IOException {
+        // test();
+        // System.out.println(System.currentTimeMillis());
+        // RandomAccessFile re = new
+        // RandomAccessFile("D:\\upload\\data18.txt","rw");
+        // System.out.println(System.currentTimeMillis());
+        // String str1 =re.readLine();
+        // String str2 =re.readLine();
+        // System.out.println(System.currentTimeMillis()+"---"+str1+str2);
+        // String str = re.readLine()+re.readLine();
+        // System.out.println(System.currentTimeMillis()+"---"+str);
+        // int len = str.getBytes().length;
+        // System.out.println(System.currentTimeMillis()+"---"+len);
+        // byte[] by = new byte[10024];
+        // re.read(by,0,10024);
+        // re.seek(0);
+        // byte[] by1 = new byte[10024];
+        // re.read(by1,0,10024);
+        // String str = new String(by);
+        // String str5 = new String(by1);
+        // System.out.println(System.currentTimeMillis());
         test1();
         // System.out.println("看看10".getBytes("ISO-8859-1").length);
         // System.out.println("看看10".getBytes("UTF-8").length);
     }
+
     public static void test1() throws IOException {
         SimpleFileQueue f = new SimpleFileQueue("D:\\upload\\data9.txt");
-        RandomAccessFile f1 = new RandomAccessFile("D:\\upload\\data18.txt","r");
-        f1.readLine();
-        f1.readLine();
-//        for (int i = 0; i < 300; i++) {
-//            f.offer(f1.readLine());
-//        }
-//        long time = System.currentTimeMillis();
-//        List<String> list = new ArrayList<String>();
-//        for (int i = 0; i < 3; i++) {
-//            list.add(f.peek());
-//        }
-//        System.out.println(System.currentTimeMillis()-time);
-        
+        // RandomAccessFile f1 = new
+        // RandomAccessFile("D:\\upload\\data18.txt","r");
+        // f1.readLine();
+        // f1.readLine();
+        // for (int i = 0; i < 300; i++) {
+        // f.offer(f1.readLine());
+        // }
+        // long time = System.currentTimeMillis();
+        // List<String> list = new ArrayList<String>();
+        // for (int i = 0; i < 3; i++) {
+        // list.add(f.peek());
+        // }
+        // System.out.println(System.currentTimeMillis()-time);
+
         long time = System.currentTimeMillis();
         List<String> list = f.getMessages(false);
-        System.out.println(System.currentTimeMillis()-time);
+        System.out.println(System.currentTimeMillis() - time);
         JSON.toJSONString(list);
-        System.out.println(System.currentTimeMillis()-time);
-    }
-
-    public static void test() throws IOException {
-        SimpleFileQueue f = new SimpleFileQueue("D:\\upload\\data18.txt");
-        for (int i = 0; i < 20; i++) {
-            f.offer(JSON.toJSONString("挨个发圣诞噶噶身份撒发生发圣诞送的          阿斯顿撒" + i));
-        }
-//        for (;;) {
-//            String str = f.poll();
-//            if (str == null) {
-//                break;
-//            } else {
-//                System.out.println(str);
-//                // System.out.println(f.peek());
-//            }
-//        }
+        System.out.println(System.currentTimeMillis() - time);
     }
 
 }
