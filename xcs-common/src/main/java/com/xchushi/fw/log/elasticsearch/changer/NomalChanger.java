@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 
@@ -31,12 +33,19 @@ public class NomalChanger implements Changer {
 
     private Configure config;
 
-    private String appname = "";
+    private String appname = "application";
 
-    private String docVersion = "";
+    private String docVersion = "1";
 
     private String ipAddress = "";
-
+    
+    private String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    
+    private static final String TIMEZONE = "GMT";
+    
+    public NomalChanger(){
+    }
+    
     private NomalChanger(Map<String, Object> normalParams) {
         this(normalParams, ConfigureFactory.getConfigure(NomalChanger.class));
     }
@@ -45,8 +54,9 @@ public class NomalChanger implements Changer {
         this.normalParams = normalParams;
         this.config = config;
         if (this.config != null) {
-            appname = this.config.getProperty("appname", "front_app");
-            docVersion = this.config.getProperty("doc_version", "1");
+            appname = this.config.getProperty("appname", appname);
+            docVersion = this.config.getProperty("doc_version", docVersion);
+            dateFormat = this.config.getProperty("dateFormat", dateFormat);
             try {
                 ipAddress = this.config.getProperty("ip_address", InetAddress.getLocalHost().getHostAddress());
             } catch (UnknownHostException e) {
@@ -74,20 +84,18 @@ public class NomalChanger implements Changer {
         allParamsMap.put(EsLoggerConstant.APPNAME, appname);
         allParamsMap.put(EsLoggerConstant.DOC_VERSION, docVersion);
         allParamsMap.put(EsLoggerConstant.IP_ADDRESS, ipAddress);
-//        String sessionId = (String) MDCBus.get(thread, EsLoggerConstant.SESSION_ID);
-//        String processMethod = (String) MDCBus.get(thread, EsLoggerConstant.PROCESS_METHOD);
-//        if (sessionId != null) {
-//            allParamsMap.put(EsLoggerConstant.SESSION_ID, sessionId);
-//        }
-//        if (processMethod != null) {
-//            allParamsMap.put(EsLoggerConstant.PROCESS_METHOD, processMethod);
-//        }
-        allParamsMap.put(EsLoggerConstant._THREAD, buildThreadId(thread));
-        allParamsMap.put(EsLoggerConstant._CLASS, st.getClassName());
-        allParamsMap.put(EsLoggerConstant._METHOD, st.getMethodName());
-        allParamsMap.put(EsLoggerConstant._LINE, st.getLineNumber());
-        allParamsMap.put(EsLoggerConstant.LEVEl, loggerType.getName());
-        allParamsMap.put(EsLoggerConstant.LEVEl_VAL, loggerType.getVal());
+        if (thread != null){
+            allParamsMap.put(EsLoggerConstant._THREAD, buildThreadId(thread));
+        }
+        if (st != null) {
+            allParamsMap.put(EsLoggerConstant._CLASS, st.getClassName());
+            allParamsMap.put(EsLoggerConstant._METHOD, st.getMethodName());
+            allParamsMap.put(EsLoggerConstant._LINE, st.getLineNumber());
+        }
+        if (loggerType != null) {
+            allParamsMap.put(EsLoggerConstant.LEVEl, loggerType.getName());
+            allParamsMap.put(EsLoggerConstant.LEVEl_VAL, loggerType.getVal());
+        }
         if (args == null) {
             allParamsMap.put(EsLoggerConstant._MESSAGE, message);
         } else {
@@ -126,6 +134,11 @@ public class NomalChanger implements Changer {
             t.printStackTrace(new PrintStream(out));
             allParamsMap.put(EsLoggerConstant.STACKTRACE, out.toString());
         }
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
+        sf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+        String time = sf.format(date);
+        allParamsMap.put(EsLoggerConstant.TIME_STAMP, time);
         return allParamsMap;
     }
 
@@ -195,4 +208,44 @@ public class NomalChanger implements Changer {
 
     }
 
+    public Map<String, Object> getNormalParams() {
+        return normalParams;
+    }
+
+    public void setNormalParams(Map<String, Object> normalParams) {
+        this.normalParams = normalParams;
+    }
+
+    public String getAppname() {
+        return appname;
+    }
+
+    public void setAppname(String appname) {
+        this.appname = appname;
+    }
+
+    public String getDocVersion() {
+        return docVersion;
+    }
+
+    public void setDocVersion(String docVersion) {
+        this.docVersion = docVersion;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+    
 }

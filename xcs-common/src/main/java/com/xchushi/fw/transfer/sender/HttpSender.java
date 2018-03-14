@@ -3,6 +3,8 @@ package com.xchushi.fw.transfer.sender;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.slf4j.Logger;
@@ -14,9 +16,9 @@ import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.entity.Entity;
+import com.xchushi.fw.common.entity.Entity.EntityType;
 import com.xchushi.fw.common.entity.HttpClientResponseEntity;
 import com.xchushi.fw.common.entity.SimpleEntity;
-import com.xchushi.fw.common.entity.Entity.EntityType;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.exception.SenderFailException;
@@ -43,22 +45,31 @@ public class HttpSender extends AbstractSender implements Sender {
     @SuppressWarnings("rawtypes")
     private DynamicAble dynamicAble;
 
-    private String[] serverHosts;
+    private String[] serverHostsArray;
+    
+    private String serverHosts = "127.0.0.1";
 
     private String charSet = "UTF-8";
 
     private String uri = "";
 
     private String protocol = "http";
+    
+    private boolean collectEnable = true;
 
     private static HttpSender sender;
+    
+    private static Lock senderLock = new ReentrantLock();
+    
+    private boolean started = false;
 
     private static Logger logger = SysLoggerFactory.getLogger(HttpSender.class);
     
     public static AtomicInteger okCount = new AtomicInteger(0);
-
-    private HttpSender() {
-        this(ConfigureFactory.getConfigure(HttpSender.class));
+    
+    public HttpSender(){
+        super(null);
+        sender = this;
     }
 
     private HttpSender(Configure configure) {
@@ -67,54 +78,56 @@ public class HttpSender extends AbstractSender implements Sender {
 
     private HttpSender(Configure configure, ThreadPoolExecutor threadPoolExecutor) {
         super(configure);
-        try {
-            initHttpSender(configure, threadPoolExecutor);
-        } catch (Exception e) {
-            logger.error("initHttpSender fail:" + e.getMessage(), e);
-        }
+        this.ex = threadPoolExecutor;
+    }
+    
+    private void initHttpSender(Configure configure, ThreadPoolExecutor threadPoolExecutor) throws Exception {
+        this.configure = configure;
+        this.ex = threadPoolExecutor;
+        initHttpSender();
     }
 
-    private void initHttpSender(Configure configure, ThreadPoolExecutor threadPoolExecutor) throws Exception {
-        this.ex = threadPoolExecutor;
-        boolean collectEnable = false;
-        if (configure != null) {
-            collectEnable = configure.getProperty("collectEnable", Boolean.class, true);
-            this.protocol = configure.getProperty("protocol", "http");
-            this.charSet = configure.getProperty("charSet", "UTF-8");
-            String serverUrlStr = configure.getProperty("serverHosts", "127.0.0.1");
-            this.uri = configure.getProperty("uri", "");
-            this.serverHosts = serverUrlStr.split(",");
-            this.sendTimeOut = configure.getProperty("sendTimeOut", Integer.class, 10_000);
-            this.loadBalanceEnable = configure.getProperty("loadBalanc.endable", Boolean.class, true);
-            if (loadBalanceEnable) {
-                String serverUrlLoads = configure.getProperty("loadBalanc.loads", "");
-                int scaleBase = configure.getProperty("loadBalanc.scaleBase", Integer.class, 1000);
-                int[] loads = new int[this.serverHosts.length];
-                if (serverUrlLoads == null || serverUrlLoads.length() < 1) {
-                    for (int i = 0; i < loads.length; i++) {
-                        loads[i] = 1;
-                    }
-                } else {
-                    String[] serverUrlLoadsAr = serverUrlLoads.split(",");
-                    if (serverUrlLoadsAr.length != this.serverHosts.length) {
-                        throw new InitException(
-                                "eslogger.serverHostsLoads length isn't equal eslogger.serverHosts length");
-                    }
-                    for (int i = 0; i < loads.length; i++) {
-                        loads[i] = Integer.valueOf(serverUrlLoadsAr[i]);
-                    }
+    private void initHttpSender() throws Exception {
+        collectEnable = getProperty("collectEnable", Boolean.class, collectEnable);
+        protocol = getProperty("protocol", protocol);
+        charSet = getProperty("charSet", charSet);
+        String serverUrlStr = getProperty("serverHosts", serverHosts);
+        uri = getProperty("uri", uri);
+        serverHostsArray = serverUrlStr.split(",");
+        sendTimeOut = getProperty("sendTimeOut", Integer.class, 10_000);
+        loadBalanceEnable = getProperty("loadBalanc.endable", Boolean.class, true);
+        if (loadBalanceEnable) {
+            String serverUrlLoads = getProperty("loadBalanc.loads", "");
+            int scaleBase = getProperty("loadBalanc.scaleBase", Integer.class, 1000);
+            int[] loads = new int[serverHostsArray.length];
+            if (serverUrlLoads == null || serverUrlLoads.length() < 1) {
+                for (int i = 0; i < loads.length; i++) {
+                    loads[i] = 1;
                 }
-                SimpleLoadBalance<String> slb = new SimpleLoadBalance<String>(serverHosts, loads, scaleBase);
-                this.loadBanlanc = slb;
-                this.dynamicAble = slb.getDynamicLoad();
+            } else {
+                String[] serverUrlLoadsAr = serverUrlLoads.split(",");
+                if (serverUrlLoadsAr.length != serverHostsArray.length) {
+                    throw new InitException("eslogger.serverHostsLoads length isn't equal eslogger.serverHosts length");
+                }
+                for (int i = 0; i < loads.length; i++) {
+                    loads[i] = Integer.valueOf(serverUrlLoadsAr[i]);
+                }
             }
+            SimpleLoadBalance<String> slb = new SimpleLoadBalance<String>(serverHostsArray, loads, scaleBase);
+            loadBanlanc = slb;
+            dynamicAble = slb.getDynamicLoad();
         }
+        
         if (collectEnable) {
-            AbstractCollectRunner collectRunner = configure.getBean(StringConstant.COLLECTCLASS, configure, this, threadPoolExecutor);
+            if (ex == null)
+                ex = getThreadPoolExecutorByConfigure(
+                        configure == null ? ConfigureFactory.getConfigure(HttpSender.class) : configure);
+            AbstractCollectRunner collectRunner = configure == null ? null
+                    : (AbstractCollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
             if(collectRunner == null){
-                collectRunner = new DefalutCollectSendRunner(configure, this, threadPoolExecutor);
+                collectRunner = new DefalutCollectSendRunner(this, ex);
             }
-            threadPoolExecutor.execute(collectRunner);
+            ex.execute(collectRunner);
         }
     }
 
@@ -129,35 +142,110 @@ public class HttpSender extends AbstractSender implements Sender {
                     threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(configure, HttpSender.class);
                 }
             } catch (Exception e) {
-                logger.error("HttpSender load executorClass fail:" + e.getMessage(), e);
+                logger.error("HttpSender getThreadPoolExecutorByConfigure fail:" + e.getMessage(), e);
             }
         }
         return threadPoolExecutor;
     }
+    
+    private String getProperty(String key, String defaultValue){
+        if(configure == null){
+            return defaultValue;
+        }
+        return getProperty(key, String.class, defaultValue);
+    }
+    
+    private <T> T getProperty(String key, Class<T> targetType, T defaultValue){
+        if(configure == null){
+            return defaultValue;
+        }
+        return configure.getProperty(key, targetType, defaultValue);
+    }
 
     public synchronized static HttpSender getSender(Configure configure, ThreadPoolExecutor threadPoolExecutor) {
         try {
+            senderLock.lock();
             if (sender == null) {
-                return new HttpSender(configure, threadPoolExecutor);
+                sender = new HttpSender(configure, threadPoolExecutor);
+                try {
+                    sender.start();
+                } catch (Exception e) {
+                    logger.error("initHttpSender fail:" + e.getMessage(), e);
+                }
+                return sender;
             } else {
                 sender.initHttpSender(configure, threadPoolExecutor);
             }
         } catch (Exception e) {
             logger.error("HttpSender initFail:" + e.getMessage(), e);
+        } finally {
+            senderLock.unlock();
         }
         return sender;
     }
 
     public synchronized static Sender getSender(Class<?> cls) {
         try {
+            senderLock.lock();
             if (sender == null) {
-                sender = new HttpSender();
+                sender = new HttpSender(ConfigureFactory.getConfigure(HttpSender.class));
+                try {
+                    sender.start();
+                } catch (Exception e) {
+                    logger.error("initHttpSender fail:" + e.getMessage(), e);
+                }
                 return sender;
             }
         } catch (Exception e) {
             logger.error("HttpSender initFail:" + e.getMessage(), e);
+        } finally {
+            senderLock.unlock();
         }
         return sender;
+    }
+    
+    public String getServerHosts() {
+        return serverHosts;
+    }
+
+    public void setServerHosts(String serverHosts) {
+        this.serverHosts = serverHosts;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public String getCharSet() {
+        return charSet;
+    }
+
+    public void setCharSet(String charSet) {
+        this.charSet = charSet;
+    }
+
+    @Override
+    public synchronized void start() {
+        if (started)
+            return;
+        started = true;
+        try {
+            initHttpSender();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -223,7 +311,7 @@ public class HttpSender extends AbstractSender implements Sender {
     public Object synSend(String uri, Entity<String> sendEntity) throws Exception {
         Asset.notNull(sendEntity, "sendEntity can't be null");
         int hostIndex = loadBalanceEnable ? loadBanlanc.loadBalanceIndex() : 0;
-        String host = serverHosts[hostIndex];
+        String host = serverHostsArray[hostIndex];
         String url = protocol + "://" + host + "/" + uri;
         long time = System.currentTimeMillis();
         boolean sendFailed = false;

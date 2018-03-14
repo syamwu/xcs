@@ -1,16 +1,14 @@
 
 package com.xchushi.fw.log.elasticsearch.logger;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
 import com.alibaba.fastjson.JSON;
+import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
 import com.xchushi.fw.log.constant.LoggerType;
@@ -25,16 +23,18 @@ public class TCPEsLogger implements EsLogger {
     private Changer changer;
 
     private Sender sender;
-    
+
+    private boolean started = false;
+
     private static Logger logger = SysLoggerFactory.getLogger(TCPEsLogger.class);
 
-    @SuppressWarnings("unused")
     private Class<?> cls;
+
+    public TCPEsLogger() {
+    }
 
     public TCPEsLogger(Class<?> cls) {
         this.cls = cls;
-        this.changer = NomalChanger.getChanger(null);
-        this.sender = SenderFactory.getSender(cls);
     }
 
     public TCPEsLogger(Class<?> cls, Changer changer, Sender sender) {
@@ -70,7 +70,6 @@ public class TCPEsLogger implements EsLogger {
         }
     }
 
-    @Override
     public void offer(String message) throws Exception {
         sender.send(message);
     }
@@ -93,16 +92,15 @@ public class TCPEsLogger implements EsLogger {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void append(LoggerType loggerType, Thread thread, StackTraceElement st, String message, Throwable t,
-            Object... args) throws Exception {
+            Object... args) {
+        if (!started) {
+            throw new InitException(this.toString() + " don't started!!");
+        }
         try {
-            Date date = new Date();
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            sf.setTimeZone(TimeZone.getTimeZone("GMT"));
-            String time = sf.format(date);
             Map threadMap = null;
-            try{
+            try {
                 threadMap = MDC.getCopyOfContextMap();
-            }catch(Exception e){
+            } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
             Map sendMap = (Map) changer.change(loggerType, thread, st, threadMap, message, t, args);
@@ -111,11 +109,40 @@ public class TCPEsLogger implements EsLogger {
                 sendMap = new LinkedHashMap<>();
                 sendMap.put(EsLoggerConstant._MESSAGE, message);
             }
-            sendMap.put(EsLoggerConstant.TIME_STAMP, time);
             offer(JSON.toJSONString(sendMap));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
+    }
+
+    public Changer getChanger() {
+        return changer;
+    }
+
+    public void setChanger(Changer changer) {
+        this.changer = changer;
+    }
+
+    public Sender getSender() {
+        return sender;
+    }
+
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
+
+    @Override
+    public void start() {
+        if (started) {
+            throw new InitException(this.toString() + " had started, Can't start it again!!");
+        }
+        started = true;
+        if (changer == null)
+            changer = NomalChanger.getChanger(null);
+        if (sender == null) {
+            sender = SenderFactory.getSender(cls);
+        }
+        sender.start();
     }
 
 }

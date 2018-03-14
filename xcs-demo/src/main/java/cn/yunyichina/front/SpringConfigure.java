@@ -41,24 +41,9 @@ public class SpringConfigure implements Configure {
     }
 
     @Override
-    public Configure addPrefix(String prefix) {
-        return null;
-    }
-
-    @Override
     public <T> T getBean(String key,Object... objects) throws Exception {
         return null;
     }
 
-    @Override
-    public String getPrefix() {
-        return null;
-    }
-
-    @Override
-    public Configure setPrefix(String prefix) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

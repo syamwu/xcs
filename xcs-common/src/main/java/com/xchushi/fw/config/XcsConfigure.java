@@ -1,60 +1,46 @@
 package com.xchushi.fw.config;
 
-import java.util.Properties;
+import java.io.IOException;
 
 import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.environment.Configure;
+import com.xchushi.fw.common.environment.Propertie;
 
 public class XcsConfigure extends AbstractConfigure implements Configure {
 
-    private Properties properties;
-
     private static XcsConfigure xcsConfigure = null;
 
-    private XcsConfigure(String fileName) {
-        this.properties = new Properties();
+    private XcsConfigure(String fileName) throws IOException {
+        super(new FileProperties(fileName), null);
         try {
-            this.properties.load(XcsConfigure.class.getClassLoader().getResourceAsStream(fileName));
         } catch (Exception e) {
-            this.properties = null;
             e.printStackTrace();
         }
     }
 
-    private XcsConfigure(Class<?> cls) {
-        this.properties = new Properties();
-        try {
-            this.properties.load(XcsConfigure.class.getClassLoader().getResourceAsStream("xcs.properties"));
-        } catch (Exception e) {
-            this.properties = null;
-            e.printStackTrace();
-        }
+    private XcsConfigure(Class<?> cls) throws IOException {
+        super(new FileProperties("xcs.properties"), cls);
     }
 
-    private XcsConfigure(Properties properties, Class<?> cls) {
-        this.properties = properties;
-        ConfigSetting configSetting = cls.getAnnotation(ConfigSetting.class);
-        if (configSetting != null) {
-            this.addPrefix(configSetting.prefix());
-        }
+    public XcsConfigure(Propertie properties, Class<?> cls) {
+        super(properties, cls);
     }
 
-    public synchronized static Configure initConfigureAndGet(Class<?> cls, String fileName) {
+    public synchronized static Configure initConfigureAndGet(Propertie properties, Class<?> cls) {
         if (xcsConfigure != null) {
             return xcsConfigure;
         }
-        xcsConfigure = new XcsConfigure(fileName);
+        xcsConfigure = new XcsConfigure(properties, cls);
         return getConfigure(cls);
     }
 
-    public static Configure getConfigure(Class<?> cls) {
-        if (cls == null) {
-            return getConfigure(XcsConfigure.class);
-        }
+    public synchronized static Configure getConfigure(Class<?> cls, Propertie properties) throws IOException {
+        Asset.notNull(cls);
         XcsConfigure config = null;
         if (xcsConfigure != null) {
-            config = new XcsConfigure(xcsConfigure.properties, cls);
+            config = new XcsConfigure(properties, cls);
         } else {
             xcsConfigure = new XcsConfigure(cls);
             config = xcsConfigure;
@@ -62,34 +48,28 @@ public class XcsConfigure extends AbstractConfigure implements Configure {
         return config;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> T getProperty(String key, Class<T> targetType, T defaultValue) {
-        if (properties == null || targetType == null) {
-            return defaultValue;
+    public synchronized static Configure getConfigure(Class<?> cls) {
+        try {
+            Asset.notNull(cls);
+            XcsConfigure config = null;
+            if (xcsConfigure != null) {
+                config = new XcsConfigure(xcsConfigure.properties, cls);
+            } else {
+                xcsConfigure = new XcsConfigure(cls);
+                config = xcsConfigure;
+            }
+            return config;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        String value = properties.getProperty(prefix == null ? key : prefix + StringConstant.POINT + key);
-        if (value == null) {
-            return defaultValue;
-        }
-        if (String.class.isAssignableFrom(targetType)) {
-            return (T) value;
-        } else if (Integer.class.isAssignableFrom(targetType)) {
-            return (T) Integer.valueOf(value);
-        } else if (Long.class.isAssignableFrom(targetType)) {
-            return (T) Long.valueOf(value);
-        } else if (Double.class.isAssignableFrom(targetType)) {
-            return (T) Double.valueOf(value);
-        } else if (Boolean.class.isAssignableFrom(targetType)) {
-            return (T) Boolean.valueOf(value);
-        }
-        return defaultValue;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T getBean(String key, Object... args) throws Exception {
-        String executorClass = getProperty(key);
+        String executorClass = getProperty(key, String.class, null,
+                getStackTrace(Thread.currentThread().getStackTrace(), 2));
         T result = null;
         if (executorClass != null) {
             Class<?> cls = Class.forName(executorClass);
@@ -114,6 +94,44 @@ public class XcsConfigure extends AbstractConfigure implements Configure {
         }
         this.prefix = prefix;
         return this;
+    }
+
+    @Override
+    <T> T getProperty(String key, Class<T> targetType, T defaultValue, StackTraceElement st) {
+        if (st != null) {
+            try {
+                Class<?> cls = Class.forName(st.getClassName());
+                ConfigSetting configSetting = cls.getAnnotation(ConfigSetting.class);
+                if (configSetting != null) {
+                    String prefix = configSetting.prefix();
+                    T value = properties.get(prefix == null ? key : prefix + StringConstant.POINT + key, targetType);
+                    if (value == null) {
+                        return defaultValue;
+                    }
+                    return value;
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return defaultValue;
+        }
+        return getProperty(key, targetType, defaultValue);
+    }
+    
+    @Override
+    public <T> T getProperty(String key, Class<T> targetType, T defaultValue) {
+        StackTraceElement st = getStackTrace(Thread.currentThread().getStackTrace(), 2);
+        if (st != null && !XcsConfigure.class.getName().equals(st.getClassName())) {
+            return getProperty(key, targetType, defaultValue, st);
+        }
+        if (properties == null || targetType == null) {
+            return defaultValue;
+        }
+        T value = properties.get(prefix == null ? key : prefix + StringConstant.POINT + key, targetType);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
     }
 
 }

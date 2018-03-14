@@ -14,5 +14,7 @@ public class StringConstant {
     
     public static final String HTTPTOOLSPACKAGE = "org.apache.http";
     
+    public static final String CONFIGFILE = "xcs.properties";
+    
     
 }

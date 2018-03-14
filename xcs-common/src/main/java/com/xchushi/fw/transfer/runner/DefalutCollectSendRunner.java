@@ -20,6 +20,7 @@ import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.util.MessageUtil;
 import com.xchushi.fw.common.util.SimpleFileQueue;
+import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.transfer.collect.StringQueueCollector;
 import com.xchushi.fw.transfer.sender.AbstractSender;
@@ -30,17 +31,17 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
     /**
      * 保存发送失败内容的文件地址
      */
-    private String failSendFile;
+    private String failSendFile = "eslogger/logSendFail.txt";
 
     /**
      * 是否启用失败保存
      */
-    private boolean failSendFileEnable;
+    private boolean failSendFileEnable = true;
 
     /**
      * 发送超时时间
      */
-    private int sendTimeOut;
+    private int sendTimeOut = 10_000;
 
     private static StringQueueCollector mainQueue = null;
 
@@ -54,27 +55,30 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
     public static void initAndStart(Configure config, AbstractSender sender, ThreadPoolExecutor threadPoolExecutor) {
         Asset.notNull(sender, "sd can't be null");
         Asset.notNull(threadPoolExecutor, "threadPoolExecutor can't be null");
-        DefalutCollectSendRunner defalutCollectSendRunner = new DefalutCollectSendRunner(config, sender,
+        DefalutCollectSendRunner defalutCollectSendRunner = new DefalutCollectSendRunner(sender,
                 threadPoolExecutor);
         threadPoolExecutor.execute(defalutCollectSendRunner);
     }
 
-    public DefalutCollectSendRunner(Configure config, AbstractSender sd, ThreadPoolExecutor threadPoolExecutor) {
-        super(config, sd, threadPoolExecutor);
+    public DefalutCollectSendRunner(AbstractSender sd, ThreadPoolExecutor threadPoolExecutor) {
+        super(ConfigureFactory.getConfigure(DefalutCollectSendRunner.class), sd, threadPoolExecutor);
         try {
-            initCollectSendExecutor(config, sd);
+            initCollectSendExecutor(sd);
         } catch (Exception e) {
             throw new InitException("initCollectSendExecutor fail:" + e.getMessage(), e);
         }
         logger.debug("CollectSendRunner created");
     }
 
-    private void initCollectSendExecutor(Configure config, AbstractSender sd) throws IOException {
-        mainQueue = new StringQueueCollector(config, new LinkedBlockingQueue<String>(Integer.MAX_VALUE));
-        if (config != null) {
-            this.failSendFileEnable = config.getProperty("failSendFileEnable", Boolean.class, true);
-            this.failSendFile = config.getProperty("failSendFile", String.class, "eslogger/logSendFail.txt");
-            this.sendTimeOut = config.getProperty("sendTimeOut", Integer.class, 10_000);
+    private void initCollectSendExecutor(AbstractSender sd) throws IOException {
+        mainQueue = new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE));
+        if (configure == null) {
+            configure = ConfigureFactory.getConfigure(DefalutCollectSendRunner.class);
+        }
+        if (configure != null) {
+            failSendFileEnable = configure.getProperty("failSendFileEnable", Boolean.class, failSendFileEnable);
+            failSendFile = configure.getProperty("failSendFile", String.class, failSendFile);
+            sendTimeOut = configure.getProperty("sendTimeOut", Integer.class, sendTimeOut);
         }
         if (failSendFileEnable) {
             failFileQueue = new SimpleFileQueue(failSendFile);

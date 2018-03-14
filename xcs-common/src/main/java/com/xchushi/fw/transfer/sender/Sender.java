@@ -1,6 +1,8 @@
 package com.xchushi.fw.transfer.sender;
 
-public interface Sender {
+import com.xchushi.fw.common.Starting;
+
+public interface Sender extends Starting {
 
     void send(Object message) throws Exception;
     
