@@ -10,6 +10,8 @@ public abstract class AbstractSender implements Sender {
     
     protected Configure configure;
     
+    protected boolean started = false;
+    
     protected AbstractSender(Configure configure){
         this.configure = configure;
     }
@@ -17,6 +19,10 @@ public abstract class AbstractSender implements Sender {
     @SuppressWarnings({ "rawtypes" })
     public void setCollectible(Collectible collectible){
         this.collectible = collectible;
+    }
+    
+    public boolean started(){
+        return started;
     }
     
     public abstract Object synSend(Object obj) throws Exception;

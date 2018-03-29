@@ -4,4 +4,8 @@ public interface Starting {
 
     void start();
     
+    void stop();
+    
+    boolean started();
+    
 }

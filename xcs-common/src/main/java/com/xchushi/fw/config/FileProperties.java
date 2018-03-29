@@ -1,21 +1,35 @@
 package com.xchushi.fw.config;
 
-import java.io.IOException;
+import java.io.InputStream;
 
 import com.xchushi.fw.common.environment.Propertie;
 
 public class FileProperties implements Propertie {
-    
+
     private java.util.Properties properties = null;
-    
-    public FileProperties(String filePath) throws IOException{
-        this.properties = new java.util.Properties();
-        this.properties.load(XcsConfigure.class.getClassLoader().getResourceAsStream(filePath));
+
+    public FileProperties(String filePath) {
+        java.util.Properties ps = null;
+        try {
+            ps = new java.util.Properties();
+            InputStream in = XcsConfigure.class.getClassLoader().getResourceAsStream(filePath);
+            if (filePath != null && in != null) {
+                ps.load(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ps = null;
+        } finally {
+            properties = ps;
+        }
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T get(String key, Class<T> cls) {
+        if (properties == null) {
+            return null;
+        }
         String value = properties.getProperty(key);
         if (value == null) {
             return null;

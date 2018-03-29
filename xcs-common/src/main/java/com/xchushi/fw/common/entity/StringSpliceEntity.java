@@ -6,9 +6,9 @@ public class StringSpliceEntity extends Entity<String> implements Splice<String>
     
     private StringBuffer stringbuffer = new StringBuffer();
     
-    public StringSpliceEntity(String message, EntityType entityType) {
-        super(message, entityType);
-        stringbuffer.append(message);
+    public StringSpliceEntity(String data, EntityType entityType) {
+        super(data, entityType);
+        stringbuffer.append(data);
     }
     
     public StringSpliceEntity(String message) {
@@ -29,7 +29,7 @@ public class StringSpliceEntity extends Entity<String> implements Splice<String>
     }
     
     @Override
-    public String getMessage() {
+    public String getData() {
         return stringbuffer.toString();
     }
     

@@ -12,12 +12,17 @@ public class XcsLoggerFactory {
 
     public static XcsLogger getLogger(Class<?> cls) {
         XcsLogger xcsLogger = TCPEsLogger.getLogger(cls);
-        xcsLogger.start();
         return xcsLogger;
     }
 
     public static <T extends XcsLogger> T getLogger(Class<?> cls, LoggerBuilder<T> builder) {
         return builder.buildLogger(cls);
+    }
+    
+    public static XcsLogger getLoggerAndStart(Class<?> cls) {
+        XcsLogger xcsLogger = TCPEsLogger.getLogger(cls);
+        xcsLogger.start();
+        return xcsLogger;
     }
 
 }

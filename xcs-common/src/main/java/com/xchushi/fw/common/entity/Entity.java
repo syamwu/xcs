@@ -4,14 +4,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Entity<T> implements Value<T>{
 
-    protected T message;
+    protected T data;
 
     protected EntityType entityType;
     
     protected AtomicInteger count = new AtomicInteger(0);
     
-    public Entity(T message, EntityType entityType) {
-        this.message = message;
+    public Entity(T data, EntityType entityType) {
+        this.data = data;
         this.entityType = entityType;
     }
 
@@ -19,8 +19,8 @@ public abstract class Entity<T> implements Value<T>{
         nomal, reSend
     }
 
-    public void setMessage(T message) {
-        this.message = message;
+    public void setData(T data) {
+        this.data = data;
     }
 
     public EntityType getEntityType() {

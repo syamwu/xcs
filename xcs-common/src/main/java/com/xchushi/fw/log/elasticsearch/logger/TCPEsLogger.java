@@ -145,4 +145,20 @@ public class TCPEsLogger implements EsLogger {
         sender.start();
     }
 
+    @Override
+    public void stop() {
+        if (!started) {
+            throw new InitException(this.toString() + " doesn't started, Can't stop it!!");
+        }
+        started = false;
+        if (sender != null && sender.started()) {
+            sender.stop();
+        }
+    }
+
+    @Override
+    public boolean started() {
+        return started;
+    }
+
 }

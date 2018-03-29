@@ -9,7 +9,7 @@ import com.xchushi.fw.common.environment.Configure;
 
 public class StringQueueCollector extends LockAbleQueue<String> implements Collectible<StringSpliceEntity, String> {
 
-    private int queueLoopCount = 10;
+    private int queueLoopCount = 30;
 
     private int maxSendLength = 30_000;
 
@@ -35,15 +35,10 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
 
     @Override
     public void collect(String t) throws Exception {
-        try {
-            lock.lock();
-            if (this.size() < maxQueueCount) {
-                this.offer(t);
-            } else {
-                throw new RuntimeException("The size of the queue is more than maxQueueCount:" + maxQueueCount);
-            }
-        } finally {
-            lock.unlock();
+        if (this.size() < maxQueueCount) {
+            this.offer(t);
+        } else {
+            throw new RuntimeException("The size of the queue is more than maxQueueCount:" + maxQueueCount);
         }
     }
     
@@ -73,7 +68,7 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
                 if (count < 0 && this.isEmpty() && loopCount < queueLoopCount) {
                     Thread.sleep(waitTime);
                 } else if (loopCount >= queueLoopCount || length > maxSendLength) {
-                    String message = tmp == null ? null : tmp.getMessage();
+                    String message = tmp == null ? null : tmp.getData();
                     if (message == null || message.length() < 1) {
                         return null;
                     }

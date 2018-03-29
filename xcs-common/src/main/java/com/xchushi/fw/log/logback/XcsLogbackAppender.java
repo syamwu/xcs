@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.environment.Configure;
-import com.xchushi.fw.common.util.StringUtil;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.config.FileProperties;
 import com.xchushi.fw.config.XcsConfigure;
@@ -33,6 +32,10 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
     protected XcsLogger xcsLogger;
 
     protected boolean isInit = false;
+    
+    public XcsLogbackAppender(){
+        super.addFilter(new XcsLoggerFilter());
+    }
 
     @Override
     protected void append(LoggingEvent eventObject) {
@@ -42,13 +45,6 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
                 initXcsLogbackLogger();
             }
             StackTraceElement[] sts = eventObject.getCallerData();
-            // 因为框架本身也是使用了org.slf4j规范的log来输出运行日志，为了避免循环输出日志，这里需要屏蔽掉相应包路径的日志输出，同样的httpClient也是.
-            // 若这里不进行筛选,则需要在logback.xml里面配置该包路径下的logger不输出至XcsLogbackAppender
-            if (!this.started || StringConstant.ROOTPACKAGE.equals(StringUtil.getRootPacke(eventObject.getLoggerName()))
-                    || StringUtil.isRelevantRootPacke(sts, StringConstant.ROOTPACKAGE,
-                            StringConstant.HTTPTOOLSPACKAGE)) {
-                return;
-            }
             Thread thread = Thread.currentThread();
             LoggerType loggerType = exchangeLevel(eventObject.getLevel());
             Throwable t = eventObject.getThrowableProxy() == null ? null
@@ -58,9 +54,10 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
             e.printStackTrace();
         }
     }
-
+    
     private synchronized void initXcsLogbackLogger() throws IOException {
         if (!isInit) {
+            isInit = true;
             if (config != null) {
                 ConfigureFactory.setConfigure(config);
             } else {
@@ -74,8 +71,9 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
                 xcsLogger = XcsLoggerFactory.getLogger(XcsLogbackAppender.class);
                 xcsLogger.start();
             }
+        } else {
+            isInit = true;
         }
-        isInit = true;
     }
 
     /**

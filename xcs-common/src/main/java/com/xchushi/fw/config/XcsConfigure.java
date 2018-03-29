@@ -102,14 +102,17 @@ public class XcsConfigure extends AbstractConfigure implements Configure {
             try {
                 Class<?> cls = Class.forName(st.getClassName());
                 ConfigSetting configSetting = cls.getAnnotation(ConfigSetting.class);
+                T value = defaultValue;
                 if (configSetting != null) {
                     String prefix = configSetting.prefix();
-                    T value = properties.get(prefix == null ? key : prefix + StringConstant.POINT + key, targetType);
-                    if (value == null) {
-                        return defaultValue;
-                    }
-                    return value;
+                    value = properties.get(prefix == null ? key : prefix + StringConstant.POINT + key, targetType);
+                } else {
+                    value = properties.get(prefix == null ? key : prefix + StringConstant.POINT + key, targetType);
                 }
+                if (value == null) {
+                    return defaultValue;
+                }
+                return value;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

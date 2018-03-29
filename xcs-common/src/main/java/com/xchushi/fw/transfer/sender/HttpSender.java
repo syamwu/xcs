@@ -28,7 +28,7 @@ import com.xchushi.fw.common.util.HttpClientUtils;
 import com.xchushi.fw.common.util.StreamUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
-import com.xchushi.fw.transfer.runner.AbstractCollectRunner;
+import com.xchushi.fw.transfer.runner.CollectRunner;
 import com.xchushi.fw.transfer.runner.DefalutCollectSendRunner;
 
 @ConfigSetting(prefix = "sender")
@@ -55,14 +55,14 @@ public class HttpSender extends AbstractSender implements Sender {
 
     private String protocol = "http";
     
+    private CollectRunner collectRunner;
+    
     private boolean collectEnable = true;
 
     private static HttpSender sender;
     
     private static Lock senderLock = new ReentrantLock();
     
-    private boolean started = false;
-
     private static Logger logger = SysLoggerFactory.getLogger(HttpSender.class);
     
     public static AtomicInteger okCount = new AtomicInteger(0);
@@ -122,12 +122,18 @@ public class HttpSender extends AbstractSender implements Sender {
             if (ex == null)
                 ex = getThreadPoolExecutorByConfigure(
                         configure == null ? ConfigureFactory.getConfigure(HttpSender.class) : configure);
-            AbstractCollectRunner collectRunner = configure == null ? null
-                    : (AbstractCollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
-            if(collectRunner == null){
+            collectRunner = configure == null ? null
+                    : (CollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
+            if (collectRunner == null) {
                 collectRunner = new DefalutCollectSendRunner(this, ex);
             }
-            ex.execute(collectRunner);
+            collectRunner.start();
+        }
+    }
+    
+    private void stopHttpSender() {
+        if (collectRunner != null && collectRunner.started()) {
+            collectRunner.stop();
         }
     }
 
@@ -247,6 +253,12 @@ public class HttpSender extends AbstractSender implements Sender {
             logger.error(e.getMessage(), e);
         }
     }
+    
+    @Override
+    public synchronized void stop() {
+        started = false;
+        stopHttpSender();
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -317,8 +329,8 @@ public class HttpSender extends AbstractSender implements Sender {
         boolean sendFailed = false;
         CloseableHttpResponse response = null;
         try {
-            response = HttpClientUtils.sendRequest(sendEntity.getMessage(), url, charSet, sendTimeOut);
-            if (response.getStatusLine().getStatusCode() == 200) {
+            response = HttpClientUtils.sendRequest(sendEntity.getData(), url, charSet, sendTimeOut, true);
+            if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 202 ) {
                 logger.debug("synSend status:200, response msg:"
                         + StreamUtils.inputStream2string(response.getEntity().getContent()));
             } else {

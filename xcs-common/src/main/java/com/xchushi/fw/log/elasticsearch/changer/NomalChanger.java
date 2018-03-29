@@ -75,6 +75,10 @@ public class NomalChanger implements Changer {
     public Object change(LoggerType loggerType, Thread thread, StackTraceElement st, Map<String, ?> threadParams,
             String message, Throwable t, Object... args) throws Exception {
         Map allParamsMap = new LinkedHashMap<>();
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
+        sf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+        String time = sf.format(date);
         if (normalParams != null) {
             allParamsMap.putAll(normalParams);
         }
@@ -101,7 +105,7 @@ public class NomalChanger implements Changer {
         } else {
             for (Object object : args) {
                 if (object == null) {
-                    message = message.replaceFirst(EsLoggerConstant.FORMAT_STR, EsLoggerConstant._NULL);
+                    message = message.replaceFirst(EsLoggerConstant.FORMAT_STR_PAT, EsLoggerConstant._NULL);
                     continue;
                 }
                 Object params = allParamsMap.get(EsLoggerConstant.PARAMS);
@@ -114,13 +118,13 @@ public class NomalChanger implements Changer {
                 }
                 if (isBaseDataType(object.getClass())) {
                     message = format(message, object.toString());
-                    if (String.class.isAssignableFrom(object.getClass())) {
-                        Map objMap = isJsonStr(object.toString());
-                        if (objMap != null) {
-                            paramsList.add(objMap);
-                            continue;
-                        }
-                    }
+//                    if (String.class.isAssignableFrom(object.getClass())) {
+//                        Map objMap = isJsonStr(object.toString());
+//                        if (objMap != null) {
+//                            paramsList.add(objMap);
+//                            continue;
+//                        }
+//                    }
                     paramsList.add(new StringType(object));
                 } else {
                     message = format(message, JSON.toJSONString(object));
@@ -134,10 +138,6 @@ public class NomalChanger implements Changer {
             t.printStackTrace(new PrintStream(out));
             allParamsMap.put(EsLoggerConstant.STACKTRACE, out.toString());
         }
-        Date date = new Date();
-        SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
-        sf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-        String time = sf.format(date);
         allParamsMap.put(EsLoggerConstant.TIME_STAMP, time);
         return allParamsMap;
     }
@@ -150,7 +150,7 @@ public class NomalChanger implements Changer {
     }
 
     @SuppressWarnings({ "finally", "rawtypes" })
-    private static Map isJsonStr(String str) {
+    public static Map isJsonStr(String str) {
         if (str == null) {
             return null;
         }

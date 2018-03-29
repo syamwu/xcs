@@ -2,13 +2,13 @@ package com.xchushi.fw.common.entity;
 
 public class SimpleEntity<T> extends Entity<T> {
 
-    public SimpleEntity(T message, com.xchushi.fw.common.entity.Entity.EntityType entityType) {
-        super(message, entityType);
+    public SimpleEntity(T data, com.xchushi.fw.common.entity.Entity.EntityType entityType) {
+        super(data, entityType);
     }
 
     @Override
-    public T getMessage() {
-        return message;
+    public T getData() {
+        return data;
     }
 
 }

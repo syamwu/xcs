@@ -3,10 +3,8 @@ package com.xchushi.fw.transfer.runner;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
@@ -16,7 +14,6 @@ import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.Entity.EntityType;
 import com.xchushi.fw.common.entity.SimpleEntity;
-import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.util.MessageUtil;
 import com.xchushi.fw.common.util.SimpleFileQueue;
@@ -26,12 +23,12 @@ import com.xchushi.fw.transfer.collect.StringQueueCollector;
 import com.xchushi.fw.transfer.sender.AbstractSender;
 import com.xchushi.fw.transfer.sender.HttpSender;
 
-public final class DefalutCollectSendRunner extends AbstractCollectRunner {
+public final class DefalutCollectSendRunner extends CollectRunner {
 
     /**
      * 保存发送失败内容的文件地址
      */
-    private String failSendFile = "eslogger/logSendFail.txt";
+    private String failSendFile = "collect/sendFail.txt";
 
     /**
      * 是否启用失败保存
@@ -52,16 +49,10 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
 
     private static Logger logger = SysLoggerFactory.getLogger(DefalutCollectSendRunner.class);
 
-    public static void initAndStart(Configure config, AbstractSender sender, ThreadPoolExecutor threadPoolExecutor) {
-        Asset.notNull(sender, "sd can't be null");
-        Asset.notNull(threadPoolExecutor, "threadPoolExecutor can't be null");
-        DefalutCollectSendRunner defalutCollectSendRunner = new DefalutCollectSendRunner(sender,
-                threadPoolExecutor);
-        threadPoolExecutor.execute(defalutCollectSendRunner);
-    }
-
     public DefalutCollectSendRunner(AbstractSender sd, ThreadPoolExecutor threadPoolExecutor) {
         super(ConfigureFactory.getConfigure(DefalutCollectSendRunner.class), sd, threadPoolExecutor);
+        Asset.notNull(sd, "sd can't be null");
+        Asset.notNull(threadPoolExecutor, "threadPoolExecutor can't be null");
         try {
             initCollectSendExecutor(sd);
         } catch (Exception e) {
@@ -79,15 +70,6 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
             failSendFileEnable = configure.getProperty("failSendFileEnable", Boolean.class, failSendFileEnable);
             failSendFile = configure.getProperty("failSendFile", String.class, failSendFile);
             sendTimeOut = configure.getProperty("sendTimeOut", Integer.class, sendTimeOut);
-        }
-        if (failSendFileEnable) {
-            failFileQueue = new SimpleFileQueue(failSendFile);
-            tpe.execute(new Runnable() {
-                @Override
-                public void run() {
-                    initFailQueue(failFileQueue);
-                }
-            });
         }
         sd.setCollectible(mainQueue);
     }
@@ -110,16 +92,41 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
                     failQueue.offer(new SimpleEntity<String>(strBuff.toString(), EntityType.reSend));
                 }
             }
-            logger.info("加载日志发送失败文件:" + failFileQueue.getFilePath() + ",用时:" + (System.currentTimeMillis() - time));
+            logger.info("加载发送失败文件:" + failFileQueue.getFilePath() + ",用时:" + (System.currentTimeMillis() - time));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
     }
+    
+    @Override
+    public void stop() {
+        started = false;
+    }
+    
+    @Override
+    public synchronized void start() {
+        if (started)
+            return;
+        started = true;
+        if (failSendFileEnable) {
+            try {
+                failFileQueue = new SimpleFileQueue(failSendFile);
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            }
+            tpe.execute(new Runnable() {
+                @Override
+                public void run() {
+                    initFailQueue(failFileQueue);
+                }
+            });
+        }
+        tpe.execute(this);
+    }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public void run() {
-        while (true) {
+        while (true && started) {
             try {
                 Entity<String> sendEntity = null;
                 if (failQueue.isEmpty()) {
@@ -135,15 +142,15 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
                     continue;
                 }
                 try {
-                    if (failSendFileEnable && EntityType.reSend == sendEntity.getEntityType()) {
-                        Future<Entity> taskResult = tpe.submit(new SendTask(sendEntity, this));
-                        Entity response = taskResult.get(sendTimeOut, TimeUnit.MILLISECONDS);
-                        if (response == null) {
-                            sendingFailed(sendEntity, null);
-                        }
-                    } else {
+//                    if (failSendFileEnable && EntityType.reSend == sendEntity.getEntityType()) {
+//                        Future<Entity> taskResult = tpe.submit(new SendTask(sendEntity, this));
+//                        Entity response = taskResult.get(sendTimeOut, TimeUnit.MILLISECONDS);
+//                        if (response == null) {
+//                            sendingFailed(sendEntity, null);
+//                        }
+//                    } else {
                         tpe.submit(new SendTask(sendEntity, this));
-                    }
+//                    }
                 } catch (Exception e) {
                     sendingFailed(sendEntity, e);
                 }
@@ -185,10 +192,10 @@ public final class DefalutCollectSendRunner extends AbstractCollectRunner {
         if (failSendFileEnable && Entity.class.isAssignableFrom(message.getClass())) {
             Entity<String> senEntity = (Entity<String>) message;
             if (EntityType.nomal == senEntity.getEntityType()) {
-                String msgList = MessageUtil.messageToListStr(senEntity.getMessage(), StringConstant.NEWLINE);
+                String msgList = MessageUtil.messageToListStr(senEntity.getData(), StringConstant.NEWLINE);
                 Asset.notNull(msgList, "exchange senEntity.message fail!");
                 failFileQueue.offer(msgList);
-                failQueue.offer(new SimpleEntity<String>(senEntity.getMessage(), EntityType.reSend));
+                failQueue.offer(new SimpleEntity<String>(senEntity.getData(), EntityType.reSend));
             }
         }
     }

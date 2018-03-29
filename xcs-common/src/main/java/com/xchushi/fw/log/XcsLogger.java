@@ -51,7 +51,7 @@ public interface XcsLogger extends Starting {
     void error(String message, Throwable e);
     
     /**
-     * 根据loggerType保存响应级别的日志(由于这里入参已经包含所有构建日志所需参数，所以可以异步进行)
+     * 根据loggerType保存响应级别的日志
      * 
      * @param loggerType  日志级别
      * @param thread  保存日志的线程

@@ -15,7 +15,7 @@ public class StringUtil {
 
     public static String getRootPacke(String className, int rootlen) {
         Asset.notNull(className);
-        String[] split = className.split("\\.");
+        String[] split = className.split(POINT_REG);
         int loopLen = split.length >= rootlen ? rootlen : split.length;
         String result = split[0];
         for (int i = 1; i < loopLen; i++) {
