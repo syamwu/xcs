@@ -1,6 +1,7 @@
 package com.xchushi.fw.transfer.sender;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
@@ -28,18 +29,31 @@ import com.xchushi.fw.common.util.HttpClientUtils;
 import com.xchushi.fw.common.util.StreamUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
+import com.xchushi.fw.transfer.collect.StringQueueCollector;
 import com.xchushi.fw.transfer.runner.CollectRunner;
 import com.xchushi.fw.transfer.runner.DefalutCollectSendRunner;
 
+/**
+ * HTTP传输器
+ * 
+ * @author: SamJoker
+ * @date: 2018
+ */
 @ConfigSetting(prefix = "sender")
 public class HttpSender extends AbstractSender implements Sender {
 
     private ThreadPoolExecutor ex;
 
+    /**
+     * 是否进行负载均衡操作
+     */
     private boolean loadBalanceEnable = false;
 
     private int sendTimeOut = 10_000;
 
+    /**
+     * 负载均衡器
+     */
     private LoadBalance<String> loadBanlanc;
 
     @SuppressWarnings("rawtypes")
@@ -47,14 +61,29 @@ public class HttpSender extends AbstractSender implements Sender {
 
     private String[] serverHostsArray;
     
+    /**
+     * 远程服务器hosts，用","分隔则使用负载均衡器去选取地址
+     */
     private String serverHosts = "127.0.0.1";
 
+    /**
+     * 传输的字符集
+     */
     private String charSet = "UTF-8";
 
+    /**
+     * 远程地址uri
+     */
     private String uri = "";
 
+    /**
+     * 传输协议
+     */
     private String protocol = "http";
     
+    /**
+     * 收集器
+     */
     private CollectRunner collectRunner;
     
     private boolean collectEnable = true;
@@ -67,9 +96,11 @@ public class HttpSender extends AbstractSender implements Sender {
     
     public static AtomicInteger okCount = new AtomicInteger(0);
     
-    public HttpSender(){
+    public HttpSender() {
         super(null);
-        sender = this;
+        if (sender == null) {
+            sender = this;
+        }
     }
 
     private HttpSender(Configure configure) {
@@ -125,7 +156,8 @@ public class HttpSender extends AbstractSender implements Sender {
             collectRunner = configure == null ? null
                     : (CollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
             if (collectRunner == null) {
-                collectRunner = new DefalutCollectSendRunner(this, ex);
+                collectRunner = new DefalutCollectSendRunner<String>(this,
+                        new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE)), ex);
             }
             collectRunner.start();
         }
@@ -264,8 +296,8 @@ public class HttpSender extends AbstractSender implements Sender {
     @Override
     public void send(final Object message) {
         try {
-            if (collectible != null) {
-                collectible.collect(message);
+            if (collected != null) {
+                collected.collect(message);
             } else if (ex != null) {
                 ex.submit(new Callable<Object>() {
                     @Override
@@ -322,7 +354,7 @@ public class HttpSender extends AbstractSender implements Sender {
      */
     public Object synSend(String uri, Entity<String> sendEntity) throws Exception {
         Asset.notNull(sendEntity, "sendEntity can't be null");
-        int hostIndex = loadBalanceEnable ? loadBanlanc.loadBalanceIndex() : 0;
+        int hostIndex = loadBalanceEnable ? (loadBanlanc == null ? 0 : loadBanlanc.loadBalanceIndex()) : 0;
         String host = serverHostsArray[hostIndex];
         String url = protocol + "://" + host + "/" + uri;
         long time = System.currentTimeMillis();
@@ -341,6 +373,7 @@ public class HttpSender extends AbstractSender implements Sender {
             sendFailed = true;
             throw e;
         } finally {
+            // 动态负载,权值变动
             if (loadBalanceEnable) {
                 dynamicAble.dynamicLoad(hostIndex,
                         sendFailed ? sendTimeOut : ((int) (System.currentTimeMillis() - time)));

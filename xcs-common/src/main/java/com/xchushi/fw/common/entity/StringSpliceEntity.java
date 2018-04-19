@@ -2,7 +2,7 @@ package com.xchushi.fw.common.entity;
 
 import com.xchushi.fw.transfer.collect.Splice;
 
-public class StringSpliceEntity extends Entity<String> implements Splice<String> {
+public class StringSpliceEntity extends SpliceEntity<String> {
     
     private StringBuffer stringbuffer = new StringBuffer();
     
@@ -18,7 +18,6 @@ public class StringSpliceEntity extends Entity<String> implements Splice<String>
 
     @Override
     public Splice<String> splice(String value) {
-        count.incrementAndGet();
         stringbuffer.append(value);
         return this;
     }

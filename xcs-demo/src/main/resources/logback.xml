@@ -27,6 +27,23 @@
 		<fileName>conf/xcs.properties</fileName>
 	</appender>
 
+<!-- 	<appender name="xcslog" class="com.xchushi.fw.log.logback.XcsLogbackAppender">
+		<xcsLogger class="com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger">
+			<changer class="com.xchushi.fw.log.elasticsearch.changer.NomalChanger">
+				<appname>test_application</appname>
+			</changer>
+			<sender class="com.xchushi.fw.transfer.sender.HttpSender">
+				<serverHosts>120.76.98.17:7777</serverHosts>
+				<uri>yunyi_log/test</uri>
+			</sender>
+		</xcsLogger>
+	</appender> -->
+	
+<!-- 	<appender name="SYSLOG" class="ch.qos.logback.classic.net.SocketAppender">
+        <remoteHost>120.76.98.17</remoteHost>
+        <port>5555</port>
+    </appender> -->
+
 
 	<!--打印任意包日志 -->
 	<root level="INFO">

@@ -4,11 +4,21 @@ import java.util.Queue;
 
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.container.LockAbleQueue;
+import com.xchushi.fw.common.entity.SpliceEntity;
 import com.xchushi.fw.common.entity.StringSpliceEntity;
 import com.xchushi.fw.common.environment.Configure;
 
-public class StringQueueCollector extends LockAbleQueue<String> implements Collectible<StringSpliceEntity, String> {
+/**
+ * 字符串队列收集器
+ * 
+ * @author: SamJoker
+ * @date: 2018
+ */
+public class StringQueueCollector extends LockAbleQueue<String> implements Collected<SpliceEntity<String>, String> {
 
+    /**
+     * 每次最大收集数
+     */
     private int queueLoopCount = 30;
 
     private int maxSendLength = 30_000;
@@ -42,21 +52,12 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
         }
     }
     
-    @Override
-    public StringSpliceEntity collect(int count, long waitTime) throws Exception {
-        return collect(null, count, waitTime);
-    }
 
     @Override
     public StringSpliceEntity collect() throws Exception {
-        return collect(queueLoopCount, 0);
+        return collect(null, queueLoopCount, 0);
     }
 
-    @Override
-    public StringSpliceEntity collect(StringSpliceEntity t) throws Exception {
-        return collect(t, queueLoopCount, 0);
-    }
-    
     private StringSpliceEntity collect(StringSpliceEntity entity, int count, long waitTime) throws Exception {
         try {
             lock.lock();

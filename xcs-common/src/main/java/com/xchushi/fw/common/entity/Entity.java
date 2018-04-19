@@ -1,14 +1,16 @@
 package com.xchushi.fw.common.entity;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
+/**
+ * 基础实体类，用于方法间传输调用
+ * 
+ * @author: SamJoker
+ * @date: 2018
+ */
 public abstract class Entity<T> implements Value<T>{
 
     protected T data;
 
     protected EntityType entityType;
-    
-    protected AtomicInteger count = new AtomicInteger(0);
     
     public Entity(T data, EntityType entityType) {
         this.data = data;
@@ -31,8 +33,4 @@ public abstract class Entity<T> implements Value<T>{
         this.entityType = entityType;
     }
     
-    public int count(){
-        return count.get();
-    }
-
 }

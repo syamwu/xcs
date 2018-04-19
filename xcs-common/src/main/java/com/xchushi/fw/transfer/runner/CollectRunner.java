@@ -6,6 +6,12 @@ import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.transfer.sender.AbstractSender;
 
+/**
+ * 收集器
+ * 
+ * @author: SamJoker
+ * @date: 2018
+ */
 public abstract class CollectRunner implements Runnable, Starting {
 
     protected Configure configure;

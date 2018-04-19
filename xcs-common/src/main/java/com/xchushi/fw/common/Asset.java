@@ -19,7 +19,7 @@ public final class Asset {
     }
 
     public final static void notNull(Object obj) {
-        notNull(obj, "Assert fail, obj isn't Null");
+        notNull(obj, "Assert fail, obj can't be Null");
     }
 
     public final static void isTrue(boolean bl, String message) {
@@ -29,7 +29,7 @@ public final class Asset {
     }
 
     public final static void isTrue(boolean bl) {
-        isTrue(bl, "Assert fail, bl isn't true");
+        isTrue(bl, "Assert fail, bl can't be true");
     }
 
     public static void isFalse(boolean bl, String message) {

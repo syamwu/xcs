@@ -14,16 +14,16 @@ import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.Entity.EntityType;
 import com.xchushi.fw.common.entity.SimpleEntity;
+import com.xchushi.fw.common.entity.SpliceEntity;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.util.MessageUtil;
 import com.xchushi.fw.common.util.SimpleFileQueue;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
-import com.xchushi.fw.transfer.collect.StringQueueCollector;
+import com.xchushi.fw.transfer.collect.Collected;
 import com.xchushi.fw.transfer.sender.AbstractSender;
-import com.xchushi.fw.transfer.sender.HttpSender;
 
-public final class DefalutCollectSendRunner extends CollectRunner {
+public final class DefalutCollectSendRunner<T> extends CollectRunner {
 
     /**
      * 保存发送失败内容的文件地址
@@ -33,36 +33,43 @@ public final class DefalutCollectSendRunner extends CollectRunner {
     /**
      * 是否启用失败保存
      */
-    private boolean failSendFileEnable = true;
+    private boolean failSendFileEnable = false;
 
     /**
      * 发送超时时间
      */
     private int sendTimeOut = 10_000;
 
-    private static StringQueueCollector mainQueue = null;
+    /**
+     * 主队列,用以保存准备传输的字符串
+     */
+    private Collected<SpliceEntity<T>, T> mainCollecter = null;
 
-    private static LinkedBlockingQueue<Entity<String>> failQueue = new LinkedBlockingQueue<Entity<String>>(
+    private LinkedBlockingQueue<Entity<T>> failQueue = new LinkedBlockingQueue<Entity<T>>(
             Integer.MAX_VALUE);
 
-    private static SimpleFileQueue failFileQueue = null;
+    /**
+     * 文件队列
+     */
+    private SimpleFileQueue failFileQueue = null;
 
     private static Logger logger = SysLoggerFactory.getLogger(DefalutCollectSendRunner.class);
 
-    public DefalutCollectSendRunner(AbstractSender sd, ThreadPoolExecutor threadPoolExecutor) {
+    public DefalutCollectSendRunner(AbstractSender sd, Collected<SpliceEntity<T>, T> collected,
+            ThreadPoolExecutor threadPoolExecutor) {
         super(ConfigureFactory.getConfigure(DefalutCollectSendRunner.class), sd, threadPoolExecutor);
         Asset.notNull(sd, "sd can't be null");
         Asset.notNull(threadPoolExecutor, "threadPoolExecutor can't be null");
         try {
-            initCollectSendExecutor(sd);
+            initCollectSendExecutor(sd, collected);
         } catch (Exception e) {
             throw new InitException("initCollectSendExecutor fail:" + e.getMessage(), e);
         }
         logger.debug("CollectSendRunner created");
     }
 
-    private void initCollectSendExecutor(AbstractSender sd) throws IOException {
-        mainQueue = new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE));
+    private void initCollectSendExecutor(AbstractSender sd, Collected<SpliceEntity<T>, T> collected) throws IOException {
+        mainCollecter = collected;
         if (configure == null) {
             configure = ConfigureFactory.getConfigure(DefalutCollectSendRunner.class);
         }
@@ -71,10 +78,11 @@ public final class DefalutCollectSendRunner extends CollectRunner {
             failSendFile = configure.getProperty("failSendFile", String.class, failSendFile);
             sendTimeOut = configure.getProperty("sendTimeOut", Integer.class, sendTimeOut);
         }
-        sd.setCollectible(mainQueue);
+        sd.setCollectible(mainCollecter);
     }
 
-    private static void initFailQueue(SimpleFileQueue failFileQueue) {
+    @SuppressWarnings("unchecked")
+    private void initFailQueue(SimpleFileQueue failFileQueue) {
         Asset.notNull(failFileQueue);
         try {
             long time = System.currentTimeMillis();
@@ -89,7 +97,7 @@ public final class DefalutCollectSendRunner extends CollectRunner {
                     for (String message : messages) {
                         strBuff.append(message + StringConstant.NEWLINE);
                     }
-                    failQueue.offer(new SimpleEntity<String>(strBuff.toString(), EntityType.reSend));
+                    failQueue.offer(new SimpleEntity<T>((T)strBuff.toString(), EntityType.reSend));
                 }
             }
             logger.info("加载发送失败文件:" + failFileQueue.getFilePath() + ",用时:" + (System.currentTimeMillis() - time));
@@ -128,29 +136,25 @@ public final class DefalutCollectSendRunner extends CollectRunner {
     public void run() {
         while (true && started) {
             try {
-                Entity<String> sendEntity = null;
+                Entity<T> sendEntity = null;
                 if (failQueue.isEmpty()) {
-                    sendEntity = mainQueue.collect();
+                    sendEntity = mainCollecter.collect();
                 } else {
-                    while (!mainQueue.isEmpty()) {
-                        saveFailMessage(mainQueue.collect());
+                    if (failSendFileEnable) {
+//                        while (!mainCollecter.isEmpty()) {
+//                            fastFailMessage(mainCollecter.collect());
+//                        }
+                        sendEntity = failQueue.peek();
+                    } else {
+                        sendEntity = failQueue.poll();
                     }
-                    sendEntity = failQueue.peek();
                 }
                 if (sendEntity == null) {
                     Thread.sleep(1);
                     continue;
                 }
                 try {
-//                    if (failSendFileEnable && EntityType.reSend == sendEntity.getEntityType()) {
-//                        Future<Entity> taskResult = tpe.submit(new SendTask(sendEntity, this));
-//                        Entity response = taskResult.get(sendTimeOut, TimeUnit.MILLISECONDS);
-//                        if (response == null) {
-//                            sendingFailed(sendEntity, null);
-//                        }
-//                    } else {
-                        tpe.submit(new SendTask(sendEntity, this));
-//                    }
+                    tpe.submit(new SendTask<T>(sendEntity, this));
                 } catch (Exception e) {
                     sendingFailed(sendEntity, e);
                 }
@@ -183,31 +187,31 @@ public final class DefalutCollectSendRunner extends CollectRunner {
     }
 
     public void sendingFailed(Object message, Throwable e) throws IOException, InterruptedException {
-        saveFailMessage(message);
+        fastFailMessage(message);
         sender.sendingFailed(message, e);
     }
 
     @SuppressWarnings("unchecked")
-    public void saveFailMessage(Object message) throws IOException, InterruptedException {
+    public void fastFailMessage(Object message) throws IOException, InterruptedException {
         if (failSendFileEnable && Entity.class.isAssignableFrom(message.getClass())) {
-            Entity<String> senEntity = (Entity<String>) message;
+            Entity<T> senEntity = (Entity<T>) message;
             if (EntityType.nomal == senEntity.getEntityType()) {
-                String msgList = MessageUtil.messageToListStr(senEntity.getData(), StringConstant.NEWLINE);
+                String msgList = MessageUtil.messageToListStr((String) senEntity.getData(), StringConstant.NEWLINE);
                 Asset.notNull(msgList, "exchange senEntity.message fail!");
                 failFileQueue.offer(msgList);
-                failQueue.offer(new SimpleEntity<String>(senEntity.getData(), EntityType.reSend));
+                failQueue.offer(new SimpleEntity<T>(senEntity.getData(), EntityType.reSend));
             }
         }
     }
 
     @SuppressWarnings("rawtypes")
-    static class SendTask implements Callable<Entity> {
+    static class SendTask<T> implements Callable<Entity> {
 
-        private Entity<String> msg;
+        private Entity<T> msg;
         private DefalutCollectSendRunner defalutCollectSendRunner;
 
-        SendTask(Entity<String> message, DefalutCollectSendRunner defalutCollectSendRunner) {
-            this.msg = message;
+        SendTask(Entity<T> sendEntity, DefalutCollectSendRunner defalutCollectSendRunner) {
+            this.msg = sendEntity;
             this.defalutCollectSendRunner = defalutCollectSendRunner;
         }
 
@@ -216,8 +220,6 @@ public final class DefalutCollectSendRunner extends CollectRunner {
             Entity obj = null;
             try {
                 obj = (Entity) defalutCollectSendRunner.sender.synSend(msg);
-                int count = msg.count();
-                HttpSender.okCount.addAndGet(count);
                 defalutCollectSendRunner.callBack(obj);
             } catch (Exception e) {
                 defalutCollectSendRunner.sendingFailed(msg, e);

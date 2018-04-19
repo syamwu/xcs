@@ -1,16 +1,22 @@
 
 package com.xchushi.fw.log.elasticsearch.logger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
 import com.alibaba.fastjson.JSON;
+import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
+import com.xchushi.fw.log.constant.LoggerEntity;
+import com.xchushi.fw.log.constant.LoggerEvent;
 import com.xchushi.fw.log.constant.LoggerType;
 import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xchushi.fw.log.elasticsearch.changer.Changer;
@@ -29,6 +35,10 @@ public class TCPEsLogger implements EsLogger {
     private static Logger logger = SysLoggerFactory.getLogger(TCPEsLogger.class);
 
     private Class<?> cls;
+    
+    private String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    
+    private static final String TIMEZONE = "GMT";
 
     public TCPEsLogger() {
     }
@@ -88,15 +98,27 @@ public class TCPEsLogger implements EsLogger {
             logger.error(t.getMessage(), t);
         }
     }
+    
+    @Override
+    public void append(LoggerEntity loggerEntity) {
+        Asset.notNull(loggerEntity);
+        LoggerEvent loggerEvent = loggerEntity.getData();
+        Asset.notNull(loggerEvent);
+        append(loggerEvent.getLoggerType(), loggerEvent.getThread(), loggerEvent.getSt(), loggerEvent.getMessage(),
+                loggerEvent.getT(), loggerEvent.getArgs());
+    }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
     public void append(LoggerType loggerType, Thread thread, StackTraceElement st, String message, Throwable t,
             Object... args) {
         if (!started) {
             throw new InitException(this.toString() + " don't started!!");
         }
         try {
+            Date date = new Date();
+            SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
+            sf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+            String time = sf.format(date);
             Map threadMap = null;
             try {
                 threadMap = MDC.getCopyOfContextMap();
@@ -109,6 +131,7 @@ public class TCPEsLogger implements EsLogger {
                 sendMap = new LinkedHashMap<>();
                 sendMap.put(EsLoggerConstant._MESSAGE, message);
             }
+            sendMap.put(EsLoggerConstant.TIME_STAMP, time);
             offer(JSON.toJSONString(sendMap));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -129,6 +152,14 @@ public class TCPEsLogger implements EsLogger {
 
     public void setSender(Sender sender) {
         this.sender = sender;
+    }
+    
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 
     @Override

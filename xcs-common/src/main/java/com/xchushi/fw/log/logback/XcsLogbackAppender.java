@@ -10,6 +10,8 @@ import com.xchushi.fw.config.FileProperties;
 import com.xchushi.fw.config.XcsConfigure;
 import com.xchushi.fw.log.XcsLogger;
 import com.xchushi.fw.log.XcsLoggerFactory;
+import com.xchushi.fw.log.constant.LoggerEntity;
+import com.xchushi.fw.log.constant.LoggerEvent;
 import com.xchushi.fw.log.constant.LoggerType;
 
 import ch.qos.logback.classic.Level;
@@ -49,7 +51,9 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
             LoggerType loggerType = exchangeLevel(eventObject.getLevel());
             Throwable t = eventObject.getThrowableProxy() == null ? null
                     : ((ThrowableProxy) eventObject.getThrowableProxy()).getThrowable();
-            xcsLogger.append(loggerType, thread, sts[0], eventObject.getMessage(), t, eventObject.getArgumentArray());
+            //xcsLogger.append(loggerType, thread, sts[0], eventObject.getMessage(), t, eventObject.getArgumentArray());
+            xcsLogger.append(new LoggerEntity(new LoggerEvent(loggerType, thread, sts[0], eventObject.getMessage(), t,
+                    eventObject.getArgumentArray())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +62,9 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
     private synchronized void initXcsLogbackLogger() throws IOException {
         if (!isInit) {
             isInit = true;
+            if(config == null && xcsLogger == null && fileName == null){
+                
+            }
             if (config != null) {
                 ConfigureFactory.setConfigure(config);
             } else {

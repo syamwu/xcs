@@ -1,12 +1,18 @@
 package com.xchushi.fw.transfer.sender;
 
 import com.xchushi.fw.common.environment.Configure;
-import com.xchushi.fw.transfer.collect.Collectible;
+import com.xchushi.fw.transfer.collect.Collected;
 
+/**
+ * 抽象传输器
+ * 
+ * @author: SamJoker
+ * @date: 2018
+ */
 public abstract class AbstractSender implements Sender {
     
     @SuppressWarnings("rawtypes")
-    protected Collectible collectible;
+    protected Collected collected;
     
     protected Configure configure;
     
@@ -17,8 +23,8 @@ public abstract class AbstractSender implements Sender {
     }
 
     @SuppressWarnings({ "rawtypes" })
-    public void setCollectible(Collectible collectible){
-        this.collectible = collectible;
+    public void setCollectible(Collected collected){
+        this.collected = collected;
     }
     
     public boolean started(){

@@ -6,13 +6,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 
@@ -39,10 +35,6 @@ public class NomalChanger implements Changer {
 
     private String ipAddress = "";
     
-    private String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    
-    private static final String TIMEZONE = "GMT";
-    
     public NomalChanger(){
     }
     
@@ -56,7 +48,6 @@ public class NomalChanger implements Changer {
         if (this.config != null) {
             appname = this.config.getProperty("appname", appname);
             docVersion = this.config.getProperty("doc_version", docVersion);
-            dateFormat = this.config.getProperty("dateFormat", dateFormat);
             try {
                 ipAddress = this.config.getProperty("ip_address", InetAddress.getLocalHost().getHostAddress());
             } catch (UnknownHostException e) {
@@ -75,10 +66,6 @@ public class NomalChanger implements Changer {
     public Object change(LoggerType loggerType, Thread thread, StackTraceElement st, Map<String, ?> threadParams,
             String message, Throwable t, Object... args) throws Exception {
         Map allParamsMap = new LinkedHashMap<>();
-        Date date = new Date();
-        SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
-        sf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-        String time = sf.format(date);
         if (normalParams != null) {
             allParamsMap.putAll(normalParams);
         }
@@ -108,14 +95,14 @@ public class NomalChanger implements Changer {
                     message = message.replaceFirst(EsLoggerConstant.FORMAT_STR_PAT, EsLoggerConstant._NULL);
                     continue;
                 }
-                Object params = allParamsMap.get(EsLoggerConstant.PARAMS);
-                List paramsList = null;
-                if (params == null) {
-                    paramsList = new ArrayList<>();
-                    allParamsMap.put(EsLoggerConstant.PARAMS, paramsList);
-                } else {
-                    paramsList = (List) params;
-                }
+                //Object params = allParamsMap.get(EsLoggerConstant.PARAMS);
+//                List paramsList = null;
+//                if (params == null) {
+//                    paramsList = new ArrayList<>();
+//                    allParamsMap.put(EsLoggerConstant.PARAMS, paramsList);
+//                } else {
+//                    paramsList = (List) params;
+//                }
                 if (isBaseDataType(object.getClass())) {
                     message = format(message, object.toString());
 //                    if (String.class.isAssignableFrom(object.getClass())) {
@@ -125,10 +112,10 @@ public class NomalChanger implements Changer {
 //                            continue;
 //                        }
 //                    }
-                    paramsList.add(new StringType(object));
+                    //paramsList.add(new StringType(object));
                 } else {
                     message = format(message, JSON.toJSONString(object));
-                    paramsList.add(object);
+                    //paramsList.add(object);
                 }
             }
             allParamsMap.put(EsLoggerConstant._MESSAGE, message);
@@ -138,7 +125,6 @@ public class NomalChanger implements Changer {
             t.printStackTrace(new PrintStream(out));
             allParamsMap.put(EsLoggerConstant.STACKTRACE, out.toString());
         }
-        allParamsMap.put(EsLoggerConstant.TIME_STAMP, time);
         return allParamsMap;
     }
 
@@ -240,12 +226,4 @@ public class NomalChanger implements Changer {
         this.ipAddress = ipAddress;
     }
 
-    public String getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-    
 }

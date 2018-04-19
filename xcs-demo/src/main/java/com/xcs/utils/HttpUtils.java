@@ -92,9 +92,8 @@ public class HttpUtils {
             URL realUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) realUrl.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-Type", "text/html;charset:utf-8;");
-            conn.setRequestProperty("Connection", "Keep-Alive");//
-            conn.setRequestProperty("Charset", "UTF-8");
+            conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+            conn.setRequestProperty("User-Agent:", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");//
             conn.connect();
             in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
