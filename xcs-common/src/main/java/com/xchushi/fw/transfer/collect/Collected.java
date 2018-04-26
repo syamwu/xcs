@@ -18,7 +18,7 @@ public interface Collected<T extends Splice<R>, R> {
     T collect() throws Exception;
     
     /**
-     * 存入收集内容
+     * 存入待收集内容
      * 
      * @param t
      * @throws Exception

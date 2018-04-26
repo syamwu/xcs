@@ -1,5 +1,7 @@
 package all.test;
 
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,6 +20,8 @@ public class TestSDFY {
         System.out.println("{\"".indexOf("{\""));
         System.out.println("[{\"".indexOf("{\""));
         
+        
+        System.out.println(URLEncoder.encode("http://120.76.98.17:7777/app/es-transfer"));
     }
     
     

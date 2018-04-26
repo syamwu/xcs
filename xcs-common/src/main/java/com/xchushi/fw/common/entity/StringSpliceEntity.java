@@ -28,7 +28,7 @@ public class StringSpliceEntity extends SpliceEntity<String> {
     }
     
     @Override
-    public String getData() {
+    public String getValue() {
         return stringbuffer.toString();
     }
     

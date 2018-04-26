@@ -1,5 +1,6 @@
 package com.xchushi.fw.transfer.sender;
 
+import java.lang.annotation.ElementType;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -20,6 +21,7 @@ import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.Entity.EntityType;
 import com.xchushi.fw.common.entity.HttpClientResponseEntity;
 import com.xchushi.fw.common.entity.SimpleEntity;
+import com.xchushi.fw.common.entity.StringSpliceEntity;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.exception.SenderFailException;
@@ -153,11 +155,18 @@ public class HttpSender extends AbstractSender implements Sender {
             if (ex == null)
                 ex = getThreadPoolExecutorByConfigure(
                         configure == null ? ConfigureFactory.getConfigure(HttpSender.class) : configure);
-            collectRunner = configure == null ? null
-                    : (CollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
-            if (collectRunner == null) {
-                collectRunner = new DefalutCollectSendRunner<String>(this,
-                        new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE)), ex);
+            if (collectRunner != null) {
+                collectRunner.setConfigure(configure);
+                collectRunner.setTpe(ex);
+                collectRunner.setSender(this);
+            } else {
+                collectRunner = configure == null ? null
+                        : (CollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
+                if (collectRunner == null) {
+                    collectRunner = new DefalutCollectSendRunner<String>(this,
+                            new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE)),
+                            ex, new StringSpliceEntity("",EntityType.nomal));
+                }
             }
             collectRunner.start();
         }
@@ -273,6 +282,14 @@ public class HttpSender extends AbstractSender implements Sender {
     public void setCharSet(String charSet) {
         this.charSet = charSet;
     }
+    
+    public CollectRunner getCollectRunner() {
+        return collectRunner;
+    }
+
+    public void setCollectRunner(CollectRunner collectRunner) {
+        this.collectRunner = collectRunner;
+    }
 
     @Override
     public synchronized void start() {
@@ -361,7 +378,7 @@ public class HttpSender extends AbstractSender implements Sender {
         boolean sendFailed = false;
         CloseableHttpResponse response = null;
         try {
-            response = HttpClientUtils.sendRequest(sendEntity.getData(), url, charSet, sendTimeOut, true);
+            response = HttpClientUtils.sendRequest(sendEntity.getValue(), url, charSet, sendTimeOut, true);
             if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 202 ) {
                 logger.debug("synSend status:200, response msg:"
                         + StreamUtils.inputStream2string(response.getEntity().getContent()));

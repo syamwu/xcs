@@ -44,7 +44,7 @@ public class HttpClientResponseEntity extends Entity<CloseableHttpResponse> {
     }
 
     @Override
-    public CloseableHttpResponse getData() {
+    public CloseableHttpResponse getValue() {
         return response;
     }
 

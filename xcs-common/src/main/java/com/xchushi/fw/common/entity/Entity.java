@@ -1,5 +1,7 @@
 package com.xchushi.fw.common.entity;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 基础实体类，用于方法间传输调用
  * 
@@ -31,6 +33,15 @@ public abstract class Entity<T> implements Value<T>{
 
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    public static <T extends Entity> T bulidEntity(String data, Class<T> cls){
+        return JSON.parseObject(data, cls);
+    }
+    
+    public static <T> String bulidEntityString(Entity<T> entity){
+        return JSON.toJSONString(entity);
     }
     
 }

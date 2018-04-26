@@ -69,7 +69,7 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
                 if (count < 0 && this.isEmpty() && loopCount < queueLoopCount) {
                     Thread.sleep(waitTime);
                 } else if (loopCount >= queueLoopCount || length > maxSendLength) {
-                    String message = tmp == null ? null : tmp.getData();
+                    String message = tmp == null ? null : tmp.getValue();
                     if (message == null || message.length() < 1) {
                         return null;
                     }

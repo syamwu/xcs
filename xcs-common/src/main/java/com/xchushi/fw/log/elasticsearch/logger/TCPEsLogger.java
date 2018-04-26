@@ -102,7 +102,7 @@ public class TCPEsLogger implements EsLogger {
     @Override
     public void append(LoggerEntity loggerEntity) {
         Asset.notNull(loggerEntity);
-        LoggerEvent loggerEvent = loggerEntity.getData();
+        LoggerEvent loggerEvent = loggerEntity.getValue();
         Asset.notNull(loggerEvent);
         append(loggerEvent.getLoggerType(), loggerEvent.getThread(), loggerEvent.getSt(), loggerEvent.getMessage(),
                 loggerEvent.getT(), loggerEvent.getArgs());

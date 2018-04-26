@@ -1,9 +1,6 @@
 package com.xchushi.fw.transfer.sender;
 
-import org.slf4j.Logger;
-
 import com.xchushi.fw.annotation.ConfigSetting;
-import com.xchushi.fw.log.SysLoggerFactory;
 
 /**
  * elasticsearch传输器
@@ -39,25 +36,22 @@ public class ElasticsearchSender extends AbstractSender implements Sender  {
 
     @Override
     public void send(Object message) throws Exception {
-        // TODO Auto-generated method stub
-        
+        synSend(message);
     }
 
     @Override
     public void callBack(Object obj) {
-        // TODO Auto-generated method stub
-        
+        System.out.println("ElasticsearchSender call back!!!");
     }
 
     @Override
     public void sendingFailed(Object message, Throwable e) {
-        // TODO Auto-generated method stub
-        
+        System.out.println("ElasticsearchSender sendingFailed!!!");
     }
 
     @Override
     public Object synSend(Object obj) throws Exception {
-        // TODO Auto-generated method stub
+        System.out.println("ElasticsearchSender sendObj:"+obj);
         return null;
     }
 }

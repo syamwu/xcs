@@ -7,7 +7,7 @@ public class SimpleEntity<T> extends Entity<T> {
     }
 
     @Override
-    public T getData() {
+    public T getValue() {
         return data;
     }
 

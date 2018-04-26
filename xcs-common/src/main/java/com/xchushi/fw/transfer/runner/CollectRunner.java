@@ -19,24 +19,51 @@ public abstract class CollectRunner implements Runnable, Starting {
     protected AbstractSender sender;
 
     protected ThreadPoolExecutor tpe;
-    
+
     protected boolean started = false;
     
-    protected CollectRunner(Configure configure, AbstractSender sender, ThreadPoolExecutor threadPoolExecutor){
+    public CollectRunner(){
+    }
+
+    protected CollectRunner(Configure configure, AbstractSender sender, ThreadPoolExecutor threadPoolExecutor) {
         this.configure = configure;
         this.sender = sender;
         this.tpe = threadPoolExecutor;
     }
-    
+
+    public Configure getConfigure() {
+        return configure;
+    }
+
+    public void setConfigure(Configure configure) {
+        this.configure = configure;
+    }
+
+    public AbstractSender getSender() {
+        return sender;
+    }
+
+    public void setSender(AbstractSender sender) {
+        this.sender = sender;
+    }
+
+    public ThreadPoolExecutor getTpe() {
+        return tpe;
+    }
+
+    public void setTpe(ThreadPoolExecutor tpe) {
+        this.tpe = tpe;
+    }
+
     public boolean started() {
         return started;
     }
-    
-    public void start(){
+
+    public void start() {
         if (started)
             return;
         started = true;
         tpe.execute(this);
     }
-    
+
 }

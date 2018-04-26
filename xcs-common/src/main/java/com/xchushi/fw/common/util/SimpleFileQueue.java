@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.common.Asset;
 
-public class SimpleFileQueue {
+public class SimpleFileQueue<T> {
 
     private static final String SEPARATOR = System.getProperty("line.separator");
 
@@ -73,7 +73,7 @@ public class SimpleFileQueue {
     }
 
     public static List<String> getMessages(String fileName, boolean rePolled) throws IOException {
-        return new SimpleFileQueue(fileName).getMessages(true);
+        return new SimpleFileQueue<String>(fileName).getMessages(true);
     }
 
     public List<String> getMessages() throws IOException {
