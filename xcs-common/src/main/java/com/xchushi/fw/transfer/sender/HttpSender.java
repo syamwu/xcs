@@ -1,10 +1,8 @@
 package com.xchushi.fw.transfer.sender;
 
-import java.lang.annotation.ElementType;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,6 +14,7 @@ import com.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.SimpleLoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.common.Asset;
+import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.Entity.EntityType;
@@ -31,8 +30,9 @@ import com.xchushi.fw.common.util.HttpClientUtils;
 import com.xchushi.fw.common.util.StreamUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
+import com.xchushi.fw.transfer.CallBackAble;
 import com.xchushi.fw.transfer.collect.StringQueueCollector;
-import com.xchushi.fw.transfer.runner.CollectRunner;
+import com.xchushi.fw.transfer.runner.AbstractSenderRunner;
 import com.xchushi.fw.transfer.runner.DefalutCollectSendRunner;
 
 /**
@@ -41,8 +41,9 @@ import com.xchushi.fw.transfer.runner.DefalutCollectSendRunner;
  * @author: SamJoker
  * @date: 2018
  */
+@Deprecated
 @ConfigSetting(prefix = "sender")
-public class HttpSender extends AbstractSender implements Sender {
+public class HttpSender extends AbstractSender implements Starting  {
 
     private ThreadPoolExecutor ex;
 
@@ -86,7 +87,7 @@ public class HttpSender extends AbstractSender implements Sender {
     /**
      * 收集器
      */
-    private CollectRunner collectRunner;
+    private AbstractSenderRunner abstractSenderRunner;
     
     private boolean collectEnable = true;
 
@@ -95,8 +96,6 @@ public class HttpSender extends AbstractSender implements Sender {
     private static Lock senderLock = new ReentrantLock();
     
     private static Logger logger = SysLoggerFactory.getLogger(HttpSender.class);
-    
-    public static AtomicInteger okCount = new AtomicInteger(0);
     
     public HttpSender() {
         super(null);
@@ -155,26 +154,26 @@ public class HttpSender extends AbstractSender implements Sender {
             if (ex == null)
                 ex = getThreadPoolExecutorByConfigure(
                         configure == null ? ConfigureFactory.getConfigure(HttpSender.class) : configure);
-            if (collectRunner != null) {
-                collectRunner.setConfigure(configure);
-                collectRunner.setTpe(ex);
-                collectRunner.setSender(this);
+            if (abstractSenderRunner != null) {
+                abstractSenderRunner.setConfigure(configure);
+                abstractSenderRunner.setTpe(ex);
+                abstractSenderRunner.setSender(this);
             } else {
-                collectRunner = configure == null ? null
-                        : (CollectRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
-                if (collectRunner == null) {
-                    collectRunner = new DefalutCollectSendRunner<String>(this,
+                abstractSenderRunner = configure == null ? null
+                        : (AbstractSenderRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
+                if (abstractSenderRunner == null) {
+                    abstractSenderRunner = new DefalutCollectSendRunner<String>(this,
                             new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE)),
                             ex, new StringSpliceEntity("",EntityType.nomal));
                 }
             }
-            collectRunner.start();
+            abstractSenderRunner.start();
         }
     }
     
     private void stopHttpSender() {
-        if (collectRunner != null && collectRunner.started()) {
-            collectRunner.stop();
+        if (abstractSenderRunner != null && abstractSenderRunner.started()) {
+            abstractSenderRunner.stop();
         }
     }
 
@@ -283,12 +282,12 @@ public class HttpSender extends AbstractSender implements Sender {
         this.charSet = charSet;
     }
     
-    public CollectRunner getCollectRunner() {
-        return collectRunner;
+    public AbstractSenderRunner getCollectRunner() {
+        return abstractSenderRunner;
     }
 
-    public void setCollectRunner(CollectRunner collectRunner) {
-        this.collectRunner = collectRunner;
+    public void setCollectRunner(AbstractSenderRunner abstractSenderRunner) {
+        this.abstractSenderRunner = abstractSenderRunner;
     }
 
     @Override
@@ -311,10 +310,11 @@ public class HttpSender extends AbstractSender implements Sender {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void send(final Object message) {
+    public void send(final Object message, final CallBackAble callBackAble) {
         try {
             if (collected != null) {
                 collected.collect(message);
+                callBackAble.callBack(null);
             } else if (ex != null) {
                 ex.submit(new Callable<Object>() {
                     @Override
@@ -323,34 +323,17 @@ public class HttpSender extends AbstractSender implements Sender {
                         try {
                             result = synSend(new SimpleEntity<String>((String) message, EntityType.nomal));
                         } catch (Exception e) {
-                            sender.sendingFailed(message, e);
+                            callBackAble.sendingFailed(message, e);
                         }
                         return result;
                     }
                 });
             } else {
-                synSend(uri, new SimpleEntity<String>((String) message, EntityType.nomal));
+                Object result = synSend(uri, new SimpleEntity<String>((String) message, EntityType.nomal));
+                callBackAble.callBack(result);
             }
         } catch (Exception e) {
-            sender.sendingFailed(message, e);
-        }
-    }
-
-    @Override
-    public void callBack(Object obj) {
-        // logger.debug("HttpSender.callBack:" + JSON.toJSONString(obj));
-        okCount.incrementAndGet();
-    }
-
-    @Override
-    public void sendingFailed(Object message, Throwable e) {
-        // logger.debug("sendingFailed:" + JSON.toJSONString(message));
-        if (e != null) {
-            logger.debug("sendingFailed:" + e.getClass() + "-" + e.getMessage());
-            logger.error(e.getMessage(), e);
-        }
-        if (message == null) {
-            return;
+            callBackAble.sendingFailed(message, e);
         }
     }
 

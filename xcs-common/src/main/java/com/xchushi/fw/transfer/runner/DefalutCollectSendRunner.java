@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 
@@ -17,10 +18,12 @@ import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.util.SimpleFileQueue;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
+import com.xchushi.fw.transfer.CallBackAble;
 import com.xchushi.fw.transfer.collect.Collected;
 import com.xchushi.fw.transfer.sender.AbstractSender;
 
-public final class DefalutCollectSendRunner<T> extends CollectRunner {
+@Deprecated
+public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner implements CallBackAble {
 
     /**
      * 保存发送失败内容的文件地址
@@ -36,6 +39,8 @@ public final class DefalutCollectSendRunner<T> extends CollectRunner {
      * 发送超时时间
      */
     private int sendTimeOut = 10_000;
+    
+    public static AtomicInteger okCount = new AtomicInteger(0);
 
     /**
      * 收集器,用以收集来自collect(R t)的数据
@@ -175,6 +180,7 @@ public final class DefalutCollectSendRunner<T> extends CollectRunner {
 
     @SuppressWarnings("rawtypes")
     public void callBack(Object obj) {
+        okCount.incrementAndGet();
         if (Entity.class.isAssignableFrom(obj.getClass())) {
             logger.debug("succes failQueue.size:" + failQueue.size());
             Entity response = (Entity) obj;
@@ -192,14 +198,24 @@ public final class DefalutCollectSendRunner<T> extends CollectRunner {
                 });
             }
         }
-        sender.callBack(obj);
     }
 
-    public void sendingFailed(Object message, Throwable e) throws IOException, InterruptedException {
-        fastFailMessage(message);
-        sender.sendingFailed(message, e);
+    @Override
+    public void sendingFailed(Object message, Throwable e) {
+        if (e != null) {
+            logger.debug("sendingFailed:" + e.getClass() + "-" + e.getMessage());
+            logger.error(e.getMessage(), e);
+        }
+        if (message == null) {
+            return;
+        }
+        try {
+            fastFailMessage(message);
+        } catch (Exception e1) {
+            logger.error(e.getMessage(), e);
+        }
     }
-
+    
     @SuppressWarnings("unchecked")
     public void fastFailMessage(Object message) throws IOException, InterruptedException {
         if (failSendFileEnable && Entity.class.isAssignableFrom(message.getClass())) {
@@ -234,7 +250,9 @@ public final class DefalutCollectSendRunner<T> extends CollectRunner {
             Entity<T> obj = null;
             try {
                 obj = defalutCollectSendRunner.send(msg);
-                defalutCollectSendRunner.callBack(obj);
+                if (obj != null) {
+                    defalutCollectSendRunner.callBack(obj);
+                }
             } catch (Exception e) {
                 defalutCollectSendRunner.sendingFailed(msg, e);
             }
@@ -243,8 +261,18 @@ public final class DefalutCollectSendRunner<T> extends CollectRunner {
     }
     
     @SuppressWarnings("unchecked")
-    public Entity<T> send(Entity<T> msg) throws Exception {
-        return (Entity<T>) sender.synSend(msg);
+    public Entity<T> send(Entity<String> msg) throws Exception {
+        if(AbstractSender.class.isAssignableFrom(sender.getClass())){
+            return (Entity<T>)((AbstractSender)sender).synSend(msg);
+        }
+        sender.send(msg, this);
+        return Asset.getNull();
+    }
+
+    @Override
+    public boolean started() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

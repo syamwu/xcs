@@ -12,7 +12,7 @@ public class FileProperties implements Propertie {
         java.util.Properties ps = null;
         try {
             ps = new java.util.Properties();
-            InputStream in = XcsConfigure.class.getClassLoader().getResourceAsStream(filePath);
+            InputStream in = getClass().getClassLoader().getResourceAsStream(filePath);
             if (filePath != null && in != null) {
                 ps.load(in);
             }

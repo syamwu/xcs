@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
@@ -21,7 +22,7 @@ import com.xchushi.fw.log.constant.EsLoggerConstant;
 import com.xchushi.fw.log.constant.LoggerType;
 
 @ConfigSetting(prefix = "eslogger")
-public class NomalChanger implements Changer {
+public class NomalChanger implements Changer, Configurable {
 
     private static Logger logger = SysLoggerFactory.getLogger(NomalChanger.class);
 
@@ -224,6 +225,11 @@ public class NomalChanger implements Changer {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    @Override
+    public void setConfigure(Configure configure) {
+        config = configure;
     }
 
 }

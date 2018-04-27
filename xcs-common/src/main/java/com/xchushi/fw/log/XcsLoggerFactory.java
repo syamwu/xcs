@@ -1,5 +1,6 @@
 package com.xchushi.fw.log;
 
+import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger;
 
 /**
@@ -21,7 +22,9 @@ public class XcsLoggerFactory {
     
     public static XcsLogger getLoggerAndStart(Class<?> cls) {
         XcsLogger xcsLogger = TCPEsLogger.getLogger(cls);
-        xcsLogger.start();
+        if(Starting.class.isAssignableFrom(xcsLogger.getClass())){
+            ((Starting)xcsLogger).start();
+        }
         return xcsLogger;
     }
 

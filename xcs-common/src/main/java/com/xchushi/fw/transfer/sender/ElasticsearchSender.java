@@ -1,6 +1,8 @@
 package com.xchushi.fw.transfer.sender;
 
 import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.Starting;
+import com.xchushi.fw.transfer.CallBackAble;
 
 /**
  * elasticsearch传输器
@@ -9,7 +11,7 @@ import com.xchushi.fw.annotation.ConfigSetting;
  * @date: 2018
  */
 @ConfigSetting(prefix = "sender")
-public class ElasticsearchSender extends AbstractSender implements Sender  {
+public class ElasticsearchSender extends AbstractSender implements Sender, Starting  {
     
     //private static Logger logger = SysLoggerFactory.getLogger(ElasticsearchSender.class);
     
@@ -34,17 +36,10 @@ public class ElasticsearchSender extends AbstractSender implements Sender  {
         
     }
 
-    @Override
-    public void send(Object message) throws Exception {
-        synSend(message);
-    }
-
-    @Override
     public void callBack(Object obj) {
         System.out.println("ElasticsearchSender call back!!!");
     }
 
-    @Override
     public void sendingFailed(Object message, Throwable e) {
         System.out.println("ElasticsearchSender sendingFailed!!!");
     }
@@ -53,5 +48,10 @@ public class ElasticsearchSender extends AbstractSender implements Sender  {
     public Object synSend(Object obj) throws Exception {
         System.out.println("ElasticsearchSender sendObj:"+obj);
         return null;
+    }
+
+    @Override
+    public void send(Object message, CallBackAble callBackAble) throws Exception {
+        synSend(message);
     }
 }

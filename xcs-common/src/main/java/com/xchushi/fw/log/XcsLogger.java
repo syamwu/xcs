@@ -9,7 +9,7 @@ import com.xchushi.fw.log.constant.LoggerEntity;
  * @author: SamJoker
  * @date: 2018-03-09
  */
-public interface XcsLogger extends Starting {
+public interface XcsLogger {
 
     /**
      * 保存info级别的日志

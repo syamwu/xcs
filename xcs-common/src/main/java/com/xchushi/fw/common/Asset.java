@@ -39,11 +39,27 @@ public final class Asset {
     }
 
     public static void isFalse(boolean bl) {
-        isTrue(bl, "Assert fail, bl is true");
+        isFalse(bl, "Assert fail, bl is true");
     }
     
     public static void assetFail(String message) {
         throw new IllegalArgumentException(message);
+    }
+    
+    public static void assetFail(Throwable e) {
+        throw new IllegalArgumentException(e);
+    }
+    
+    public static void throwRuntimeException(Throwable e) {
+        throw new RuntimeException(e);
+    }
+    
+    public final static void isAssignableFrom(Class<?> clsP, Class<?> clsS) {
+        isTrue(clsP.isAssignableFrom(clsS), clsP.getName() + " isn't assignable from " + clsS.getName());
+    }
+    
+    public final static <T> T getNull(){
+        return null;
     }
 
 }

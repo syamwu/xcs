@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.environment.Configure;
+import com.xchushi.fw.common.util.ConfigureUtils;
+import com.xchushi.fw.common.util.StartingUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.config.FileProperties;
 import com.xchushi.fw.config.XcsConfigure;
@@ -62,9 +64,6 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
     private synchronized void initXcsLogbackLogger() throws IOException {
         if (!isInit) {
             isInit = true;
-            if(config == null && xcsLogger == null && fileName == null){
-                
-            }
             if (config != null) {
                 ConfigureFactory.setConfigure(config);
             } else {
@@ -73,10 +72,13 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
                         XcsLogbackAppender.class);
             }
             if (xcsLogger != null) {
-                xcsLogger.start();
+                startLogger(xcsLogger);
             } else {
                 xcsLogger = XcsLoggerFactory.getLogger(XcsLogbackAppender.class);
-                xcsLogger.start();
+                startLogger(xcsLogger);
+            }
+            if (xcsLogger != null && config != null) {
+                ConfigureUtils.setConfigure(xcsLogger, config, false);
             }
         } else {
             isInit = true;
@@ -97,7 +99,11 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
         }
         return logType;
     }
-
+    
+    public void startLogger(XcsLogger xcsLogger){
+        StartingUtils.start(xcsLogger, false);
+    }
+    
     public String getFileName() {
         return fileName;
     }

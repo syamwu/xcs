@@ -32,5 +32,15 @@ public final class DefaultExecutor implements Executor {
         }
         return ex;
     }
+    
+    @Override
+    public final ThreadPoolExecutor getThreadPoolExecutor(Class<?> cls) {
+        if (ex == null) {
+            int cpuCount = Runtime.getRuntime().availableProcessors();
+            ex = new ThreadPoolExecutor(cpuCount * 2, cpuCount * 10, 10000l, TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>());
+        }
+        return ex;
+    }
 
 }

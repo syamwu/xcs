@@ -14,10 +14,6 @@ public class XcsConfigure extends AbstractConfigure implements Configure {
 
     private XcsConfigure(String fileName) throws IOException {
         super(new FileProperties(fileName), null);
-        try {
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private XcsConfigure(Class<?> cls) throws IOException {

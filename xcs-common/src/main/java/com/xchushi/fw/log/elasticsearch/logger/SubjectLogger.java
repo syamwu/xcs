@@ -1,4 +1,3 @@
-
 package com.xchushi.fw.log.elasticsearch.logger;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +15,11 @@ import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
+import com.xchushi.fw.common.observer.AbstractSubject;
+import com.xchushi.fw.common.observer.Observer;
+import com.xchushi.fw.common.util.ConfigureUtils;
 import com.xchushi.fw.common.util.StartingUtils;
+import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
 import com.xchushi.fw.log.constant.LoggerEntity;
@@ -25,46 +28,44 @@ import com.xchushi.fw.log.constant.LoggerType;
 import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xchushi.fw.log.elasticsearch.changer.Changer;
 import com.xchushi.fw.log.elasticsearch.changer.NomalChanger;
-import com.xchushi.fw.transfer.CallBackAble;
-import com.xchushi.fw.transfer.sender.Sender;
-import com.xchushi.fw.transfer.sender.SenderFactory;
 
-@Deprecated
-public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurable {
+public class SubjectLogger extends AbstractSubject<String> implements EsLogger, Starting, Configurable {
+
+    private static Logger logger = SysLoggerFactory.getLogger(TCPEsLogger.class);
+    
+    private Configure configure;
 
     private Changer changer;
 
-    private Sender sender;
-    
+    private Observer<String> observer;
+
     private boolean started = false;
 
-    private static Logger logger = SysLoggerFactory.getLogger(TCPEsLogger.class);
-
+    @SuppressWarnings("unused")
     private Class<?> cls;
-    
+
     private String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    
+
     private static final String TIMEZONE = "GMT";
 
-    public TCPEsLogger() {
+    public SubjectLogger() {
     }
 
-    public TCPEsLogger(Class<?> cls) {
+    public SubjectLogger(Class<?> cls) {
         this.cls = cls;
     }
 
-    public TCPEsLogger(Class<?> cls, Changer changer, Sender sender) {
+    public SubjectLogger(Class<?> cls, Changer changer) {
         this.cls = cls;
         this.changer = changer;
-        this.sender = sender;
     }
 
-    public static EsLogger getLogger(Class<?> cls, Changer changer, Sender sender) {
-        return new TCPEsLogger(cls, changer, sender);
+    public static EsLogger getLogger(Class<?> cls, Changer changer) {
+        return new SubjectLogger(cls, changer);
     }
 
     public static EsLogger getLogger(Class<?> cls) {
-        return new TCPEsLogger(cls);
+        return new SubjectLogger(cls);
     }
 
     @Override
@@ -86,10 +87,6 @@ public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurab
         }
     }
 
-    public void offer(String message) throws Exception {
-        sender.send(message, this);
-    }
-
     @Override
     public void error(String message) {
         error(message, null);
@@ -104,7 +101,7 @@ public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurab
             logger.error(t.getMessage(), t);
         }
     }
-    
+
     @Override
     public void append(LoggerEntity loggerEntity) {
         Asset.notNull(loggerEntity);
@@ -143,43 +140,29 @@ public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurab
             logger.error(e.getMessage(), e);
         }
     }
-
-    public Changer getChanger() {
-        return changer;
-    }
-
-    public void setChanger(Changer changer) {
-        this.changer = changer;
-    }
-
-    public Sender getSender() {
-        return sender;
-    }
-
-    public void setSender(Sender sender) {
-        this.sender = sender;
+    
+    public void offer(String message) throws Exception {
+        nodifyObservers(message);
     }
     
-    public String getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
     @Override
-    public void start() {
+    public synchronized void start() {
         if (started) {
             throw new InitException(this.toString() + " had started, Can't start it again!!");
         }
         started = true;
-        if (changer == null)
-            changer = NomalChanger.getChanger(null);
-        if (sender == null) {
-            sender = SenderFactory.getSender(cls);
+        if(configure == null){
+            configure = ConfigureFactory.getConfigure(getClass());
         }
-        StartingUtils.start(sender, false);
+        if (changer == null){
+            changer = new NomalChanger();
+            ConfigureUtils.setConfigure(changer, configure, true);
+        }
+        if (observer != null) {
+            attach(observer);
+            ConfigureUtils.setConfigure(observer, configure, false);
+            StartingUtils.start(observer);
+        }
     }
 
     @Override
@@ -188,8 +171,8 @@ public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurab
             throw new InitException(this.toString() + " doesn't started, Can't stop it!!");
         }
         started = false;
-        if (sender != null && StartingUtils.started(sender)) {
-            StartingUtils.stop(sender);
+        if (observer != null) {
+            detach(observer);
         }
     }
 
@@ -199,18 +182,32 @@ public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurab
     }
 
     @Override
-    public void callBack(Object obj) {
-        
-    }
-
-    @Override
-    public void sendingFailed(Object message, Throwable e) {
-        
-    }
-
-    @Override
     public void setConfigure(Configure configure) {
-        
+        this.configure = configure;
+    }
+
+    public Changer getChanger() {
+        return changer;
+    }
+
+    public void setChanger(Changer changer) {
+        this.changer = changer;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public Observer<String> getObserver() {
+        return observer;
+    }
+
+    public void setObserver(Observer<String> observer) {
+        this.observer = observer;
     }
 
 }

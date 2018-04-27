@@ -29,8 +29,8 @@ public interface Configure {
     /**
      * 根据key的value(类名)返回指定T类的实例
      * 
-     * @param key
-     * @param cls
+     * @param key 类名
+     * @param args 构建入参
      * @return
      * @author SamJoker
      */

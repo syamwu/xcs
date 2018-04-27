@@ -8,4 +8,6 @@ public interface Executor {
 
     ThreadPoolExecutor getThreadPoolExecutor(Configure config, Class<?> cls);
 
+    ThreadPoolExecutor getThreadPoolExecutor(Class<?> cls);
+
 }

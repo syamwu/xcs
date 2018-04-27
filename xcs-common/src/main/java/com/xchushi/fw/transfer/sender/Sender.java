@@ -1,6 +1,6 @@
 package com.xchushi.fw.transfer.sender;
 
-import com.xchushi.fw.common.Starting;
+import com.xchushi.fw.transfer.CallBackAble;
 
 /**
  * 数据传输统一接口
@@ -8,7 +8,7 @@ import com.xchushi.fw.common.Starting;
  * @author: SamJoker
  * @date: 2018
  */
-public interface Sender extends Starting {
+public interface Sender {
 
     /**
      * 传输message
@@ -16,21 +16,6 @@ public interface Sender extends Starting {
      * @param message
      * @throws Exception
      */
-    void send(Object message) throws Exception;
-    
-    /**
-     * 传输成功回调
-     * 
-     * @param obj
-     */
-    void callBack(Object obj);
-    
-    /**
-     * 传输失败回调
-     * 
-     * @param message
-     * @param e
-     */
-    void sendingFailed(Object message, Throwable e);
+    void send(Object message , CallBackAble callBackAble) throws Exception;
     
 }
