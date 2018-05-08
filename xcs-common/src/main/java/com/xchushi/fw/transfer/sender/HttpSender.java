@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 
 import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
-import com.xchushi.fw.arithmetic.loadbalanc.SimpleLoadBalance;
+import com.xchushi.fw.arithmetic.loadbalanc.SimpleDynamicLoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
@@ -38,7 +38,7 @@ import com.xchushi.fw.transfer.runner.DefalutCollectSendRunner;
 /**
  * HTTP传输器
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 @Deprecated
@@ -145,7 +145,7 @@ public class HttpSender extends AbstractSender implements Starting  {
                     loads[i] = Integer.valueOf(serverUrlLoadsAr[i]);
                 }
             }
-            SimpleLoadBalance<String> slb = new SimpleLoadBalance<String>(serverHostsArray, loads, scaleBase);
+            SimpleDynamicLoadBalance<String> slb = new SimpleDynamicLoadBalance<String>(serverHostsArray, loads, scaleBase);
             loadBanlanc = slb;
             dynamicAble = slb.getDynamicLoad();
         }
@@ -160,7 +160,7 @@ public class HttpSender extends AbstractSender implements Starting  {
                 abstractSenderRunner.setSender(this);
             } else {
                 abstractSenderRunner = configure == null ? null
-                        : (AbstractSenderRunner) configure.getBean(StringConstant.COLLECTCLASS, configure, this, ex);
+                        : (AbstractSenderRunner) configure.getBean(StringConstant.COLLECT_CLASS, configure, this, ex);
                 if (abstractSenderRunner == null) {
                     abstractSenderRunner = new DefalutCollectSendRunner<String>(this,
                             new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE)),
@@ -181,7 +181,7 @@ public class HttpSender extends AbstractSender implements Starting  {
         ThreadPoolExecutor threadPoolExecutor = null;
         if (configure != null) {
             try {
-                Executor ex = configure.getBean(StringConstant.EXECUTORCLASS);
+                Executor ex = configure.getBean(StringConstant.EXECUTOR_CLASS);
                 if (ex != null) {
                     threadPoolExecutor = ex.getThreadPoolExecutor(configure, HttpSender.class);
                 }else{
@@ -350,7 +350,7 @@ public class HttpSender extends AbstractSender implements Starting  {
      * @param sendEntity
      * @return
      * @throws Exception
-     * @author SamJoker
+     * @author syam_wu
      */
     public Object synSend(String uri, Entity<String> sendEntity) throws Exception {
         Asset.notNull(sendEntity, "sendEntity can't be null");

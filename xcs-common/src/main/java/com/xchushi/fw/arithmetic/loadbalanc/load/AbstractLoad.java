@@ -35,7 +35,7 @@ public abstract class AbstractLoad<T> implements Load<T> {
         System.arraycopy(loads, 0, noChangeLoads, 0, loads.length);
     }
     
-    public long sum(long[] longs) {
+    public long sumArray(long[] longs) {
         long sum = 0;
         for (int i = 0; i < longs.length; i++) {
             sum = sum + longs[i];
@@ -43,7 +43,7 @@ public abstract class AbstractLoad<T> implements Load<T> {
         return sum;
     }
 
-    public BigDecimal sum(BigDecimal[] doubles) {
+    public BigDecimal sumArray(BigDecimal[] doubles) {
         BigDecimal sum = new BigDecimal(0);
         for (int i = 0; i < doubles.length; i++) {
             sum = sum.add(doubles[i]);

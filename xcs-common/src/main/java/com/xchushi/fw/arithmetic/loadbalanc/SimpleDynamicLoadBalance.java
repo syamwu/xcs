@@ -9,14 +9,14 @@ import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicLoad;
 
 /**
- * 简单的负载均衡算法，负载算法使用动态负载DynamicLoad，均衡算法使用随机算法RandomBalance
+ * 简单的动态负载均衡算法，负载算法使用动态负载DynamicLoad，均衡算法使用随机算法RandomBalance
  * 
- * @author SamJoker
+ * @author syam_wu
  * @date 2018-2-5
  */
-public class SimpleLoadBalance<T> extends AbstractLoadBalance<T> {
+public class SimpleDynamicLoadBalance<T> extends AbstractLoadBalance<T> {
     
-    public SimpleLoadBalance(T[] objs, int[] loads, int scaleBase) {
+    public SimpleDynamicLoadBalance(T[] objs, int[] loads, int scaleBase) {
         super(loads);
         if (objs == null || objs.length < 1 || loads == null || loads.length < 1 || objs.length != loads.length) {
             throw new LoadBalanceException("Load create fail,please check objs and loads.");

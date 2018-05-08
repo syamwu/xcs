@@ -3,7 +3,7 @@ package com.xchushi.fw.common.environment;
 /**
  * 获取配置信息接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018-03-14
  */
 public interface Configure {
@@ -32,7 +32,7 @@ public interface Configure {
      * @param key 类名
      * @param args 构建入参
      * @return
-     * @author SamJoker
+     * @author syam_wu
      */
     <T> T getBean(String key, Object... args) throws Exception;
 

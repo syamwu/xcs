@@ -17,7 +17,7 @@ public class XcsConfigure extends AbstractConfigure implements Configure {
     }
 
     private XcsConfigure(Class<?> cls) throws IOException {
-        super(new FileProperties("xcs.properties"), cls);
+        super(new FileProperties(StringConstant.CONFIG_FILE), cls);
     }
 
     public XcsConfigure(Propertie properties, Class<?> cls) {

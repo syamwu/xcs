@@ -35,10 +35,10 @@ public class NomalChanger implements Changer, Configurable {
     private String docVersion = "1";
 
     private String ipAddress = "";
-    
-    public NomalChanger(){
+
+    public NomalChanger() {
     }
-    
+
     private NomalChanger(Map<String, Object> normalParams) {
         this(normalParams, ConfigureFactory.getConfigure(NomalChanger.class));
     }
@@ -48,15 +48,15 @@ public class NomalChanger implements Changer, Configurable {
         this.config = config;
         if (this.config != null) {
             appname = this.config.getProperty("appname", appname);
-            docVersion = this.config.getProperty("doc_version", docVersion);
+            docVersion = this.config.getProperty("docVersion", docVersion);
             try {
-                ipAddress = this.config.getProperty("ip_address", InetAddress.getLocalHost().getHostAddress());
+                ipAddress = this.config.getProperty("ipAddress", InetAddress.getLocalHost().getHostAddress());
             } catch (UnknownHostException e) {
                 logger.error(e.getMessage(), e);
             }
         }
     }
-    
+
     public static Changer getChanger(Map<String, Object> normalParams) {
         NomalChanger changer = new NomalChanger(normalParams);
         return changer;
@@ -64,20 +64,20 @@ public class NomalChanger implements Changer, Configurable {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public Object change(LoggerType loggerType, Thread thread, StackTraceElement st, Map<String, ?> threadParams,
-            String message, Throwable t, Object... args) throws Exception {
+    public Map<String, ?> change(LoggerType loggerType, Thread thread, StackTraceElement st,
+            Map<String, ?> threadParams, String message, Throwable t, Object... args) throws Exception {
         Map allParamsMap = new LinkedHashMap<>();
         if (normalParams != null) {
             allParamsMap.putAll(normalParams);
         }
-        if (threadParams != null) {
-            allParamsMap.putAll(threadParams);
-        }
         allParamsMap.put(EsLoggerConstant.APPNAME, appname);
         allParamsMap.put(EsLoggerConstant.DOC_VERSION, docVersion);
         allParamsMap.put(EsLoggerConstant.IP_ADDRESS, ipAddress);
-        if (thread != null){
+        if (thread != null) {
             allParamsMap.put(EsLoggerConstant._THREAD, buildThreadId(thread));
+        }
+        if (threadParams != null) {
+            allParamsMap.putAll(threadParams);
         }
         if (st != null) {
             allParamsMap.put(EsLoggerConstant._CLASS, st.getClassName());
@@ -96,27 +96,10 @@ public class NomalChanger implements Changer, Configurable {
                     message = message.replaceFirst(EsLoggerConstant.FORMAT_STR_PAT, EsLoggerConstant._NULL);
                     continue;
                 }
-                //Object params = allParamsMap.get(EsLoggerConstant.PARAMS);
-//                List paramsList = null;
-//                if (params == null) {
-//                    paramsList = new ArrayList<>();
-//                    allParamsMap.put(EsLoggerConstant.PARAMS, paramsList);
-//                } else {
-//                    paramsList = (List) params;
-//                }
                 if (isBaseDataType(object.getClass())) {
                     message = format(message, object.toString());
-//                    if (String.class.isAssignableFrom(object.getClass())) {
-//                        Map objMap = isJsonStr(object.toString());
-//                        if (objMap != null) {
-//                            paramsList.add(objMap);
-//                            continue;
-//                        }
-//                    }
-                    //paramsList.add(new StringType(object));
                 } else {
                     message = format(message, JSON.toJSONString(object));
-                    //paramsList.add(object);
                 }
             }
             allParamsMap.put(EsLoggerConstant._MESSAGE, message);
@@ -124,6 +107,9 @@ public class NomalChanger implements Changer, Configurable {
         if (t != null) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             t.printStackTrace(new PrintStream(out));
+            if (message == null || message.trim().length() < 1) {
+                allParamsMap.put(EsLoggerConstant._MESSAGE, t.getMessage());
+            }
             allParamsMap.put(EsLoggerConstant.STACKTRACE, out.toString());
         }
         return allParamsMap;

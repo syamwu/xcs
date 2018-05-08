@@ -1,6 +1,9 @@
 package com.xchushi.fw.log.logback;
 
 import java.io.IOException;
+import java.util.Map;
+
+import org.slf4j.MDC;
 
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.constant.StringConstant;
@@ -24,7 +27,7 @@ import ch.qos.logback.core.AppenderBase;
 /**
  * 与logback结合，输出日志数据
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018-03-09
  */
 public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
@@ -36,8 +39,8 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
     protected XcsLogger xcsLogger;
 
     protected boolean isInit = false;
-    
-    public XcsLogbackAppender(){
+
+    public XcsLogbackAppender() {
         super.addFilter(new XcsLoggerFilter());
     }
 
@@ -53,14 +56,19 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
             LoggerType loggerType = exchangeLevel(eventObject.getLevel());
             Throwable t = eventObject.getThrowableProxy() == null ? null
                     : ((ThrowableProxy) eventObject.getThrowableProxy()).getThrowable();
-            //xcsLogger.append(loggerType, thread, sts[0], eventObject.getMessage(), t, eventObject.getArgumentArray());
+            Map<String, String> threadMap = null;
+            try {
+                threadMap = MDC.getCopyOfContextMap();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             xcsLogger.append(new LoggerEntity(new LoggerEvent(loggerType, thread, sts[0], eventObject.getMessage(), t,
-                    eventObject.getArgumentArray())));
+                    threadMap, eventObject.getArgumentArray())));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private synchronized void initXcsLogbackLogger() throws IOException {
         if (!isInit) {
             isInit = true;
@@ -68,7 +76,7 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
                 ConfigureFactory.setConfigure(config);
             } else {
                 config = XcsConfigure.initConfigureAndGet(
-                        new FileProperties(fileName == null ? StringConstant.CONFIGFILE : fileName),
+                        new FileProperties(fileName == null ? StringConstant.CONFIG_FILE : fileName),
                         XcsLogbackAppender.class);
             }
             if (xcsLogger != null) {
@@ -99,11 +107,11 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
         }
         return logType;
     }
-    
-    public void startLogger(XcsLogger xcsLogger){
+
+    public void startLogger(XcsLogger xcsLogger) {
         StartingUtils.start(xcsLogger, false);
     }
-    
+
     public String getFileName() {
         return fileName;
     }

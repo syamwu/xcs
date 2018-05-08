@@ -4,14 +4,26 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
 
+/**
+ * 
+ * 随机均衡器，根据权值比进行随机选目标
+ * 
+ * @author: syam_wu
+ * @date: 2018
+ */
 public class RandomBalance<T> implements Balance<T> {
+    
+    /**
+     * 默认精度100
+     */
+    private static int DEFAULT_SCALE_BASE = 100;
 
     @Override
     public int balance(int scaleBase, int[] loads) {
         if (loads == null || loads.length < 1) {
             return -1;
         }
-        scaleBase = scaleBase < 100 ? 100 : scaleBase;
+        scaleBase = scaleBase < DEFAULT_SCALE_BASE ? DEFAULT_SCALE_BASE : scaleBase;
         int loadsSum = 0;
         for (int i = 0; i < loads.length; i++) {
             if (loads[i] < 0) {

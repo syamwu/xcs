@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.common.Asset;
 
 public class SimpleFileQueue<T> {
@@ -243,55 +242,6 @@ public class SimpleFileQueue<T> {
             strBuff.append(" ");
         }
         return strBuff.toString();
-    }
-
-    public static void test3(String[] args) throws IOException {
-        // test();
-        // System.out.println(System.currentTimeMillis());
-        // RandomAccessFile re = new
-        // RandomAccessFile("D:\\upload\\data18.txt","rw");
-        // System.out.println(System.currentTimeMillis());
-        // String str1 =re.readLine();
-        // String str2 =re.readLine();
-        // System.out.println(System.currentTimeMillis()+"---"+str1+str2);
-        // String str = re.readLine()+re.readLine();
-        // System.out.println(System.currentTimeMillis()+"---"+str);
-        // int len = str.getBytes().length;
-        // System.out.println(System.currentTimeMillis()+"---"+len);
-        // byte[] by = new byte[10024];
-        // re.read(by,0,10024);
-        // re.seek(0);
-        // byte[] by1 = new byte[10024];
-        // re.read(by1,0,10024);
-        // String str = new String(by);
-        // String str5 = new String(by1);
-        // System.out.println(System.currentTimeMillis());
-        test1();
-        // System.out.println("看看10".getBytes("ISO-8859-1").length);
-        // System.out.println("看看10".getBytes("UTF-8").length);
-    }
-
-    public static void test1() throws IOException {
-        SimpleFileQueue f = new SimpleFileQueue("D:\\upload\\data9.txt");
-        // RandomAccessFile f1 = new
-        // RandomAccessFile("D:\\upload\\data18.txt","r");
-        // f1.readLine();
-        // f1.readLine();
-        // for (int i = 0; i < 300; i++) {
-        // f.offer(f1.readLine());
-        // }
-        // long time = System.currentTimeMillis();
-        // List<String> list = new ArrayList<String>();
-        // for (int i = 0; i < 3; i++) {
-        // list.add(f.peek());
-        // }
-        // System.out.println(System.currentTimeMillis()-time);
-
-        long time = System.currentTimeMillis();
-        List<String> list = f.getMessages(false);
-        System.out.println(System.currentTimeMillis() - time);
-        JSON.toJSONString(list);
-        System.out.println(System.currentTimeMillis() - time);
     }
 
 }

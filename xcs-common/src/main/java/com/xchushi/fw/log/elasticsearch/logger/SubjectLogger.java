@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
-import org.slf4j.MDC;
 
 import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.common.Asset;
@@ -28,11 +27,18 @@ import com.xchushi.fw.log.constant.LoggerType;
 import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xchushi.fw.log.elasticsearch.changer.Changer;
 import com.xchushi.fw.log.elasticsearch.changer.NomalChanger;
+import com.xchushi.fw.transfer.runner.CollectSenderObserverRunner;
 
+/**
+ * 被观察的Logger类,当有日志进入时会通知观察者
+ * 
+ * @author: syam_wu
+ * @date: 2018
+ */
 public class SubjectLogger extends AbstractSubject<String> implements EsLogger, Starting, Configurable {
 
-    private static Logger logger = SysLoggerFactory.getLogger(TCPEsLogger.class);
-    
+    private static Logger logger = SysLoggerFactory.getLogger(SubjectLogger.class);
+
     private Configure configure;
 
     private Changer changer;
@@ -81,7 +87,7 @@ public class SubjectLogger extends AbstractSubject<String> implements EsLogger, 
     @Override
     public void info(Thread thread, StackTraceElement st, String format, Object... args) {
         try {
-            append(LoggerType.INFO, thread, st, format, null, args);
+            append(LoggerType.INFO, thread, st, format, null, null, args);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -96,7 +102,7 @@ public class SubjectLogger extends AbstractSubject<String> implements EsLogger, 
     public void error(String message, Throwable e) {
         try {
             Thread thread = Thread.currentThread();
-            append(LoggerType.ERROR, thread, thread.getStackTrace()[2], message, e);
+            append(LoggerType.ERROR, thread, thread.getStackTrace()[2], message, e, null);
         } catch (Exception t) {
             logger.error(t.getMessage(), t);
         }
@@ -108,12 +114,12 @@ public class SubjectLogger extends AbstractSubject<String> implements EsLogger, 
         LoggerEvent loggerEvent = loggerEntity.getValue();
         Asset.notNull(loggerEvent);
         append(loggerEvent.getLoggerType(), loggerEvent.getThread(), loggerEvent.getSt(), loggerEvent.getMessage(),
-                loggerEvent.getT(), loggerEvent.getArgs());
+                loggerEvent.getT(), loggerEvent.getMDCmap(), loggerEvent.getArgs());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void append(LoggerType loggerType, Thread thread, StackTraceElement st, String message, Throwable t,
-            Object... args) {
+            Map<String, String> MDCmap, Object... args) {
         try {
             if (!started) {
                 throw new InitException(this.toString() + " don't started!!");
@@ -122,46 +128,43 @@ public class SubjectLogger extends AbstractSubject<String> implements EsLogger, 
             SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
             sf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
             String time = sf.format(date);
-            Map threadMap = null;
-            try {
-                threadMap = MDC.getCopyOfContextMap();
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-            Map sendMap = (Map) changer.change(loggerType, thread, st, threadMap, message, t, args);
-            if (sendMap == null) {
+            Map loggerMap = changer.change(loggerType, thread, st, MDCmap, message, t, args);
+            if (loggerMap == null) {
                 logger.warn("sendMap is null");
-                sendMap = new LinkedHashMap<>();
-                sendMap.put(EsLoggerConstant._MESSAGE, message);
+                loggerMap = new LinkedHashMap<>();
+                loggerMap.put(EsLoggerConstant._MESSAGE, message);
             }
-            sendMap.put(EsLoggerConstant.TIME_STAMP, time);
-            offer(JSON.toJSONString(sendMap));
+            loggerMap.put(EsLoggerConstant.TIME_STAMP, time);
+            offer(JSON.toJSONString(loggerMap));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
     }
-    
-    public void offer(String message) throws Exception {
+
+    public void offer(String message) {
         nodifyObservers(message);
     }
-    
+
     @Override
     public synchronized void start() {
         if (started) {
             throw new InitException(this.toString() + " had started, Can't start it again!!");
         }
         started = true;
-        if(configure == null){
+        if (configure == null) {
             configure = ConfigureFactory.getConfigure(getClass());
         }
-        if (changer == null){
+        if (changer == null) {
             changer = new NomalChanger();
             ConfigureUtils.setConfigure(changer, configure, true);
+        }
+        if(observer == null){
+            observer = new CollectSenderObserverRunner();
         }
         if (observer != null) {
             attach(observer);
             ConfigureUtils.setConfigure(observer, configure, false);
-            StartingUtils.start(observer);
+            StartingUtils.start(observer, false);
         }
     }
 

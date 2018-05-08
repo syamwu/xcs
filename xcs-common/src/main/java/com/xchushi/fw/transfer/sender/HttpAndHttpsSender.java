@@ -1,23 +1,26 @@
 package com.xchushi.fw.transfer.sender;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 
 import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
-import com.xchushi.fw.arithmetic.loadbalanc.SimpleLoadBalance;
+import com.xchushi.fw.arithmetic.loadbalanc.SimpleDynamicLoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.entity.Entity;
-import com.xchushi.fw.common.entity.HttpClientResponseEntity;
+import com.xchushi.fw.common.entity.TransferResponseEntity;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.exception.SenderFailException;
 import com.xchushi.fw.common.util.HttpClientUtils;
-import com.xchushi.fw.common.util.StreamUtils;
+import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.transfer.CallBackAble;
+import com.xchushi.fw.transfer.response.HttpClientTransferResponse;
+import com.xchushi.fw.transfer.response.TransferResponse;
 
 @ConfigSetting(prefix = "sender")
 public class HttpAndHttpsSender extends AbstractSender implements Starting {
@@ -49,7 +52,7 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
     /**
      * 传输的字符集
      */
-    private String charSet = "UTF-8";
+    private String charset = "UTF-8";
 
     /**
      * 远程地址uri
@@ -76,7 +79,7 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
 
     private void initHttpSender() throws Exception {
         protocol = getProperty("protocol", protocol);
-        charSet = getProperty("charSet", charSet);
+        charset = getProperty("charset", charset);
         String serverUrlStr = getProperty("serverHosts", serverHosts);
         uri = getProperty("uri", uri);
         serverHostsArray = serverUrlStr.split(",");
@@ -99,7 +102,7 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
                     loads[i] = Integer.valueOf(serverUrlLoadsAr[i]);
                 }
             }
-            SimpleLoadBalance<String> slb = new SimpleLoadBalance<String>(serverHostsArray, loads, scaleBase);
+            SimpleDynamicLoadBalance<String> slb = new SimpleDynamicLoadBalance<String>(serverHostsArray, loads, scaleBase);
             loadBanlanc = slb;
             dynamicAble = slb.getDynamicLoad();
         }
@@ -124,27 +127,30 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
      * @param sendEntity
      * @return
      * @throws Exception
-     * @author SamJoker
+     * @author syam_wu
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes" })
     @Override
     public Object synSend(Object obj) throws Exception {
-        Entity<String> sendEntity = (Entity<String>) obj;
-        Asset.notNull(sendEntity, "sendEntity can't be null");
+        Asset.notNull(obj);
+        Asset.isAssignableFrom(Entity.class, obj.getClass());
+        Entity requestEntity = (Entity) obj;
+        Asset.notNull(requestEntity, "sendEntity can't be null");
+        Object requestBody = requestEntity.getValue();
+        Asset.notNull(requestBody, "requestBody can't be null");
         int hostIndex = loadBalanceEnable ? (loadBanlanc == null ? 0 : loadBanlanc.loadBalanceIndex()) : 0;
-        String host = serverHostsArray[hostIndex];
-        String url = protocol + "://" + host + "/" + uri;
+        String sendUrl = spliUrl(protocol, serverHostsArray[hostIndex], uri);
         long time = System.currentTimeMillis();
         boolean sendFailed = false;
-        CloseableHttpResponse response = null;
+        TransferResponse response = null;
         try {
-            response = HttpClientUtils.sendRequest(sendEntity.getValue(), url, charSet, sendTimeOut, true);
-            if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 202) {
+            response = sendRequest(requestBody.toString(), sendUrl, charset, sendTimeOut, true);
+            if (response.getResultCode() == 200 || response.getResultCode() == 202) {
                 logger.debug("synSend status:200, response msg:"
-                        + StreamUtils.inputStream2string(response.getEntity().getContent()));
+                        + response.getResponseBody());
             } else {
-                throw new SenderFailException(url + " send fail:" + response.getStatusLine().getStatusCode()
-                        + ", response msg:" + StreamUtils.inputStream2string(response.getEntity().getContent()));
+                throw new SenderFailException(sendUrl + " send fail:" + response.getResultCode()
+                        + ", response msg:" + response.getResponseBody());
             }
         } catch (Exception e) {
             sendFailed = true;
@@ -156,7 +162,15 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
                         sendFailed ? sendTimeOut : ((int) (System.currentTimeMillis() - time)));
             }
         }
-        return new HttpClientResponseEntity(response, sendEntity.getEntityType());
+        return new TransferResponseEntity(response, requestEntity.getEntityType());
+    }
+    
+    private String spliUrl(String protocol, String host, String uri){
+        return protocol + "://" + host + "/" + uri;
+    }
+    
+    private HttpClientTransferResponse sendRequest(String content, String url, String charset, int timeOut, boolean gzip) throws IOException{
+        return new HttpClientTransferResponse(HttpClientUtils.sendRequest(content, url, charset, timeOut, gzip));
     }
 
     private String getProperty(String key, String defaultValue) {
@@ -198,11 +212,11 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
     }
 
     public String getCharSet() {
-        return charSet;
+        return charset;
     }
 
     public void setCharSet(String charSet) {
-        this.charSet = charSet;
+        this.charset = charSet;
     }
 
     @Override
@@ -216,6 +230,23 @@ public class HttpAndHttpsSender extends AbstractSender implements Starting {
 
     @Override
     public void stop() {
+    }
+    
+    public synchronized static Sender getSender(Class<?> cls) {
+        try {
+            if (sender == null) {
+                sender = new HttpAndHttpsSender(ConfigureFactory.getConfigure(HttpAndHttpsSender.class));
+                try {
+                    sender.start();
+                } catch (Exception e) {
+                    logger.error("initHttpSender fail:" + e.getMessage(), e);
+                }
+                return sender;
+            }
+        } catch (Exception e) {
+            logger.error("HttpAndHttpsSender initFail:" + e.getMessage(), e);
+        }
+        return sender;
     }
 
 }

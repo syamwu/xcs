@@ -3,10 +3,12 @@ package com.xchushi.fw.log.elasticsearch;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.MDC;
+
 /**
  * 用于传输同个线程下的日志打印公共参数
  * 
- * @author SamJoker
+ * @author syam_wu
  * @date 2018-1-26
  */
 public class TestMDCBus {
@@ -102,4 +104,21 @@ public class TestMDCBus {
         return threadGroupName + "-" + thread.getName() + "-" + thread.getId();
     }
 
+    public static void current(boolean begin) {
+        if (begin) {
+            MDC.put("time", System.currentTimeMillis() + "");
+            MDC.put("index", 1 + "");
+            return;
+        }
+        long index = Long.valueOf(MDC.get("index"));
+        long notime = System.currentTimeMillis();
+        long noIndex = index + 1;
+        MDC.put("time", notime + "");
+        MDC.put("index", noIndex + "");
+    }
+    
+    public static void current() {
+        current(false);
+    }
+    
 }

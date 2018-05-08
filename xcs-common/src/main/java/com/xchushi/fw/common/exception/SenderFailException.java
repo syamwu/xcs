@@ -2,7 +2,7 @@ package com.xchushi.fw.common.exception;
 
 /**
  * 
- * @author SamJoker
+ * @author syam_wu
  * @date 2018-1-26
  */
 public class SenderFailException extends RuntimeException {

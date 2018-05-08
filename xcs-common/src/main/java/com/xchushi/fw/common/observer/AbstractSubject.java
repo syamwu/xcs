@@ -16,10 +16,10 @@ public abstract class AbstractSubject<T> implements Subject<T> {
         list.add(observer);
     }
     
-    public void attach(Observer<T>[] observer) {
-        Asset.notNull(observer);
-        for (Observer<T> observer2 : observer) {
-            attach(observer2);
+    public void attach(Observer<T>[] observers) {
+        Asset.notNull(observers);
+        for (Observer<T> observer : observers) {
+            attach(observer);
         }
     }
 
@@ -27,16 +27,16 @@ public abstract class AbstractSubject<T> implements Subject<T> {
         list.remove(observer);
     }
     
-    public void detach(Observer<T>[] observer) {
-        Asset.notNull(observer);
-        for (Observer<T> observer2 : observer) {
-            detach(observer2);
+    public void detach(Observer<T>[] observers) {
+        Asset.notNull(observers);
+        for (Observer<T> observer : observers) {
+            detach(observer);
         }
     }
 
     public void nodifyObservers(T changeData) {
         for (Observer<T> observer : list) {
-            observer.change(changeData);
+            observer.notify(changeData);
         }
     }
 

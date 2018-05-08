@@ -16,7 +16,7 @@ import com.xchushi.fw.log.SysLoggerFactory;
 /**
  * 动态负载器
  * 
- * @author SamJoker
+ * @author syam_wu
  * @date 2018-2-6
  */
 public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
@@ -45,7 +45,7 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
 
     /**
      * 用以设置动态输入的weightCount是否越大代表的权值就越大,这里默认为false(eg：
-     * 输入的weightCount为请求响应时间长度，时间越长代表权值越小)
+     * 若输入的weightCount代表请求响应时间长度，则时间越长代表权值越小)
      */
     private boolean upsideDown = false;
 
@@ -127,22 +127,26 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
         }
     }
 
-    private void reloads(long weightCount) {
+    protected void reloads(long weightCount) {
         try {
             loadLock.lock();
+            long[] avgValuesCp = new long[avgValues.length];
+            System.arraycopy(avgValues, 0, avgValuesCp, 0, avgValues.length);
             BigDecimal[] newWeights = new BigDecimal[loads.length];
-            long newSum = sum(avgValues);
+            long avgValuesSum = sumArray(avgValuesCp);
             int scaleBase = loadBanlanc.scaleBase();
             BigDecimal bscaleBase = new BigDecimal(scaleBase);
             for (int i = 0; i < noChangeLoads.length; i++) {
                 BigDecimal bWeight = new BigDecimal(noChangeLoads[i]);
-                newWeights[i] = new BigDecimal(upsideDownWeight() ? avgValues[i] : newSum - avgValues[i])
+                newWeights[i] = new BigDecimal(upsideDownWeight() ? avgValuesCp[i] : avgValuesSum - avgValuesCp[i])
                         .multiply(bWeight);
                 if (newWeights[i].doubleValue() <= 0) {
                     newWeights[i] = new BigDecimal(0);
                 }
             }
-            BigDecimal newWeightsSum = sum(newWeights);
+            BigDecimal newWeightsSum = sumArray(newWeights);
+            int[] oldLoads = new int[loads.length];
+            System.arraycopy(loads, 0, oldLoads, 0, loads.length);
             for (int i = 0; i < loads.length; i++) {
                 if (loads[i] > 0) {
                     loads[i] = newWeights[i].divide(newWeightsSum, 2, RoundingMode.HALF_UP).multiply(bscaleBase)
@@ -152,23 +156,24 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
 
             }
 
-            // 测试输出
+            // 输出动态负载结果
             logger.debug("weightCount:" + weightCount + ",loadCounts:" + Arrays.toString(loadCounts) + ",avgValues:"
-                    + Arrays.toString(avgValues) + ",newWeights:" + Arrays.toString(newWeights) + ",new_loads:"
+                    + Arrays.toString(avgValues) + ",newWeights:" + Arrays.toString(newWeights)+ ",old_loads:"
+                            + Arrays.toString(oldLoads) + ",new_loads:"
                     + Arrays.toString(loads));
         } finally {
             loadLock.unlock();
         }
     }
 
-    private void initAvgValuesAndCount(long value) {
+    protected void initAvgValuesAndCount(long value) {
         for (int i = 0; i < loads.length; i++) {
             avgValues[i] = value;
             loadCounts[i]++;
         }
     }
 
-    private int[] loads() {
+    protected int[] loads() {
         try {
             loadLock.lock();
             int[] result = new int[loads.length];
@@ -179,7 +184,7 @@ public class DynamicLoad<T> extends AbstractLoad<T> implements DynamicAble<T> {
         }
     }
 
-    public boolean upsideDownWeight() {
+    protected boolean upsideDownWeight() {
         return upsideDown;
     }
 

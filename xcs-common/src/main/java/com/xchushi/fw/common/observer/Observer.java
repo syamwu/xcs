@@ -3,16 +3,16 @@ package com.xchushi.fw.common.observer;
 /**
  * 观察者统一接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public interface Observer<T> {
 
     /**
-     * 被观察者变化
+     * 被通知
      * 
      * @param t
      */
-    public void change(T t);
+    public void notify(T t);
     
 }

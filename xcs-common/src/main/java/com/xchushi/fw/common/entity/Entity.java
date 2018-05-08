@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 /**
  * 基础实体类，用于方法间传输调用
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public abstract class Entity<T> implements Value<T>{

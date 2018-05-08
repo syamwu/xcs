@@ -2,7 +2,7 @@ package com.xchushi.fw.log.elasticsearch.exception;
 
 /**
  * 
- * @author SamJoker
+ * @author syam_wu
  * @date 2018-1-26
  */
 public class EsLoggerInitException extends RuntimeException{

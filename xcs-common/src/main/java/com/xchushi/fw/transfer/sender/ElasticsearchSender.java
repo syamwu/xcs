@@ -7,7 +7,7 @@ import com.xchushi.fw.transfer.CallBackAble;
 /**
  * elasticsearch传输器
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 @ConfigSetting(prefix = "sender")

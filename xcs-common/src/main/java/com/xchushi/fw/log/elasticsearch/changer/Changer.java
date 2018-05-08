@@ -7,7 +7,7 @@ import com.xchushi.fw.log.constant.LoggerType;
 /**
  * 日志数据构建接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018-03-09
  */
 public interface Changer {
@@ -25,7 +25,7 @@ public interface Changer {
      * @return
      * @throws Exception
      */
-    Object change(LoggerType loggerType, Thread thread, StackTraceElement st,
+    Map<String,?> change(LoggerType loggerType, Thread thread, StackTraceElement st,
             Map<String, ?> threadParams, String message, Throwable t,Object... args) throws Exception;
 
 }

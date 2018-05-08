@@ -39,10 +39,6 @@ public class HttpClientResponseEntity extends Entity<CloseableHttpResponse> {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(Entity.class.isAssignableFrom(HttpClientResponseEntity.class));
-    }
-
     @Override
     public CloseableHttpResponse getValue() {
         return response;

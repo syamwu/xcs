@@ -13,7 +13,7 @@ public class FileUtil {
      * @param file
      * @return
      * @throws IOException
-     * @author SamJoker
+     * @author syam_wu
      */
     public static boolean createFile(File file) throws IOException {
         Asset.notNull(file);

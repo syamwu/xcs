@@ -29,7 +29,7 @@ public class HttpClientUtils {
      * @param url
      * @return
      * @throws IOException
-     * @author SamJoker
+     * @author syam_wu
      */
     public static CloseableHttpResponse sendRequest(String content, String url, String charset, int timeOut, boolean gzip)
             throws IOException {

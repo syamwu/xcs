@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * 配置前缀注解
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018-03-09
  */
 @Target(ElementType.TYPE)

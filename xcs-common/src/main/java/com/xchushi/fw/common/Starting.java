@@ -3,7 +3,7 @@ package com.xchushi.fw.common;
 /**
  * 可启动和关闭接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public interface Starting {

@@ -3,7 +3,7 @@ package com.xchushi.fw.common.observer;
 /**
  * 被观察主题统一接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public interface Subject<T> {

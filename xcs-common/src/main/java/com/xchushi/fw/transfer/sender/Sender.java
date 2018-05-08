@@ -5,7 +5,7 @@ import com.xchushi.fw.transfer.CallBackAble;
 /**
  * 数据传输统一接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public interface Sender {

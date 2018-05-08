@@ -1,5 +1,7 @@
 package com.xchushi.fw.log.constant;
 
+import java.util.Map;
+
 public class LoggerEvent {
 
     private LoggerType loggerType;
@@ -13,14 +15,17 @@ public class LoggerEvent {
     private Throwable t;
 
     private Object[] args;
+    
+    private Map<String,String> MDCmap;
 
-    public LoggerEvent(LoggerType loggerType, Thread thread, StackTraceElement st, String message, Throwable t,
+    public LoggerEvent(LoggerType loggerType, Thread thread, StackTraceElement st, String message, Throwable t,Map<String,String> MDCmap,
             Object[] args) {
         this.loggerType = loggerType;
         this.thread = thread;
         this.st = st;
         this.message = message;
         this.t = t;
+        this.MDCmap = MDCmap;
         this.args = args;
     }
 
@@ -70,6 +75,14 @@ public class LoggerEvent {
 
     public void setArgs(Object[] args) {
         this.args = args;
+    }
+
+    public Map<String, String> getMDCmap() {
+        return MDCmap;
+    }
+
+    public void setMDCmap(Map<String, String> mDCmap) {
+        MDCmap = mDCmap;
     }
 
 }

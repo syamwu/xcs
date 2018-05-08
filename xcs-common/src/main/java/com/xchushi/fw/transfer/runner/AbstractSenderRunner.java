@@ -5,13 +5,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
-import com.xchushi.fw.transfer.sender.AbstractSender;
 import com.xchushi.fw.transfer.sender.Sender;
 
 /**
- * 收集器
+ * 抽象收集器
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public abstract class AbstractSenderRunner implements Runnable, Starting, Configurable {

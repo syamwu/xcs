@@ -54,8 +54,8 @@ public final class Asset {
         throw new RuntimeException(e);
     }
     
-    public final static void isAssignableFrom(Class<?> clsP, Class<?> clsS) {
-        isTrue(clsP.isAssignableFrom(clsS), clsP.getName() + " isn't assignable from " + clsS.getName());
+    public final static void isAssignableFrom(Class<?> parentClass, Class<?> sonClass) {
+        isTrue(parentClass.isAssignableFrom(sonClass), parentClass.getName() + " isn't assignable from " + sonClass.getName());
     }
     
     public final static <T> T getNull(){

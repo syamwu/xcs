@@ -1,12 +1,11 @@
 package com.xchushi.fw.log;
 
-import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.log.constant.LoggerEntity;
 
 /**
  * 基础logger类，描述了logger的基本行为
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018-03-09
  */
 public interface XcsLogger {
@@ -58,6 +57,7 @@ public interface XcsLogger {
      * loggerEvent->st  输出日志信息的线程栈，用以查找输出日志的类和方法<br>
      * loggerEvent->message  日志信息<br>
      * loggerEvent->t  异常<br>
+     * loggerEvent->MDCmap  MDC附带参数<br>
      * loggerEvent->args  日志附带的参数<br>
      * entityType  使用nomal<br>
      */

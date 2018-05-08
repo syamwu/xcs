@@ -2,6 +2,7 @@ package com.xchushi.fw.transfer.collect;
 
 import java.util.Queue;
 
+import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.container.LockAbleQueue;
 import com.xchushi.fw.common.entity.SpliceEntity;
@@ -11,9 +12,10 @@ import com.xchushi.fw.common.environment.Configure;
 /**
  * 字符串队列收集器
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
+@ConfigSetting(prefix = "collecter")
 public class StringQueueCollector extends LockAbleQueue<String> implements Collected<SpliceEntity<String>, String> {
 
     /**
@@ -82,9 +84,9 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
                 }
                 length = length + item.getBytes(charset).length;
                 if (tmp == null) {
-                    tmp = new StringSpliceEntity(item + StringConstant.NEWLINE);
+                    tmp = new StringSpliceEntity(item + StringConstant.NEW_LINE);
                 }else{
-                    tmp.splice(item + StringConstant.NEWLINE);
+                    tmp.splice(item + StringConstant.NEW_LINE);
                 }
             }
         } finally {

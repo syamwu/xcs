@@ -5,7 +5,7 @@ import com.xchushi.fw.arithmetic.loadbalanc.code.UniqueCode;
 /**
  * 动态均衡
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public interface  DynamicAble<T> extends Load<T> {

@@ -1,18 +1,18 @@
 package com.xchushi.fw.log;
 
 import com.xchushi.fw.common.Starting;
-import com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger;
+import com.xchushi.fw.log.elasticsearch.logger.SubjectLogger;
 
 /**
  * 日志工厂，用以构建logger实例
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018-03-09
  */
 public class XcsLoggerFactory {
 
     public static XcsLogger getLogger(Class<?> cls) {
-        XcsLogger xcsLogger = TCPEsLogger.getLogger(cls);
+        XcsLogger xcsLogger = SubjectLogger.getLogger(cls);
         return xcsLogger;
     }
 
@@ -21,7 +21,7 @@ public class XcsLoggerFactory {
     }
     
     public static XcsLogger getLoggerAndStart(Class<?> cls) {
-        XcsLogger xcsLogger = TCPEsLogger.getLogger(cls);
+        XcsLogger xcsLogger = SubjectLogger.getLogger(cls);
         if(Starting.class.isAssignableFrom(xcsLogger.getClass())){
             ((Starting)xcsLogger).start();
         }

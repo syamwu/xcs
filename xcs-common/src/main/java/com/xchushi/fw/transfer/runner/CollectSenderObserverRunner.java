@@ -22,9 +22,14 @@ import com.xchushi.fw.transfer.CallBackAble;
 import com.xchushi.fw.transfer.collect.Collected;
 import com.xchushi.fw.transfer.collect.StringQueueCollector;
 import com.xchushi.fw.transfer.sender.AbstractSender;
-import com.xchushi.fw.transfer.sender.HttpSender;
 import com.xchushi.fw.transfer.sender.SenderFactory;
 
+/**
+ * 收集被观察者发送来的数据，并传输
+ * 
+ * @author: syam_wu
+ * @date: 2018
+ */
 public class CollectSenderObserverRunner extends AbstractSenderRunner implements CallBackAble, Observer<String> {
     
     private static Logger logger = SysLoggerFactory.getLogger(CollectSenderObserverRunner.class);
@@ -113,10 +118,11 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
     @Override
     public void sendingFailed(Object message, Throwable e) {
         logger.debug("sendingFailed:" + message, e);
+        e.printStackTrace();
     }
 
     @Override
-    public void change(String t) {
+    public void notify(String t) {
         try {
             mainCollecter.collect(t);
         } catch (Exception e) {
@@ -124,47 +130,49 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
         }
     }
     
-    private static ThreadPoolExecutor getThreadPoolExecutorByConfigure(Configure configure) {
+    private ThreadPoolExecutor getThreadPoolExecutorByConfigure(Configure configure) {
         ThreadPoolExecutor threadPoolExecutor = null;
         if (configure != null) {
             try {
-                Executor ex = configure.getBean(StringConstant.EXECUTORCLASS);
+                Executor ex = configure.getBean(StringConstant.EXECUTOR_CLASS);
                 if (ex != null) {
-                    threadPoolExecutor = ex.getThreadPoolExecutor(configure, HttpSender.class);
+                    threadPoolExecutor = ex.getThreadPoolExecutor(configure, getClass());
                 } else {
-                    threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(configure, HttpSender.class);
+                    threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(configure, getClass());
                 }
             } catch (Exception e) {
                 logger.error("HttpSender getThreadPoolExecutorByConfigure fail:" + e.getMessage(), e);
             }
         } else {
-            threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(HttpSender.class);
+            threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(getClass());
         }
         return threadPoolExecutor;
     }
     
-    @SuppressWarnings("unchecked")
-    public <T> Entity<T> send(Entity<String> msg) throws Exception {
+    @SuppressWarnings({ "rawtypes" })
+    public  Entity<?> send(Entity<String> msg) throws Exception {
         if(AbstractSender.class.isAssignableFrom(sender.getClass())){
-            return (Entity<T>)((AbstractSender)sender).synSend(msg);
+            return (Entity)((AbstractSender)sender).synSend(msg);
         }
         sender.send(msg, this);
         return Asset.getNull();
     }
     
-    class SendTask implements Callable<Entity<String>> {
+    @SuppressWarnings("rawtypes")
+    class SendTask implements Callable<Entity<?>> {
 
-        private Entity<String> msg;
+        private Entity msg;
         private CollectSenderObserverRunner collectSenderObserverRunner;
 
-        SendTask(Entity<String> sendEntity, CollectSenderObserverRunner collectSenderObserverRunner) {
+        SendTask(Entity sendEntity, CollectSenderObserverRunner collectSenderObserverRunner) {
             this.msg = sendEntity;
             this.collectSenderObserverRunner = collectSenderObserverRunner;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
-        public Entity<String> call() throws Exception {
-            Entity<String> obj = null;
+        public Entity call() throws Exception {
+            Entity obj = null;
             try {
                 obj = collectSenderObserverRunner.send(msg);
                 if (obj != null) {

@@ -6,7 +6,7 @@ import com.xchushi.fw.transfer.collect.Collected;
 /**
  * 抽象传输器
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public abstract class AbstractSender implements Sender {

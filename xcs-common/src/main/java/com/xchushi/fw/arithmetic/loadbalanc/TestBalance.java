@@ -12,7 +12,7 @@ public class TestBalance {
                 new LinkedBlockingQueue<Runnable>());
         String[] ips = { "192.168.1.101", "192.168.1.102", "192.168.1.103", "192.168.1.104", "192.168.1.105" };// 初始化ip值
         int[] loads = { 2, 1, 5, 1, 1 };// 初始化权值比
-        SimpleLoadBalance<String> lb = new SimpleLoadBalance<String>(ips, loads, 1000);
+        SimpleDynamicLoadBalance<String> lb = new SimpleDynamicLoadBalance<String>(ips, loads, 1000);
         lb.dynamicLoad(1, 300);
         //executor.execute(new TuTask01(lb, 300));
         executor.execute(new TuTask02(lb, 0, 300));
@@ -23,10 +23,10 @@ public class TestBalance {
     }
 
     static class TuTask01 implements Runnable {
-        SimpleLoadBalance<String> lb;
+        SimpleDynamicLoadBalance<String> lb;
         int seed;
 
-        TuTask01(SimpleLoadBalance<String> lb, int seed) {
+        TuTask01(SimpleDynamicLoadBalance<String> lb, int seed) {
             this.lb = lb;
             this.seed = seed;
         }
@@ -46,7 +46,7 @@ public class TestBalance {
     }
 
     static class TuTask02 implements Runnable {
-        SimpleLoadBalance<String> lb;
+        SimpleDynamicLoadBalance<String> lb;
         int index;
         int seed;
 
@@ -56,7 +56,7 @@ public class TestBalance {
          * @param index
          *            权值变化因子
          */
-        TuTask02(SimpleLoadBalance<String> lb, int index, int seed) {
+        TuTask02(SimpleDynamicLoadBalance<String> lb, int index, int seed) {
             this.lb = lb;
             this.index = index;
             this.seed = seed;

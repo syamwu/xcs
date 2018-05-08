@@ -4,7 +4,7 @@ package com.xchushi.fw.transfer.collect;
  * 
  * 可拼接实体统一接口
  * 
- * @author: SamJoker
+ * @author: syam_wu
  * @date: 2018
  */
 public interface Splice<T> {
