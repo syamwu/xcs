@@ -1,6 +1,6 @@
 package com.xchushi.fw.config;
 
-import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.environment.Propertie;
 

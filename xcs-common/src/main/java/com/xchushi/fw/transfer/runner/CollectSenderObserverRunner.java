@@ -1,8 +1,11 @@
 package com.xchushi.fw.transfer.runner;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 
@@ -25,7 +28,7 @@ import com.xchushi.fw.transfer.sender.AbstractSender;
 import com.xchushi.fw.transfer.sender.SenderFactory;
 
 /**
- * 收集被观察者发送来的数据，并传输
+ * 收集观察主题发送来的数据，并传输
  * 
  * @author: syam_wu
  * @date: 2018
@@ -39,24 +42,45 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
      */
     private Collected<SpliceEntity<String>, String> mainCollecter = null;
 
-    private LinkedBlockingQueue<Entity<String>> failQueue = new LinkedBlockingQueue<Entity<String>>(
+    private LinkedBlockingQueue<Entity<?>> failQueue = new LinkedBlockingQueue<Entity<?>>(
             Integer.MAX_VALUE);
-
+    
+    protected final LinkedBlockingQueue<Boolean> lockQueue = new LinkedBlockingQueue<Boolean>(Integer.MAX_VALUE);
+    
+    private ThreadPoolExecutor getThreadPoolExecutorByConfigure(Configure configure) {
+        ThreadPoolExecutor threadPoolExecutor = null;
+        if (configure != null) {
+            try {
+                Executor ex = configure.getBean(StringConstant.EXECUTOR_CLASS);
+                if (ex != null) {
+                    threadPoolExecutor = ex.getThreadPoolExecutor(configure, getClass());
+                } else {
+                    threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(configure, getClass());
+                }
+            } catch (Exception e) {
+                logger.error("HttpSender getThreadPoolExecutorByConfigure fail:" + e.getMessage(), e);
+            }
+        } else {
+            threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(getClass());
+        }
+        return threadPoolExecutor;
+    }
+    
     @Override
     public void run() {
         if (!started) {
             throw new InitException(this.toString() + " don't started!!");
         }
-        while (true) {
+        for(;;) {
             try {
-                Entity<String> sendEntity = null;
-                if (failQueue.isEmpty()) {
+                Entity<?> sendEntity = null;
+                if (failQueue == null || failQueue.isEmpty()) {
                     sendEntity = mainCollecter.collect();
                 } else {
                     sendEntity = failQueue.poll();
                 }
                 if (sendEntity == null) {
-                    Thread.sleep(1);
+                    lockQueue.poll(1l, TimeUnit.MILLISECONDS);
                     continue;
                 }
                 try {
@@ -66,7 +90,42 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
+            } finally {
             }
+        }
+    }
+    
+    @Override
+    public void callBack(Object obj) {
+        logger.debug("callBack:" + obj);
+    }
+
+    @Override
+    public void sendingFailed(Object message, Throwable e) {
+        logger.debug("sendingFailed:" + message, e);
+        if (message != null && Entity.class.isAssignableFrom(message.getClass())) {
+            failQueue.offer((Entity<?>) message);
+            caNotEmpty(false);
+        } else {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void notify(String t) {
+        try {
+            mainCollecter.collect(t);
+            caNotEmpty(true);
+        } catch (Exception e) {
+            Asset.throwRuntimeException(e);
+        }
+    }
+    
+    protected void caNotEmpty(boolean locked) {
+        try {
+            lockQueue.offer(locked, 1l, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            logger.error("caNotEmpty fail:" + e.getMessage(), e);
         }
     }
     
@@ -109,45 +168,6 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
             StartingUtils.stop(sender, false);
         }
     }
-
-    @Override
-    public void callBack(Object obj) {
-        logger.debug("callBack:" + obj);
-    }
-
-    @Override
-    public void sendingFailed(Object message, Throwable e) {
-        logger.debug("sendingFailed:" + message, e);
-        e.printStackTrace();
-    }
-
-    @Override
-    public void notify(String t) {
-        try {
-            mainCollecter.collect(t);
-        } catch (Exception e) {
-            Asset.throwRuntimeException(e);
-        }
-    }
-    
-    private ThreadPoolExecutor getThreadPoolExecutorByConfigure(Configure configure) {
-        ThreadPoolExecutor threadPoolExecutor = null;
-        if (configure != null) {
-            try {
-                Executor ex = configure.getBean(StringConstant.EXECUTOR_CLASS);
-                if (ex != null) {
-                    threadPoolExecutor = ex.getThreadPoolExecutor(configure, getClass());
-                } else {
-                    threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(configure, getClass());
-                }
-            } catch (Exception e) {
-                logger.error("HttpSender getThreadPoolExecutorByConfigure fail:" + e.getMessage(), e);
-            }
-        } else {
-            threadPoolExecutor = new DefaultExecutor().getThreadPoolExecutor(getClass());
-        }
-        return threadPoolExecutor;
-    }
     
     @SuppressWarnings({ "rawtypes" })
     public  Entity<?> send(Entity<String> msg) throws Exception {
@@ -158,31 +178,4 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
         return Asset.getNull();
     }
     
-    @SuppressWarnings("rawtypes")
-    class SendTask implements Callable<Entity<?>> {
-
-        private Entity msg;
-        private CollectSenderObserverRunner collectSenderObserverRunner;
-
-        SendTask(Entity sendEntity, CollectSenderObserverRunner collectSenderObserverRunner) {
-            this.msg = sendEntity;
-            this.collectSenderObserverRunner = collectSenderObserverRunner;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public Entity call() throws Exception {
-            Entity obj = null;
-            try {
-                obj = collectSenderObserverRunner.send(msg);
-                if (obj != null) {
-                    collectSenderObserverRunner.callBack(obj);
-                }
-            } catch (Exception e) {
-                collectSenderObserverRunner.sendingFailed(msg, e);
-            }
-            return obj;
-        }
-    }
-
 }

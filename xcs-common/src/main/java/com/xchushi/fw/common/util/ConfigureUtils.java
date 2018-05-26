@@ -25,4 +25,14 @@ public class ConfigureUtils {
         }
     }
     
+    public static void setConfigure(Configure config, boolean[] musts, Object... objs) {
+        Asset.notNull(musts);
+        Asset.notNull(objs);
+        Asset.isTrue(musts.length == objs.length, "musts size not equals objs size");
+        for (int i = 0; i < objs.length; i++) {
+            Object object = objs[i];
+            setConfigure(object, config, musts[i]);  
+        }
+    }
+    
 }

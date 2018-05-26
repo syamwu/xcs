@@ -1,7 +1,7 @@
 package com.xchushi.fw.common.observer;
 
 /**
- * 被观察主题统一接口
+ * 主题统一接口
  * 
  * @author: syam_wu
  * @date: 2018

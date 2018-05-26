@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 
-import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.SimpleDynamicLoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.TransferResponseEntity;
 import com.xchushi.fw.common.environment.Configure;

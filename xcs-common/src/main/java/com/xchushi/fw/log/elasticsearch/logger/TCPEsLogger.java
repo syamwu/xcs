@@ -18,11 +18,11 @@ import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.util.StartingUtils;
 import com.xchushi.fw.log.SysLoggerFactory;
+import com.xchushi.fw.log.XcsLogger;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
 import com.xchushi.fw.log.constant.LoggerEntity;
 import com.xchushi.fw.log.constant.LoggerEvent;
 import com.xchushi.fw.log.constant.LoggerType;
-import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xchushi.fw.log.elasticsearch.changer.Changer;
 import com.xchushi.fw.log.elasticsearch.changer.NomalChanger;
 import com.xchushi.fw.transfer.CallBackAble;
@@ -30,7 +30,7 @@ import com.xchushi.fw.transfer.sender.Sender;
 import com.xchushi.fw.transfer.sender.SenderFactory;
 
 @Deprecated
-public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurable {
+public class TCPEsLogger implements XcsLogger, CallBackAble, Starting, Configurable {
 
     private Changer changer;
 
@@ -59,11 +59,11 @@ public class TCPEsLogger implements EsLogger, CallBackAble, Starting, Configurab
         this.sender = sender;
     }
 
-    public static EsLogger getLogger(Class<?> cls, Changer changer, Sender sender) {
+    public static XcsLogger getLogger(Class<?> cls, Changer changer, Sender sender) {
         return new TCPEsLogger(cls, changer, sender);
     }
 
-    public static EsLogger getLogger(Class<?> cls) {
+    public static XcsLogger getLogger(Class<?> cls) {
         return new TCPEsLogger(cls);
     }
 

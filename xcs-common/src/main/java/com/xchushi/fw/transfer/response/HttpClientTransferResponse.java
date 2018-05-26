@@ -8,7 +8,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.util.StreamUtils;
-import com.xchushi.fw.common.util.StringUtil;
 
 public class HttpClientTransferResponse implements TransferResponse {
 

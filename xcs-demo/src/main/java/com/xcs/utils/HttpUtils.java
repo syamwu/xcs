@@ -674,11 +674,11 @@ public class HttpUtils {
         // HttpUtils.putListString("User-Agent", "Apache-HttpClient/4.1.1 (java
         // 1.5)", mapthis2);
         int a = 1;
-        sendPostXF("http://www.kcrj.net:12017/",
-                "<program><function_id>yygh001</function_id><aab324>441600</aab324><pageno>1</pageno></program>");
-        if (a == 1) {
-            return;
-        }
+//        sendPostXF("http://www.kcrj.net:12017/",
+//                "<program><function_id>yygh001</function_id><aab324>441600</aab324><pageno>1</pageno></program>");
+//        if (a == 1) {
+//            return;
+//        }
         System.out.println(HttpUtils.class.getClassLoader().toString());
         try {
             byte[] bytes = StreamUtils.file2byte(
@@ -686,7 +686,7 @@ public class HttpUtils {
             Map<String, List<String>> mapthis = new HashMap<String, List<String>>();
             HttpUtils.putListString("clsname", "cn.yunyichina.TestLoader", mapthis);
             HttpUtils.putListString("Content-Type", "text/xml", mapthis);
-            sendPostXF("http://127.0.0.1:12335/testclsloader", mapthis, bytes, true);
+            sendPostXF("http://127.0.0.1:8077/testclsloader", mapthis, bytes, true);
             if (a == 1) {
                 return;
             }

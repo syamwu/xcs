@@ -110,11 +110,13 @@ public class TestMDCBus {
             MDC.put("index", 1 + "");
             return;
         }
-        long index = Long.valueOf(MDC.get("index"));
-        long notime = System.currentTimeMillis();
-        long noIndex = index + 1;
-        MDC.put("time", notime + "");
-        MDC.put("index", noIndex + "");
+        long oldIndex = Long.valueOf(MDC.get("index"));
+        long oldTime = Long.valueOf(MDC.get("time"));
+        long nowtime = System.currentTimeMillis();
+        long nowIndex = oldIndex + 1;
+        MDC.put("time", nowtime + "");
+        MDC.put("index", nowIndex + "");
+        System.out.println(oldIndex + "---------------" + (nowtime - oldTime));
     }
     
     public static void current() {

@@ -4,7 +4,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.environment.Configure;
 
 @ConfigSetting(prefix = "executor")

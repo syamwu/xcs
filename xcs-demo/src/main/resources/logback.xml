@@ -43,12 +43,42 @@
         <remoteHost>120.76.98.17</remoteHost>
         <port>5555</port>
     </appender> -->
+    
+    <!--    <appender name="xcslog" class="com.xchushi.fw.log.logback.XcsLogbackAppender">
+        <xcsLogger class="com.xchushi.fw.log.elasticsearch.logger.TCPEsLogger">
+            <changer class="com.xchushi.fw.log.elasticsearch.changer.NomalChanger">
+                <appname>yyt-provider-drug</appname>
+            </changer>
+            <sender class="com.xchushi.fw.transfer.sender.HttpSender">
+                <serverHosts>eslog.wushiyan.my:7777</serverHosts>
+                <uri>yunyi_log/test</uri>
+            </sender>
+        </xcsLogger>
+    </appender> -->
+
+<!--     <appender name="xcsloger" class="com.xchushi.fw.log.logback.XcsLogbackAppender">
+        <xcsLogger class="com.xchushi.fw.log.elasticsearch.logger.ElasticSearchSubjectLogger">
+            <changer class="com.xchushi.fw.log.elasticsearch.changer.NomalChanger">
+                <appname>xcs-demo</appname>
+            </changer>
+            <observer class="com.xchushi.fw.transfer.runner.CollectSenderObserverRunner">
+                <sender class="com.xchushi.fw.transfer.sender.HttpAndHttpsSender">
+                    <serverHosts>eslog.wushiyan.my:7777</serverHosts>
+                    <uri>yunyi_log/test</uri>
+                </sender>
+            </observer>
+        </xcsLogger>
+    </appender> -->
+    
+    <appender name="xcslog" class="com.xchushi.fw.log.logback.XcsLogbackAppender">
+        <fileName>conf/xcs.properties</fileName>
+    </appender>
+    
 
 
 	<!--打印任意包日志 -->
 	<root level="INFO">
-		<appender-ref ref="STDOUT" />
-		<appender-ref ref="ALL" />
+	    <appender-ref ref="STDOUT" />
 		<appender-ref ref="xcslog" />
 	</root>
 	

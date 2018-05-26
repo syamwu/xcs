@@ -13,7 +13,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
-import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.config.ConfigureFactory;
@@ -37,9 +37,10 @@ public class NomalChanger implements Changer, Configurable {
     private String ipAddress = "";
 
     public NomalChanger() {
+        this(null);
     }
 
-    private NomalChanger(Map<String, Object> normalParams) {
+    public NomalChanger(Map<String, Object> normalParams) {
         this(normalParams, ConfigureFactory.getConfigure(NomalChanger.class));
     }
 

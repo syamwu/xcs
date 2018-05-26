@@ -20,24 +20,24 @@ import com.xchushi.fw.common.util.ConfigureUtils;
 import com.xchushi.fw.common.util.StartingUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
+import com.xchushi.fw.log.XcsLogger;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
 import com.xchushi.fw.log.constant.LoggerEntity;
 import com.xchushi.fw.log.constant.LoggerEvent;
 import com.xchushi.fw.log.constant.LoggerType;
-import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xchushi.fw.log.elasticsearch.changer.Changer;
 import com.xchushi.fw.log.elasticsearch.changer.NomalChanger;
 import com.xchushi.fw.transfer.runner.CollectSenderObserverRunner;
 
 /**
- * 被观察的Logger类,当有日志进入时会通知观察者
+ * ElasticSearch被观察的主题Logger类,当有日志进入时会通知观察者
  * 
  * @author: syam_wu
  * @date: 2018
  */
-public class SubjectLogger extends AbstractSubject<String> implements EsLogger, Starting, Configurable {
+public class ElasticSearchSubjectLogger extends AbstractSubject<String> implements XcsLogger, Starting, Configurable {
 
-    private static Logger logger = SysLoggerFactory.getLogger(SubjectLogger.class);
+    private static Logger logger = SysLoggerFactory.getLogger(ElasticSearchSubjectLogger.class);
 
     private Configure configure;
 
@@ -54,24 +54,24 @@ public class SubjectLogger extends AbstractSubject<String> implements EsLogger, 
 
     private static final String TIMEZONE = "GMT";
 
-    public SubjectLogger() {
+    public ElasticSearchSubjectLogger() {
     }
 
-    public SubjectLogger(Class<?> cls) {
+    public ElasticSearchSubjectLogger(Class<?> cls) {
         this.cls = cls;
     }
 
-    public SubjectLogger(Class<?> cls, Changer changer) {
+    public ElasticSearchSubjectLogger(Class<?> cls, Changer changer) {
         this.cls = cls;
         this.changer = changer;
     }
 
-    public static EsLogger getLogger(Class<?> cls, Changer changer) {
-        return new SubjectLogger(cls, changer);
+    public static XcsLogger getLogger(Class<?> cls, Changer changer) {
+        return new ElasticSearchSubjectLogger(cls, changer);
     }
 
-    public static EsLogger getLogger(Class<?> cls) {
-        return new SubjectLogger(cls);
+    public static XcsLogger getLogger(Class<?> cls) {
+        return new ElasticSearchSubjectLogger(cls);
     }
 
     @Override

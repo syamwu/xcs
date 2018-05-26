@@ -9,12 +9,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.slf4j.Logger;
 
-import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.SimpleDynamicLoadBalance;
 import com.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.Entity.EntityType;

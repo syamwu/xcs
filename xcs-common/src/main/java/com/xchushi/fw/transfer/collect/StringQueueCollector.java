@@ -2,7 +2,7 @@ package com.xchushi.fw.transfer.collect;
 
 import java.util.Queue;
 
-import com.xchushi.fw.annotation.ConfigSetting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.container.LockAbleQueue;
 import com.xchushi.fw.common.entity.SpliceEntity;

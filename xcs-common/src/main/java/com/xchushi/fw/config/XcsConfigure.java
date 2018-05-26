@@ -2,8 +2,8 @@ package com.xchushi.fw.config;
 
 import java.io.IOException;
 
-import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.common.Asset;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.constant.StringConstant;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.environment.Propertie;

@@ -1,4 +1,4 @@
-package com.xchushi.fw.annotation;
+package com.xchushi.fw.common.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

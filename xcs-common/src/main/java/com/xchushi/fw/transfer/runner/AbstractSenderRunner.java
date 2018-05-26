@@ -1,10 +1,13 @@
 package com.xchushi.fw.transfer.runner;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import com.xchushi.fw.common.Starting;
+import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
+import com.xchushi.fw.transfer.CallBackAble;
 import com.xchushi.fw.transfer.sender.Sender;
 
 /**
@@ -55,5 +58,24 @@ public abstract class AbstractSenderRunner implements Runnable, Starting, Config
     public void setTpe(ThreadPoolExecutor tpe) {
         this.tpe = tpe;
     }
+    
+    @SuppressWarnings("rawtypes")
+    class SendTask implements Callable<Entity<?>> {
 
+        private Entity msg;
+        private CallBackAble callBackAble;
+
+        SendTask(Entity sendEntity, CallBackAble callBackAble) {
+            this.msg = sendEntity;
+            this.callBackAble = callBackAble;
+        }
+
+        @Override
+        public Entity call() throws Exception {
+            Entity obj = null;
+            sender.send(msg, callBackAble);
+            return obj;
+        }
+    }
+    
 }

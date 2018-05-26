@@ -1,7 +1,7 @@
 package com.xchushi.fw.log;
 
 import com.xchushi.fw.common.Starting;
-import com.xchushi.fw.log.elasticsearch.logger.SubjectLogger;
+import com.xchushi.fw.log.elasticsearch.logger.ElasticSearchSubjectLogger;
 
 /**
  * 日志工厂，用以构建logger实例
@@ -12,7 +12,7 @@ import com.xchushi.fw.log.elasticsearch.logger.SubjectLogger;
 public class XcsLoggerFactory {
 
     public static XcsLogger getLogger(Class<?> cls) {
-        XcsLogger xcsLogger = SubjectLogger.getLogger(cls);
+        XcsLogger xcsLogger = ElasticSearchSubjectLogger.getLogger(cls);
         return xcsLogger;
     }
 
@@ -21,7 +21,7 @@ public class XcsLoggerFactory {
     }
     
     public static XcsLogger getLoggerAndStart(Class<?> cls) {
-        XcsLogger xcsLogger = SubjectLogger.getLogger(cls);
+        XcsLogger xcsLogger = ElasticSearchSubjectLogger.getLogger(cls);
         if(Starting.class.isAssignableFrom(xcsLogger.getClass())){
             ((Starting)xcsLogger).start();
         }

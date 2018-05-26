@@ -58,8 +58,10 @@ public class TestRestController {
 //        }
         MDC.put("sessionId", request.getSession().getId());
         long time = System.currentTimeMillis();
-        logger.info(strs[new Random().nextInt(10)]);
-        System.out.println(System.currentTimeMillis()-time);
+        String str = strs[new Random().nextInt(10)];
+        System.out.println((System.currentTimeMillis()-time)+"------------------------------1");
+        logger.info(str);
+        System.out.println((System.currentTimeMillis()-time)+"------------------------------2");
        new Object();
 //        }
         return "Hello World!!";

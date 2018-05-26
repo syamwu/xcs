@@ -3,12 +3,22 @@ package com.xchushi.fw.common.util;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
 
+/**
+ * 启动类工具
+ * 
+ * @author: syam_wu
+ * @date: 2018
+ */
 public class StartingUtils {
 
     public static void start(Object obj) {
         start(obj, true);
     }
     
+    /**
+     * @param obj 对象
+     * @param must  入参对象是否必须为启动类，若不为启动类则抛异常
+     */
     public static void start(Object obj, boolean must) {
         Asset.notNull(obj);
         if (must) {
@@ -25,6 +35,10 @@ public class StartingUtils {
         stop(obj, true);
     }
     
+    /**
+     * @param obj 对象
+     * @param must  入参对象是否必须为启动类，若不为启动类则抛异常
+     */
     public static void stop(Object obj, boolean must) {
         Asset.notNull(obj);
         if (must) {

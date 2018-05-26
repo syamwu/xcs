@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 
-import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.common.Asset;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.entity.Entity;
 import com.xchushi.fw.common.entity.Entity.EntityType;
 import com.xchushi.fw.common.entity.SimpleEntity;

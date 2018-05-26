@@ -5,6 +5,12 @@ import java.util.List;
 
 import com.xchushi.fw.common.Asset;
 
+/**
+ * 抽象主题类
+ * 
+ * @author: syam_wu
+ * @date: 2018
+ */
 public abstract class AbstractSubject<T> implements Subject<T> {
 
     /**

@@ -1,5 +1,6 @@
 package com.xchushi.fw.transfer.runner;
 
+@Deprecated
 public class FastFailCollectRunner implements Runnable {
 
     @Override

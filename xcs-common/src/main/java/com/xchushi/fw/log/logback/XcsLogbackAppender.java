@@ -18,6 +18,7 @@ import com.xchushi.fw.log.XcsLoggerFactory;
 import com.xchushi.fw.log.constant.LoggerEntity;
 import com.xchushi.fw.log.constant.LoggerEvent;
 import com.xchushi.fw.log.constant.LoggerType;
+import com.xchushi.fw.log.elasticsearch.TestMDCBus;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.LoggingEvent;

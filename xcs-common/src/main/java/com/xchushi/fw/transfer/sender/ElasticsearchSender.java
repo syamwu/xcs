@@ -1,7 +1,7 @@
 package com.xchushi.fw.transfer.sender;
 
-import com.xchushi.fw.annotation.ConfigSetting;
 import com.xchushi.fw.common.Starting;
+import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.transfer.CallBackAble;
 
 /**
