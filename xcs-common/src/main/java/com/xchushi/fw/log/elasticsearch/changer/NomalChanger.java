@@ -12,10 +12,10 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 
-import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.common.annotation.ConfigSetting;
 import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
+import com.xchushi.fw.common.util.JsonUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.constant.EsLoggerConstant;
@@ -100,7 +100,7 @@ public class NomalChanger implements Changer, Configurable {
                 if (isBaseDataType(object.getClass())) {
                     message = format(message, object.toString());
                 } else {
-                    message = format(message, JSON.toJSONString(object));
+                    message = format(message, JsonUtils.toJSONString(object));
                 }
             }
             allParamsMap.put(EsLoggerConstant._MESSAGE, message);
@@ -132,7 +132,7 @@ public class NomalChanger implements Changer, Configurable {
         if (trim.indexOf("{") == 0 || trim.indexOf("[") == 0) {
             Map result = null;
             try {
-                result = JSON.parseObject(str, Map.class);
+                result = JsonUtils.parseObject(str, Map.class);
             } catch (Exception e) {
                 result = null;
             } finally {

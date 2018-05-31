@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 import org.slf4j.Logger;
 
-import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.environment.Configurable;
@@ -17,6 +16,7 @@ import com.xchushi.fw.common.exception.InitException;
 import com.xchushi.fw.common.observer.AbstractSubject;
 import com.xchushi.fw.common.observer.Observer;
 import com.xchushi.fw.common.util.ConfigureUtils;
+import com.xchushi.fw.common.util.JsonUtils;
 import com.xchushi.fw.common.util.StartingUtils;
 import com.xchushi.fw.config.ConfigureFactory;
 import com.xchushi.fw.log.SysLoggerFactory;
@@ -135,7 +135,7 @@ public class ElasticSearchSubjectLogger extends AbstractSubject<String> implemen
                 loggerMap.put(EsLoggerConstant._MESSAGE, message);
             }
             loggerMap.put(EsLoggerConstant.TIME_STAMP, time);
-            offer(JSON.toJSONString(loggerMap));
+            offer(JsonUtils.toJSONString(loggerMap));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

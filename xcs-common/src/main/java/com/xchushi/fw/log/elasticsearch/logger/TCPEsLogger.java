@@ -10,12 +10,12 @@ import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
-import com.alibaba.fastjson.JSON;
 import com.xchushi.fw.common.Asset;
 import com.xchushi.fw.common.Starting;
 import com.xchushi.fw.common.environment.Configurable;
 import com.xchushi.fw.common.environment.Configure;
 import com.xchushi.fw.common.exception.InitException;
+import com.xchushi.fw.common.util.JsonUtils;
 import com.xchushi.fw.common.util.StartingUtils;
 import com.xchushi.fw.log.SysLoggerFactory;
 import com.xchushi.fw.log.XcsLogger;
@@ -138,7 +138,7 @@ public class TCPEsLogger implements XcsLogger, CallBackAble, Starting, Configura
                 sendMap.put(EsLoggerConstant._MESSAGE, message);
             }
             sendMap.put(EsLoggerConstant.TIME_STAMP, time);
-            offer(JSON.toJSONString(sendMap));
+            offer(JsonUtils.toJSONString(sendMap));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

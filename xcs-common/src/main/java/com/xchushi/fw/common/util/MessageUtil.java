@@ -3,8 +3,6 @@ package com.xchushi.fw.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
-
 public class MessageUtil {
 
     public static List<String> messageToList(String message, String split) {
@@ -20,7 +18,7 @@ public class MessageUtil {
     }
     
     public static String messageToListStr(String message, String split) {
-        return JSON.toJSONString(messageToList(message, split));
+        return JsonUtils.toJSONString(messageToList(message, split));
     }
     
 }

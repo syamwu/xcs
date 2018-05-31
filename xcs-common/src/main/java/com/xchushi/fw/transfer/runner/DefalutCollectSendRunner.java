@@ -106,7 +106,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
             if (msgs != null) {
                 for (String msg : msgs) {
 //                    StringBuffer strBuff = new StringBuffer();
-//                    List<String> messages = JSON.parseArray(msg, String.class);
+//                    List<String> messages = JsonUtils.parseArray(msg, String.class);
 //                    if (messages == null) {
 //                        continue;
 //                    }

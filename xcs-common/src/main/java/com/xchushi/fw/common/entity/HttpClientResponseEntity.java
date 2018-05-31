@@ -2,6 +2,8 @@ package com.xchushi.fw.common.entity;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 
+import com.xchushi.fw.common.annotation.ParamsAsset;
+
 public class HttpClientResponseEntity extends Entity<CloseableHttpResponse> {
 
     private CloseableHttpResponse response;
@@ -12,6 +14,7 @@ public class HttpClientResponseEntity extends Entity<CloseableHttpResponse> {
         return response;
     }
 
+    @ParamsAsset(asset = { {},{} })
     public void setResponse(CloseableHttpResponse response) {
         this.response = response;
     }
