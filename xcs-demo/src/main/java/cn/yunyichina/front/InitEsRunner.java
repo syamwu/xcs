@@ -7,9 +7,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.xchushi.fw.common.Asset;
-import com.xchushi.fw.transfer.sender.HttpSender;
 import com.xcs.utils.StreamUtils;
+
+import syamwu.xchushi.fw.common.Asset;
+import syamwu.xchushi.fw.transfer.sender.HttpSender;
 
 @Component
 public class InitEsRunner implements ApplicationRunner {

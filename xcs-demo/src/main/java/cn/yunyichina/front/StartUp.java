@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.springframework.core.env.Environment;
 
-import com.xchushi.fw.common.exception.InitException;
-import com.xchushi.fw.log.SysLoggerFactory;
+import syamwu.xchushi.fw.common.exception.InitException;
+import syamwu.xchushi.fw.log.SysLoggerFactory;
 
 public class StartUp {
     

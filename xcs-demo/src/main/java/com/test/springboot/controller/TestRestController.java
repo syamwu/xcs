@@ -12,9 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xchushi.fw.log.XcsLoggerFactory;
-import com.xchushi.fw.log.elasticsearch.EsLogger;
 import com.xcs.utils.StreamUtils;
+
+import syamwu.xchushi.fw.log.XcsLoggerFactory;
+import syamwu.xchushi.fw.log.elasticsearch.EsLogger;
 
 @Controller
 @RequestMapping("/")

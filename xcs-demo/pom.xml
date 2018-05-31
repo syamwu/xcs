@@ -247,7 +247,7 @@
         </dependency>
         
         <dependency>
-            <groupId>com.xchushi</groupId>
+            <groupId>syamwu.xchushi</groupId>
             <artifactId>xcs-common</artifactId>
             <version>1.0.0</version>
         </dependency>
