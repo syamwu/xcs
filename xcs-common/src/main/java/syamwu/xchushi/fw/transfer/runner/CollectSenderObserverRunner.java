@@ -9,20 +9,21 @@ import org.slf4j.Logger;
 import syamwu.xchushi.fw.common.Asset;
 import syamwu.xchushi.fw.common.constant.StringConstant;
 import syamwu.xchushi.fw.common.entity.Entity;
+import syamwu.xchushi.fw.common.entity.Entity.EntityType;
 import syamwu.xchushi.fw.common.entity.SpliceEntity;
 import syamwu.xchushi.fw.common.environment.Configure;
 import syamwu.xchushi.fw.common.exception.InitException;
 import syamwu.xchushi.fw.common.executor.DefaultExecutor;
 import syamwu.xchushi.fw.common.executor.Executor;
 import syamwu.xchushi.fw.common.observer.Observer;
-import syamwu.xchushi.fw.common.util.StartingUtils;
-import syamwu.xchushi.fw.config.ConfigureFactory;
+import syamwu.xchushi.fw.common.util.LifeCycleUtils;
+import syamwu.xchushi.fw.factory.FactoryProxy;
+import syamwu.xchushi.fw.factory.SenderFactory;
 import syamwu.xchushi.fw.log.SysLoggerFactory;
 import syamwu.xchushi.fw.transfer.CallBackAble;
 import syamwu.xchushi.fw.transfer.collect.Collected;
 import syamwu.xchushi.fw.transfer.collect.StringQueueCollector;
 import syamwu.xchushi.fw.transfer.sender.AbstractSender;
-import syamwu.xchushi.fw.transfer.sender.SenderFactory;
 
 /**
  * 收集观察主题发送来的数据，并传输
@@ -31,19 +32,21 @@ import syamwu.xchushi.fw.transfer.sender.SenderFactory;
  * @date: 2018
  */
 public class CollectSenderObserverRunner extends AbstractSenderRunner implements CallBackAble, Observer<String> {
-    
+
     private static Logger logger = SysLoggerFactory.getLogger(CollectSenderObserverRunner.class);
-    
+
     /**
      * 收集器,用以收集来自collect(R t)的数据
      */
     private Collected<SpliceEntity<String>, String> mainCollecter = null;
 
-    private LinkedBlockingQueue<Entity<?>> failQueue = new LinkedBlockingQueue<Entity<?>>(
-            Integer.MAX_VALUE);
-    
+    /**
+     * 失败队列
+     */
+    private LinkedBlockingQueue<Entity<?>> failQueue = new LinkedBlockingQueue<Entity<?>>(Integer.MAX_VALUE);
+
     protected final LinkedBlockingQueue<Boolean> lockQueue = new LinkedBlockingQueue<Boolean>(Integer.MAX_VALUE);
-    
+
     private ThreadPoolExecutor getThreadPoolExecutorByConfigure(Configure configure) {
         ThreadPoolExecutor threadPoolExecutor = null;
         if (configure != null) {
@@ -62,13 +65,18 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
         }
         return threadPoolExecutor;
     }
-    
+
+    /**
+     * 日志收集和任务分发主线程
+     * 
+     * @author syam_wu
+     */
     @Override
     public void run() {
         if (!started) {
             throw new InitException(this.toString() + " don't started!!");
         }
-        for(;;) {
+        for (;;) {
             try {
                 Entity<?> sendEntity = null;
                 if (failQueue == null || failQueue.isEmpty()) {
@@ -77,11 +85,10 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
                     sendEntity = failQueue.poll();
                 }
                 if (sendEntity == null) {
-                    lockQueue.poll(1l, TimeUnit.MILLISECONDS);
                     continue;
                 }
                 try {
-                    tpe.submit(new SendTask(sendEntity, this));
+                    threadPoolExecutor.submit(new SendTask(sendEntity, this));
                 } catch (Exception e) {
                     sendingFailed(sendEntity, e);
                 }
@@ -91,7 +98,7 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
             }
         }
     }
-    
+
     @Override
     public void callBack(Object obj) {
         logger.debug("callBack:" + obj);
@@ -99,12 +106,12 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
 
     @Override
     public void sendingFailed(Object message, Throwable e) {
-        logger.debug("sendingFailed:" + message, e);
         if (message != null && Entity.class.isAssignableFrom(message.getClass())) {
+            ((Entity<?>) message).setEntityType(EntityType.reSend);
             failQueue.offer((Entity<?>) message);
             caNotEmpty(false);
         } else {
-            e.printStackTrace();
+            logger.error("sendingFailed:" + message, e);
         }
     }
 
@@ -112,12 +119,11 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
     public void notify(String t) {
         try {
             mainCollecter.collect(t);
-            caNotEmpty(true);
         } catch (Exception e) {
             Asset.throwRuntimeException(e);
         }
     }
-    
+
     protected void caNotEmpty(boolean locked) {
         try {
             lockQueue.offer(locked, 1l, TimeUnit.MILLISECONDS);
@@ -125,34 +131,34 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
             logger.error("caNotEmpty fail:" + e.getMessage(), e);
         }
     }
-    
+
     @Override
     public boolean started() {
         return started;
     }
-    
+
     @Override
     public synchronized void start() {
         if (started()) {
             throw new InitException(this.toString() + " had started, Can't start it again!!");
         }
         started = true;
-        if(configure == null){
-            configure = ConfigureFactory.getConfigure(getClass());
+        if (configure == null) {
+            configure = FactoryProxy.getFactory(Configure.class).getInstance(getClass());
         }
-        if(mainCollecter == null){
+        if (mainCollecter == null) {
             mainCollecter = new StringQueueCollector(configure, new LinkedBlockingQueue<String>(Integer.MAX_VALUE));
         }
-        if(tpe == null){
-            tpe = getThreadPoolExecutorByConfigure(configure);
+        if (threadPoolExecutor == null) {
+            threadPoolExecutor = getThreadPoolExecutorByConfigure(configure);
         }
         if (sender == null) {
-            sender = SenderFactory.getSender(getClass());
+            sender = SenderFactory.getSender(getClass(), configure);
         }
         if (sender != null) {
-            StartingUtils.start(sender, false);
+            LifeCycleUtils.start(sender, false);
         }
-        tpe.execute(this);
+        threadPoolExecutor.execute(this);
     }
 
     @Override
@@ -162,17 +168,17 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
         }
         started = false;
         if (sender != null) {
-            StartingUtils.stop(sender, false);
+            LifeCycleUtils.stop(sender, false);
         }
     }
-    
+
     @SuppressWarnings({ "rawtypes" })
-    public  Entity<?> send(Entity<String> msg) throws Exception {
-        if(AbstractSender.class.isAssignableFrom(sender.getClass())){
-            return (Entity)((AbstractSender)sender).synSend(msg);
+    public Entity<?> send(Entity<String> msg) throws Exception {
+        if (AbstractSender.class.isAssignableFrom(sender.getClass())) {
+            return (Entity) ((AbstractSender) sender).synSend(msg);
         }
         sender.send(msg, this);
         return Asset.getNull();
     }
-    
+
 }

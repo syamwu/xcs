@@ -68,7 +68,6 @@ public class StreamUtils {
         int readBytes = 0;
         StringBuilder stringBuilder = new StringBuilder();
         while ((readBytes = inputStream.read(buffer)) > 0) {
-            // stringBuilder.append(new String(buffer, 0, readBytes,));
             stringBuilder.append(new String(buffer, 0, readBytes, charset));
         }
         return stringBuilder.toString();

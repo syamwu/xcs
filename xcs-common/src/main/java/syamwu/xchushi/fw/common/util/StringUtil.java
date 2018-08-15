@@ -41,5 +41,13 @@ public class StringUtil {
         }
         return false;
     }
+    
+    public static boolean isBank(String string){
+        return string == null ? true : (string.length() <= 0 ? true : (string.trim().equals("") ? true : false));
+    }
+    
+    public static boolean isNotBank(String string) {
+        return !isBank(string);
+    }
 
 }

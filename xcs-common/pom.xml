@@ -16,6 +16,7 @@
         <jarName>${project.artifactId}-${project.parent.version}</jarName>
         <outputDir>target</outputDir>
         <classpathPrefix>lib/</classpathPrefix>
+        <okhttp.version>3.4.1</okhttp.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
@@ -86,19 +87,14 @@
 			<version>${fastjson.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>${httpclient.version}</version>
-		</dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
+        </dependency>
 		<dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>transport</artifactId>
-            <version>6.1.1</version>
         </dependency>
 	</dependencies> 
 

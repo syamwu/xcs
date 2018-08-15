@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+     <!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="syamwu.logtranslate.dao.LogNodeDao">
+
+   <resultMap id="logNodeResultMap" type="syamwu.logtranslate.entity.LogNode">
+       <result column="ID" property="id" jdbcType="VARCHAR" />
+       <result column="HOST" property="host" jdbcType="VARCHAR" />
+       <result column="PORT" property="port" jdbcType="VARCHAR" />
+       <result column="SEARCH_URL" property="searchUrl" jdbcType="VARCHAR" />
+       <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+       <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+
+   <select id="select" resultMap="logNodeResultMap">
+      select
+      <choose>
+          <when test="_parameter!=null and _parameter.containsKey('selects') and selects != null">
+               <foreach collection="selects" item="item" index="index" separator="," >${item}</foreach>
+          </when>
+          <otherwise>
+                *    
+          </otherwise>
+      </choose>
+      from es_log_node
+       <if test="_parameter!=null and _parameter.containsKey('wheres') and wheres != null">
+           <where>
+          <if test="wheres.id != null ">  and ID = #{wheres.id,jdbcType=VARCHAR}</if>
+          <if test="wheres.host != null ">  and HOST = #{wheres.host,jdbcType=VARCHAR}</if>
+          <if test="wheres.port != null ">  and PORT = #{wheres.port,jdbcType=VARCHAR}</if>
+          <if test="wheres.searchUrl != null ">  and SEARCH_URL = #{wheres.searchUrl,jdbcType=VARCHAR}</if>
+          <if test="wheres.beginCreatedTime != null ">  and CREATED_TIME &gt;= #{wheres.beginCreatedTime,jdbcType=TIMESTAMP}</if>
+          <if test="wheres.endCreatedTime != null "> and CREATED_TIME &lt;= #{wheres.endCreatedTime,jdbcType=TIMESTAMP}</if>
+          <if test="wheres.beginUpdateTime != null ">  and UPDATE_TIME &gt;= #{wheres.beginUpdateTime,jdbcType=TIMESTAMP}</if>
+          <if test="wheres.endUpdateTime != null "> and UPDATE_TIME &lt;= #{wheres.endUpdateTime,jdbcType=TIMESTAMP}</if>
+          </where>
+      </if>
+     <if test="_parameter!=null and _parameter.containsKey('orderColumns') and _parameter.containsKey('isAsc') and orderColumns != null and isAsc != null ">
+            order by   <foreach collection="orderColumns" item="item" index="index"  open="(" separator="," close=")">${item}</foreach>  
+           <choose>
+               <when test="isAsc == true">
+                     asc 
+               </when>
+               <otherwise>
+                     desc
+               </otherwise>
+           </choose>
+     </if>
+      <if test="_parameter!=null and _parameter.containsKey('pageInfo') and pageInfo!=null and pageInfo.pageNum != null  and pageInfo.pageSize != null  ">
+               limit #{pageInfo.pageSize,jdbcType=INTEGER} offset ${(pageInfo.pageNum - 1) * pageInfo.pageSize}
+      </if>
+     </select>
+
+
+   <select id="selectById" parameterType="java.lang.String" resultMap="logNodeResultMap">
+         select * from es_log_node where id = #{id,jdbcType=VARCHAR}
+   </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultMap="logNodeResultMap">
+         select    *    from es_log_node
+         where id in  
+         <foreach collection="list" item = "id" open="(" separator="," close=")">
+            #{id}
+         </foreach>
+   </select>
+
+   <select id="selectCount" resultType="Long">
+         select count(*) from es_log_node
+       <if test="_parameter!=null and _parameter.containsKey('wheres') and wheres != null">
+           <where>
+          <if test="wheres.id != null ">  and ID = #{wheres.id,jdbcType=VARCHAR}</if>
+          <if test="wheres.host != null ">  and HOST = #{wheres.host,jdbcType=VARCHAR}</if>
+          <if test="wheres.port != null ">  and PORT = #{wheres.port,jdbcType=VARCHAR}</if>
+          <if test="wheres.searchUrl != null ">  and SEARCH_URL = #{wheres.searchUrl,jdbcType=VARCHAR}</if>
+          <if test="wheres.beginCreatedTime != null ">  and CREATED_TIME &gt;= #{wheres.beginCreatedTime,jdbcType=TIMESTAMP}</if>
+          <if test="wheres.endCreatedTime != null "> and CREATED_TIME &lt;= #{wheres.endCreatedTime,jdbcType=TIMESTAMP}</if>
+          <if test="wheres.beginUpdateTime != null ">  and UPDATE_TIME &gt;= #{wheres.beginUpdateTime,jdbcType=TIMESTAMP}</if>
+          <if test="wheres.endUpdateTime != null "> and UPDATE_TIME &lt;= #{wheres.endUpdateTime,jdbcType=TIMESTAMP}</if>
+          </where>
+      </if>
+     </select>
+
+   <insert id="insert" parameterType="syamwu.logtranslate.entity.LogNode">
+        insert into es_log_node
+           <trim prefix="(" suffix=")" suffixOverrides="," >
+             <if test="id != null" >
+               ID,
+             </if>
+             <if test="host != null" >
+               HOST,
+             </if>
+             <if test="port != null" >
+               PORT,
+             </if>
+             <if test="searchUrl != null" >
+               SEARCH_URL,
+             </if>
+             <if test="createdTime != null" >
+               CREATED_TIME,
+             </if>
+             <if test="updateTime != null" >
+               UPDATE_TIME,
+             </if>
+           </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides="," >
+             <if test="id != null" >
+               #{id,jdbcType=VARCHAR},
+             </if>
+             <if test="host != null" >
+               #{host,jdbcType=VARCHAR},
+             </if>
+             <if test="port != null" >
+               #{port,jdbcType=VARCHAR},
+             </if>
+             <if test="searchUrl != null" >
+               #{searchUrl,jdbcType=VARCHAR},
+             </if>
+             <if test="createdTime != null" >
+               #{createdTime,jdbcType=TIMESTAMP},
+             </if>
+             <if test="updateTime != null" >
+               #{updateTime,jdbcType=TIMESTAMP},
+             </if>
+           </trim>
+   </insert>
+
+   <update id="update" parameterType="syamwu.logtranslate.entity.LogNode">
+        update es_log_node
+        <set>
+           <if test="host != null ">HOST = #{host,jdbcType=VARCHAR},</if>
+           <if test="port != null ">PORT = #{port,jdbcType=VARCHAR},</if>
+           <if test="searchUrl != null ">SEARCH_URL = #{searchUrl,jdbcType=VARCHAR},</if>
+           <if test="createdTime != null ">CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},</if>
+           <if test="updateTime != null ">UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+          where id = #{id,jdbcType=VARCHAR}
+   </update>
+
+   <delete id="delete" parameterType="syamwu.logtranslate.entity.LogNode">
+     delete from es_log_node
+          where id = #{id,jdbcType=VARCHAR}
+   </delete>
+
+   <delete id="deleteByIds" parameterType="java.util.List">
+      delete from es_log_node
+          where id in 
+          <foreach collection="list" item = "id" open="(" separator="," close=")">
+                #{id}
+          </foreach>
+   </delete>
+
+   <insert id="batchInsert" parameterType="java.util.List">
+        insert into es_log_node
+           <trim prefix="(" suffix=")" suffixOverrides="," >
+               ID,
+               HOST,
+               PORT,
+               SEARCH_URL,
+               CREATED_TIME,
+               UPDATE_TIME,
+           </trim>
+           VALUES 
+           <foreach collection="list" item="item" index="index" separator="," > 
+               <trim prefix=" (" suffix=")" suffixOverrides="," >
+                #{item.id,jdbcType=VARCHAR},
+                #{item.host,jdbcType=VARCHAR},
+                #{item.port,jdbcType=VARCHAR},
+                #{item.searchUrl,jdbcType=VARCHAR},
+                #{item.createdTime,jdbcType=TIMESTAMP},
+                #{item.updateTime,jdbcType=TIMESTAMP},
+              </trim>
+           </foreach> 
+   </insert>
+
+</mapper>

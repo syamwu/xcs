@@ -8,7 +8,7 @@ import syamwu.xchushi.fw.common.util.JsonUtils;
  * @author: syam_wu
  * @date: 2018
  */
-public abstract class Entity<T> implements Value<T>{
+public abstract class Entity<T>{
 
     protected T data;
 
@@ -42,6 +42,10 @@ public abstract class Entity<T> implements Value<T>{
     
     public static <T> String bulidEntityString(Entity<T> entity){
         return JsonUtils.toJSONString(entity);
+    }
+
+    public T getData() {
+        return data;
     }
     
 }

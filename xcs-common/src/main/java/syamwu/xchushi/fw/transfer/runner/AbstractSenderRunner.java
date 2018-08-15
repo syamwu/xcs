@@ -3,7 +3,7 @@ package syamwu.xchushi.fw.transfer.runner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import syamwu.xchushi.fw.common.Starting;
+import syamwu.xchushi.fw.common.LifeCycle;
 import syamwu.xchushi.fw.common.entity.Entity;
 import syamwu.xchushi.fw.common.environment.Configurable;
 import syamwu.xchushi.fw.common.environment.Configure;
@@ -16,13 +16,13 @@ import syamwu.xchushi.fw.transfer.sender.Sender;
  * @author: syam_wu
  * @date: 2018
  */
-public abstract class AbstractSenderRunner implements Runnable, Starting, Configurable {
+public abstract class AbstractSenderRunner implements Runnable, LifeCycle, Configurable {
 
     protected Configure configure;
 
     protected Sender sender;
 
-    protected ThreadPoolExecutor tpe;
+    protected ThreadPoolExecutor threadPoolExecutor;
 
     protected boolean started = false;
     
@@ -32,7 +32,7 @@ public abstract class AbstractSenderRunner implements Runnable, Starting, Config
     protected AbstractSenderRunner(Configure configure, Sender sender, ThreadPoolExecutor threadPoolExecutor) {
         this.configure = configure;
         this.sender = sender;
-        this.tpe = threadPoolExecutor;
+        this.threadPoolExecutor = threadPoolExecutor;
     }
 
     public Configure getConfigure() {
@@ -52,11 +52,11 @@ public abstract class AbstractSenderRunner implements Runnable, Starting, Config
     }
 
     public ThreadPoolExecutor getTpe() {
-        return tpe;
+        return threadPoolExecutor;
     }
 
     public void setTpe(ThreadPoolExecutor tpe) {
-        this.tpe = tpe;
+        this.threadPoolExecutor = tpe;
     }
     
     @SuppressWarnings("rawtypes")

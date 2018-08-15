@@ -35,9 +35,4 @@ public class TransferResponseEntity extends Entity<TransferResponse> {
         }
     }
 
-    @Override
-    public TransferResponse getValue() {
-        return response;
-    }
-
 }

@@ -1,5 +1,7 @@
 package syamwu.xchushi.fw.transfer.response;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,10 +10,15 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 
 import syamwu.xchushi.fw.common.constant.StringConstant;
 import syamwu.xchushi.fw.common.util.StreamUtils;
+import syamwu.xchushi.fw.common.util.StringUtil;
 
 public class HttpClientTransferResponse implements TransferResponse {
 
     private CloseableHttpResponse response;
+    
+    private String responseBody;
+    
+    private Lock responseBodyLock = new ReentrantLock();
 
     public HttpClientTransferResponse(CloseableHttpResponse response) {
         this.response = response;
@@ -29,14 +36,26 @@ public class HttpClientTransferResponse implements TransferResponse {
 
     @Override
     public Object getResponseBody() throws Exception {
-        String charset = "";
-        Header header = response.getFirstHeader("Content-Type");
-        if (header == null) {
-            charset = StringConstant.DEFAULT_CHARSET;
-        } else {
-            charset = getCharset(header.getValue(), StringConstant.DEFAULT_CHARSET);
+        if (StringUtil.isNotBank(responseBody)) {
+            return responseBody;
         }
-        return StreamUtils.inputStream2string(response.getEntity().getContent(), charset);
+        try {
+            responseBodyLock.lock();
+            if (StringUtil.isNotBank(responseBody)) {
+                return responseBody;
+            }
+            String charset = "";
+            Header header = response.getFirstHeader("Content-Type");
+            if (header == null) {
+                charset = StringConstant.DEFAULT_CHARSET;
+            } else {
+                charset = getCharset(header.getValue(), StringConstant.DEFAULT_CHARSET);
+            }
+            responseBody = StreamUtils.inputStream2string(response.getEntity().getContent(), charset);
+        } finally {
+            responseBodyLock.unlock();
+        }
+        return responseBody;
     }
 
     public static String getCharset(String contentType, String defaultCharset) {

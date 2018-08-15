@@ -12,12 +12,13 @@ import org.slf4j.Logger;
 import syamwu.xchushi.fw.common.Asset;
 import syamwu.xchushi.fw.common.annotation.ConfigSetting;
 import syamwu.xchushi.fw.common.entity.Entity;
+import syamwu.xchushi.fw.common.entity.Entity.EntityType;
 import syamwu.xchushi.fw.common.entity.SimpleEntity;
 import syamwu.xchushi.fw.common.entity.SpliceEntity;
-import syamwu.xchushi.fw.common.entity.Entity.EntityType;
+import syamwu.xchushi.fw.common.environment.Configure;
 import syamwu.xchushi.fw.common.exception.InitException;
 import syamwu.xchushi.fw.common.util.SimpleFileQueue;
-import syamwu.xchushi.fw.config.ConfigureFactory;
+import syamwu.xchushi.fw.factory.FactoryProxy;
 import syamwu.xchushi.fw.log.SysLoggerFactory;
 import syamwu.xchushi.fw.transfer.CallBackAble;
 import syamwu.xchushi.fw.transfer.collect.Collected;
@@ -66,7 +67,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
     
     public DefalutCollectSendRunner(AbstractSender sd, Collected<SpliceEntity<T>, T> collected,
             ThreadPoolExecutor threadPoolExecutor, SpliceEntity<T> emptyT) {
-        super(ConfigureFactory.getConfigure(DefalutCollectSendRunner.class), sd, threadPoolExecutor);
+        super(FactoryProxy.getFactory(Configure.class).getInstance(DefalutCollectSendRunner.class), sd, threadPoolExecutor);
         Asset.notNull(sd, "sender can't be null");
         Asset.notNull(threadPoolExecutor, "threadPoolExecutor can't be null");
         this.emptyT = emptyT;
@@ -86,7 +87,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
     private void initCollectSendExecutor(AbstractSender sd, Collected<SpliceEntity<T>, T> collected) throws IOException {
         mainCollecter = collected;
         if (configure == null) {
-            configure = ConfigureFactory.getConfigure(DefalutCollectSendRunner.class);
+            configure = FactoryProxy.getFactory(Configure.class).getInstance(DefalutCollectSendRunner.class);
         }
         if (configure != null) {
             failSendFileEnable = configure.getProperty("failSendFileEnable", Boolean.class, failSendFileEnable);
@@ -138,14 +139,14 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
             }
-            tpe.execute(new Runnable() {
+            threadPoolExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     initFailQueue(failFileQueue);
                 }
             });
         }
-        tpe.execute(this);
+        threadPoolExecutor.execute(this);
     }
 
     @Override
@@ -170,7 +171,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
                     continue;
                 }
                 try {
-                    tpe.submit(new SendTask(sendEntity, this));
+                    threadPoolExecutor.submit(new SendTask(sendEntity, this));
                 } catch (Exception e) {
                     sendingFailed(sendEntity, e);
                 }
@@ -188,7 +189,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
             Entity response = (Entity) obj;
             if (failSendFileEnable && EntityType.reSend == response.getEntityType()) {
                 failQueue.poll();
-                tpe.execute(new Runnable() {
+                threadPoolExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -223,7 +224,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
         if (failSendFileEnable && Entity.class.isAssignableFrom(message.getClass())) {
             Entity<T> senEntity = (Entity<T>) message;
             if (EntityType.nomal == senEntity.getEntityType()) {
-                failQueue.offer(new SimpleEntity<T>(senEntity.getValue(), EntityType.reSend));
+                failQueue.offer(new SimpleEntity<T>(senEntity.getData(), EntityType.reSend));
                 //String msgList = MessageUtil.messageToListStr((String) senEntity.getData(), StringConstant.NEWLINE);
                 String msgList = Entity.bulidEntityString(senEntity);
                 Asset.notNull(msgList, "exchange senEntity.message fail!");
@@ -231,7 +232,7 @@ public final class DefalutCollectSendRunner<T> extends AbstractSenderRunner impl
             }
         }else if (Entity.class.isAssignableFrom(message.getClass())) {
             Entity<T> senEntity = (Entity<T>) message;
-            failQueue.offer(new SimpleEntity<T>(senEntity.getValue(), EntityType.reSend));
+            failQueue.offer(new SimpleEntity<T>(senEntity.getData(), EntityType.reSend));
         }
     }
 

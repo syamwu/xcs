@@ -1,0 +1,111 @@
+<configuration>
+
+	<property name="log.path" value="./yylog"></property>
+	<property name="log.context" value="yy"></property>
+	<property name="eslog.path" value="./eslog"></property>
+    <property name="eslog.name" value="eslog"></property>
+	<property name="log.file.yy.all" value="yy_all"></property>
+
+	<!-- 设置上下文名称后,可以方便地区分来自不同应用程序的记录 -->
+	<contextName>${log.context}</contextName>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%class.%method:%line]:%m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ALL"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/%d{yyyy/MM/dd/HH/mm,aux}/%d{yyyyMMddHHmm}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%class.%method:%line]:%m%n</pattern>
+		</encoder>
+	</appender>
+
+<!-- 	<appender name="xcslog" class="syamwu.xchushi.fw.log.logback.XcsLogbackAppender">
+		<xcsLogger class="syamwu.xchushi.fw.log.elasticsearch.logger.TCPEsLogger">
+			<changer class="syamwu.xchushi.fw.log.elasticsearch.changer.ElasticsearchLogChanger">
+				<appname>test_application</appname>
+			</changer>
+			<sender class="syamwu.xchushi.fw.transfer.sender.HttpSender">
+				<serverHosts>120.76.98.17:12201</serverHosts>
+				<uri>yunyi_log/test</uri>
+			</sender>
+		</xcsLogger>
+	</appender> -->
+	
+<!-- 	<appender name="SYSLOG" class="ch.qos.logback.classic.net.SocketAppender">
+        <remoteHost>120.76.98.17</remoteHost>
+        <port>5555</port>
+    </appender> -->
+    
+    <!--    <appender name="xcslog" class="syamwu.xchushi.fw.log.logback.XcsLogbackAppender">
+        <xcsLogger class="syamwu.xchushi.fw.log.elasticsearch.logger.TCPEsLogger">
+            <changer class="syamwu.xchushi.fw.log.elasticsearch.changer.ElasticsearchLogChanger">
+                <appname>yyt-provider-drug</appname>
+            </changer>
+            <sender class="syamwu.xchushi.fw.transfer.sender.HttpSender">
+                <serverHosts>eslog.wushiyan.my:12201</serverHosts>
+                <uri>yunyi_log/test</uri>
+            </sender>
+        </xcsLogger>
+    </appender> -->
+
+<!--     <appender name="esappender" class="syamwu.xchushi.fw.log.logback.XcsLogbackAppender">
+        <xcsLogger class="syamwu.xchushi.fw.log.elasticsearch.logger.ElasticSearchSubjectLogger">
+            <changer class="syamwu.xchushi.fw.log.elasticsearch.changer.ElasticsearchLogChanger">
+                <appname>xcs-demo</appname>
+            </changer>
+            <observer class="syamwu.xchushi.fw.transfer.runner.CollectSenderObserverRunner">
+                <sender class="syamwu.xchushi.fw.transfer.sender.HttpAndHttpsSender">
+                    <serverHosts>eslog.wushiyan.my:12201</serverHosts>
+                    <uri>yunyi_log/test</uri>
+                </sender>
+            </observer>
+        </xcsLogger>
+    </appender> -->
+    
+    <appender name="esappender" class="syamwu.xchushi.easylog.logback.XcsLogbackAppender">
+        <fileName>conf/xcs.properties</fileName>
+    </appender>
+    
+    <appender name="esappenderlog"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+            <fileNamePattern>easylog/easylog-%d{yyyy-MM-dd}.%i.log</fileNamePattern> 
+            <maxHistory>90</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"> 
+                <maxFileSize>30MB</maxFileSize> 
+            </timeBasedFileNamingAndTriggeringPolicy> 
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%class.%method:%line]:%m%n</pattern>
+        </encoder>
+    </appender>
+    
+
+
+	<!--打印任意包日志 -->
+	<root level="DEBUG">
+	     <appender-ref ref="STDOUT" />
+		<appender-ref ref="esappender" />
+	</root>
+	
+   <!-- <logger name="com.test.springboot.controller" level="INFO" additivity="false">
+        <appender-ref ref="xcslog" />
+    </logger> -->
+
+    <logger name="org.apache.http" level="INFO" additivity="false"/>
+    
+    <logger name="org.mybatis" level="DEBUG" />
+    <logger name="org.mybatis.spring" level="DEBUG" />
+    
+    <logger name="syamwu.easylog" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="esappenderlog" />
+    </logger>
+
+</configuration>

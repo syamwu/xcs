@@ -1,6 +1,8 @@
 package syamwu.xchushi.fw.transfer.collect;
 
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import syamwu.xchushi.fw.common.annotation.ConfigSetting;
 import syamwu.xchushi.fw.common.constant.StringConstant;
@@ -23,7 +25,7 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
      */
     private int queueLoopCount = 30;
 
-    private int maxSendLength = 30_000;
+    private int maxSendLength = 2097152;
 
     /**
      * 队列最大值
@@ -34,13 +36,15 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
      * 字符集
      */
     private String charset = "UTF-8";
+    
+    private final Lock collectoLock = new ReentrantLock();
 
     public StringQueueCollector(Configure config, Queue<String> queue) {
         super(queue);
         if (config != null) {
-            queueLoopCount = config.getProperty("queueLoopCount", Integer.class, 30);
-            maxSendLength = config.getProperty("maxSendLength", Integer.class, 30_000_000);
-            maxQueueCount = config.getProperty("maxQueueCount", Integer.class, 100_000);
+            queueLoopCount = config.getProperty("queueLoopCount", Integer.class, 20);
+            maxSendLength = config.getProperty("maxSendLength", Integer.class, 2097152);
+            maxQueueCount = config.getProperty("maxQueueCount", Integer.class, 2147483647);
             charset = config.getProperty("charset", String.class, "UTF-8");
         }
     }
@@ -62,7 +66,7 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
 
     private StringSpliceEntity collect(StringSpliceEntity entity, int count, long waitTime) throws Exception {
         try {
-            lock.lock();
+            collectoLock.lock();
             StringSpliceEntity tmp = entity;
             int loopCount = 0;
             long length = 0l;
@@ -71,26 +75,26 @@ public class StringQueueCollector extends LockAbleQueue<String> implements Colle
                 if (count < 0 && this.isEmpty() && loopCount < queueLoopCount) {
                     Thread.sleep(waitTime);
                 } else if (loopCount >= queueLoopCount || length > maxSendLength) {
-                    String message = tmp == null ? null : tmp.getValue();
+                    String message = tmp == null ? null : tmp.getData();
                     if (message == null || message.length() < 1) {
                         return null;
                     }
                     return tmp;
                 }
                 loopCount++;
-                item = this.poll(true);
+                item = this.poll();
                 if (item == null) {
                     continue;
                 }
                 length = length + item.getBytes(charset).length;
                 if (tmp == null) {
                     tmp = new StringSpliceEntity(item + StringConstant.NEW_LINE);
-                }else{
+                } else {
                     tmp.splice(item + StringConstant.NEW_LINE);
                 }
             }
         } finally {
-            lock.unlock();
+            collectoLock.unlock();
         }
     }
 

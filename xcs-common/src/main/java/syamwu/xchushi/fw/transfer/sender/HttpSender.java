@@ -13,22 +13,21 @@ import syamwu.xchushi.fw.arithmetic.loadbalanc.LoadBalance;
 import syamwu.xchushi.fw.arithmetic.loadbalanc.SimpleDynamicLoadBalance;
 import syamwu.xchushi.fw.arithmetic.loadbalanc.load.DynamicAble;
 import syamwu.xchushi.fw.common.Asset;
-import syamwu.xchushi.fw.common.Starting;
+import syamwu.xchushi.fw.common.LifeCycle;
 import syamwu.xchushi.fw.common.annotation.ConfigSetting;
 import syamwu.xchushi.fw.common.constant.StringConstant;
 import syamwu.xchushi.fw.common.entity.Entity;
+import syamwu.xchushi.fw.common.entity.Entity.EntityType;
 import syamwu.xchushi.fw.common.entity.HttpClientResponseEntity;
 import syamwu.xchushi.fw.common.entity.SimpleEntity;
 import syamwu.xchushi.fw.common.entity.StringSpliceEntity;
-import syamwu.xchushi.fw.common.entity.Entity.EntityType;
 import syamwu.xchushi.fw.common.environment.Configure;
 import syamwu.xchushi.fw.common.exception.InitException;
 import syamwu.xchushi.fw.common.exception.SenderFailException;
 import syamwu.xchushi.fw.common.executor.DefaultExecutor;
 import syamwu.xchushi.fw.common.executor.Executor;
-import syamwu.xchushi.fw.common.util.HttpClientUtils;
 import syamwu.xchushi.fw.common.util.StreamUtils;
-import syamwu.xchushi.fw.config.ConfigureFactory;
+import syamwu.xchushi.fw.factory.FactoryProxy;
 import syamwu.xchushi.fw.log.SysLoggerFactory;
 import syamwu.xchushi.fw.transfer.CallBackAble;
 import syamwu.xchushi.fw.transfer.collect.StringQueueCollector;
@@ -43,7 +42,7 @@ import syamwu.xchushi.fw.transfer.runner.DefalutCollectSendRunner;
  */
 @Deprecated
 @ConfigSetting(prefix = "sender")
-public class HttpSender extends AbstractSender implements Starting  {
+public class HttpSender extends AbstractSender implements LifeCycle  {
 
     private ThreadPoolExecutor ex;
 
@@ -153,7 +152,7 @@ public class HttpSender extends AbstractSender implements Starting  {
         if (collectEnable) {
             if (ex == null)
                 ex = getThreadPoolExecutorByConfigure(
-                        configure == null ? ConfigureFactory.getConfigure(HttpSender.class) : configure);
+                        configure == null ? FactoryProxy.getFactory(Configure.class).getInstance(HttpSender.class) : configure);
             if (abstractSenderRunner != null) {
                 abstractSenderRunner.setConfigure(configure);
                 abstractSenderRunner.setTpe(ex);
@@ -234,7 +233,7 @@ public class HttpSender extends AbstractSender implements Starting  {
         try {
             senderLock.lock();
             if (sender == null) {
-                sender = new HttpSender(ConfigureFactory.getConfigure(HttpSender.class));
+                sender = new HttpSender(FactoryProxy.getFactory(Configure.class).getInstance(HttpSender.class));
                 try {
                     sender.start();
                 } catch (Exception e) {
@@ -361,7 +360,7 @@ public class HttpSender extends AbstractSender implements Starting  {
         boolean sendFailed = false;
         CloseableHttpResponse response = null;
         try {
-            response = HttpClientUtils.sendRequest(sendEntity.getValue(), url, charSet, sendTimeOut, true);
+            //response = HttpUtils.sendRequest(sendEntity.getData(), url, charSet, sendTimeOut, true);
             if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 202 ) {
                 logger.debug("synSend status:200, response msg:"
                         + StreamUtils.inputStream2string(response.getEntity().getContent()));

@@ -1,13 +1,12 @@
 package syamwu.xchushi.fw.common.container;
 
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LockAbleQueue<E> {
-
-    protected final Lock lock = new ReentrantLock();
 
     protected final Lock queueLock = new ReentrantLock();
 
@@ -20,26 +19,26 @@ public class LockAbleQueue<E> {
     }
 
     public void lock() {
-        lock.lock();
+        queueLock.lock();
     }
 
     public void unlock() {
-        lock.unlock();
+        queueLock.unlock();
     }
 
     public Lock getLock() {
-        return lock;
+        return queueLock;
     }
 
     public E poll() throws InterruptedException {
-        return poll(false);
+        return poll(false, 10l);
     }
 
-    public E poll(boolean fastReturn) throws InterruptedException {
+    public E poll(boolean fastReturn, long waitTime) throws InterruptedException {
         try {
             queueLock.lock();
             while (queue.isEmpty() && !fastReturn) {
-                notEmpty.await();
+                notEmpty.await(waitTime, TimeUnit.MILLISECONDS);
                 if (queue.isEmpty()) {
                     return null;
                 }
