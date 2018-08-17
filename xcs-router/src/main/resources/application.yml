@@ -1,14 +1,9 @@
-#spring Configuration 目前只有一个配置文件,如果有需要,可以分为dev和prod,然后再通过spring.profiles.active=prod 来切换生产或开发环境的配置文件.
 spring:
-    profiles:
-        active: default #控制不同环境的不同配置文件
-
     datasource:
         name: test
-        url: jdbc:mysql://eslog.syamwu:3306/xcs_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false #注意!
-        username: xcs
-        password: xcs2018
-        # 使用druid数据源
+        url: jdbc:mysql://db.eslog.syamwu:3306/yyt_platform?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: yunyi
+        password: yunyi2016
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver
         filters: stat
@@ -41,3 +36,6 @@ mybatis:
    
 storey: 
    key: query.bool.must.match_phrase.appname.query
+   
+api: 
+   config: conf/api.properties

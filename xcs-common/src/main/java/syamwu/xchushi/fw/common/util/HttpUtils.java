@@ -2,8 +2,8 @@ package syamwu.xchushi.fw.common.util;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.http.client.config.RequestConfig;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -21,8 +21,6 @@ public class HttpUtils {
     protected static final int TIME_OUT = 30_000;
     protected static final int MAX_LOG_LENGTH = 2000;
 
-    protected static RequestConfig config = null;
-    
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS) //连接超时
             .writeTimeout(10, TimeUnit.SECONDS) //写超时
@@ -180,6 +178,31 @@ public class HttpUtils {
     
     public static String postString(String url, String content) throws IOException {
         return postString(url, content, HttpContentType.TEXTHTML);
+    }
+    
+    public static String getCharset(String contentType) {
+        return getCharset(contentType, "UTF-8");
+    }
+    
+    public static String getCharset(String contentType, String defaultCharset) {
+        String result = null;
+        if (contentType == null || contentType.trim().equals("")) {
+            return defaultCharset;
+        }
+        String regex = "charset=((.*?;)|.*)";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(contentType);
+        if (m.find()) {
+            String regGroup = m.group(0);
+            if (regGroup != null && regGroup.indexOf(";") > -1) {
+                regGroup = regGroup.substring(0, regGroup.length() - 1);
+            }
+            result = regGroup.substring(regGroup.indexOf("=") + 1, regGroup.length());
+        }
+        if (result == null || result.trim().equals("")) {
+            result = defaultCharset;
+        }
+        return result;
     }
     
 }

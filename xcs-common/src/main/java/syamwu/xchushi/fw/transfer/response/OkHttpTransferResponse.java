@@ -1,7 +1,5 @@
 package syamwu.xchushi.fw.transfer.response;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-
 import okhttp3.Response;
 
 public class OkHttpTransferResponse implements TransferResponse {

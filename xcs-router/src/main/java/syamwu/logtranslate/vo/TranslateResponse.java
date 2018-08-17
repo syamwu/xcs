@@ -1,5 +1,5 @@
 package syamwu.logtranslate.vo;
 
-public class TranslateResponse extends Response {
+public class TranslateResponse extends Response<String> {
 
 }

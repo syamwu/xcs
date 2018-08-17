@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,10 +20,14 @@ import syamwu.logtranslate.dao.LogNodeDao;
 import syamwu.logtranslate.entity.LogApp;
 import syamwu.logtranslate.entity.LogNode;
 import syamwu.logtranslate.entity.LogNodeApp;
+import syamwu.logtranslate.service.ResourcesService;
 import syamwu.logtranslate.translate.impl.KibinaTranslater;
 import syamwu.logtranslate.utils.ServletUtils;
+import syamwu.logtranslate.vo.Request;
+import syamwu.logtranslate.vo.RequestMethod;
 import syamwu.logtranslate.vo.Response;
 import syamwu.logtranslate.vo.TranslateRequest;
+import syamwu.xchushi.fw.common.constant.HttpContentType;
 import syamwu.xchushi.fw.common.util.DateUtils;
 import syamwu.xchushi.fw.common.util.JsonUtils;
 import syamwu.xchushi.fw.common.util.StringUtil;
@@ -43,18 +48,19 @@ public class EsLogController {
     @Autowired
     private KibinaTranslater kibinaTranslater;
 
+    @Autowired
+    private ResourcesService resourcesService;
+
     @RequestMapping("/_msearch/**")
     @ResponseBody
     public String index(HttpServletRequest request, HttpServletResponse httpResponse) {
-        ServletUtils.printHttpServletRequest(request, false, "UTF-8");
         return kibinaTranslater.translate(new TranslateRequest(request)).getResult();
     }
 
     @RequestMapping("/put_node")
     @ResponseBody
     public String putNode(HttpServletRequest request, HttpServletResponse httpResponse) {
-        ServletUtils.printHttpServletRequest(request, false, "UTF-8");
-        Response response = new Response();
+        Response<String> response = new Response<String>();
         try {
             LogNodeApp logNodeApp = ServletUtils.getParamsByReqeust(request, LogNodeApp.class);
             if (StringUtil.isBank(logNodeApp.getPort()) || StringUtil.isBank(logNodeApp.getHost())) {
@@ -82,8 +88,7 @@ public class EsLogController {
     @RequestMapping("/put_app")
     @ResponseBody
     public String putApp(HttpServletRequest request, HttpServletResponse httpResponse) {
-        ServletUtils.printHttpServletRequest(request, false, "UTF-8");
-        Response response = new Response();
+        Response<String> response = new Response<String>();
         try {
             LogNodeApp logNodeApp = ServletUtils.getParamsByReqeust(request, LogNodeApp.class);
             if (StringUtil.isBank(logNodeApp.getNodeId()) || StringUtil.isBank(logNodeApp.getAppCode())
@@ -111,12 +116,10 @@ public class EsLogController {
         return JsonUtils.toJSONString(response);
     }
 
-    @GetMapping("/put_node_app")
-    @PutMapping("/put_node_app")
+    @RequestMapping("/put_node_app")
     @ResponseBody
     public String putNodeAndApp(HttpServletRequest request, HttpServletResponse httpResponse) {
-        ServletUtils.printHttpServletRequest(request, false, "UTF-8");
-        Response response = new Response();
+        Response<String> response = new Response<String>();
         try {
             LogNodeApp logNodeApp = ServletUtils.getParamsByReqeust(request, LogNodeApp.class);
             if (StringUtil.isBank(logNodeApp.getPort()) || StringUtil.isBank(logNodeApp.getHost())) {
@@ -157,6 +160,30 @@ public class EsLogController {
             logger.info("putNodeAndApp insert response:" + JsonUtils.toJSONString(response));
         }
         return JsonUtils.toJSONString(response);
+    }
+
+    @SuppressWarnings("rawtypes")
+    @RequestMapping("/setting/**")
+    public ResponseEntity<Response> setting(HttpServletRequest request, HttpServletResponse httpResponse) {
+        Response response = null;
+        try {
+            Request apiRequest = new Request().setApiUri(request.getRequestURI())
+                    .setMethod(getMethod(request.getMethod()))
+                    .setRequestParams(ServletUtils.getParamsByReqeust(request))
+                    .setResourceId(ServletUtils.getUriParams(request.getRequestURI(), 3));
+            response = resourcesService.getApiService(apiRequest).invoke(apiRequest);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            response.setResultCodeAndMessage(Response.FAIL_CODE, "system exception:" + e.getMessage());
+        } finally {
+            logger.info("setting response->" + JsonUtils.toJSONString(response));
+        }
+        ResponseEntity<Response> result = new ResponseEntity<>(response, HttpStatus.valueOf(response.getResultCode()));
+        return result;
+    }
+
+    private RequestMethod getMethod(String method) {
+        return RequestMethod.valueOf(method);
     }
 
 }

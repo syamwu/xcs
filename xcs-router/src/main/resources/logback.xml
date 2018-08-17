@@ -11,7 +11,7 @@
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%class.%method:%line]:%m%n</pattern>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%X{trace_id}][%class.%method:%line]:%m%n</pattern>
 		</encoder>
 	</appender>
 
@@ -21,53 +21,10 @@
 			<fileNamePattern>${log.path}/%d{yyyy/MM/dd/HH/mm,aux}/%d{yyyyMMddHHmm}.log</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
-			<pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%class.%method:%line]:%m%n</pattern>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%X{trace_id}][%class.%method:%line]:%m%n</pattern>
 		</encoder>
 	</appender>
 
-<!-- 	<appender name="xcslog" class="syamwu.xchushi.fw.log.logback.XcsLogbackAppender">
-		<xcsLogger class="syamwu.xchushi.fw.log.elasticsearch.logger.TCPEsLogger">
-			<changer class="syamwu.xchushi.fw.log.elasticsearch.changer.ElasticsearchLogChanger">
-				<appname>test_application</appname>
-			</changer>
-			<sender class="syamwu.xchushi.fw.transfer.sender.HttpSender">
-				<serverHosts>120.76.98.17:12201</serverHosts>
-				<uri>yunyi_log/test</uri>
-			</sender>
-		</xcsLogger>
-	</appender> -->
-	
-<!-- 	<appender name="SYSLOG" class="ch.qos.logback.classic.net.SocketAppender">
-        <remoteHost>120.76.98.17</remoteHost>
-        <port>5555</port>
-    </appender> -->
-    
-    <!--    <appender name="xcslog" class="syamwu.xchushi.fw.log.logback.XcsLogbackAppender">
-        <xcsLogger class="syamwu.xchushi.fw.log.elasticsearch.logger.TCPEsLogger">
-            <changer class="syamwu.xchushi.fw.log.elasticsearch.changer.ElasticsearchLogChanger">
-                <appname>yyt-provider-drug</appname>
-            </changer>
-            <sender class="syamwu.xchushi.fw.transfer.sender.HttpSender">
-                <serverHosts>eslog.wushiyan.my:12201</serverHosts>
-                <uri>yunyi_log/test</uri>
-            </sender>
-        </xcsLogger>
-    </appender> -->
-
-<!--     <appender name="esappender" class="syamwu.xchushi.fw.log.logback.XcsLogbackAppender">
-        <xcsLogger class="syamwu.xchushi.fw.log.elasticsearch.logger.ElasticSearchSubjectLogger">
-            <changer class="syamwu.xchushi.fw.log.elasticsearch.changer.ElasticsearchLogChanger">
-                <appname>xcs-demo</appname>
-            </changer>
-            <observer class="syamwu.xchushi.fw.transfer.runner.CollectSenderObserverRunner">
-                <sender class="syamwu.xchushi.fw.transfer.sender.HttpAndHttpsSender">
-                    <serverHosts>eslog.wushiyan.my:12201</serverHosts>
-                    <uri>yunyi_log/test</uri>
-                </sender>
-            </observer>
-        </xcsLogger>
-    </appender> -->
-    
     <appender name="esappender" class="syamwu.xchushi.easylog.logback.XcsLogbackAppender">
         <fileName>conf/xcs.properties</fileName>
     </appender>
@@ -82,7 +39,7 @@
             </timeBasedFileNamingAndTriggeringPolicy> 
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%class.%method:%line]:%m%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%thread][%X{trace_id}][%class.%method:%line]:%m%n</pattern>
         </encoder>
     </appender>
     
@@ -100,6 +57,7 @@
 
     <logger name="org.apache.http" level="INFO" additivity="false"/>
     
+    <logger name="org.apache.ibatis" level="DEBUG" />
     <logger name="org.mybatis" level="DEBUG" />
     <logger name="org.mybatis.spring" level="DEBUG" />
     

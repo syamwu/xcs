@@ -111,7 +111,7 @@ public class ElasticSearchSubjectLogger extends AbstractSubject<String> implemen
     @Override
     public void append(LoggerEntity loggerEntity) {
         Asset.notNull(loggerEntity);
-        LoggerEvent loggerEvent = loggerEntity.getValue();
+        LoggerEvent loggerEvent = loggerEntity.getData();
         Asset.notNull(loggerEvent);
         append(loggerEvent.getLoggerType(), loggerEvent.getThread(), loggerEvent.getSt(), loggerEvent.getMessage(),
                 loggerEvent.getT(), loggerEvent.getMDCmap(), loggerEvent.getArgs());

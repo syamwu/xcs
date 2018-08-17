@@ -1,5 +1,7 @@
 package syamwu.xchushi.fw.common.util;
 
+import java.util.Map;
+
 import com.alibaba.fastjson.JSON;
 
 public final class JsonUtils {
@@ -10,6 +12,11 @@ public final class JsonUtils {
 
     public static <T> T parseObject(String jsonStr, Class<T> clazz) {
         return JSON.parseObject(jsonStr, clazz);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    public static <T> T parseObject(Map map, Class<T> clazz) {
+        return JSON.parseObject(toJSONString(map), clazz);
     }
 
     public static <T> BooleanData<T> isJsonStr(String str, Class<T> targetClass) {

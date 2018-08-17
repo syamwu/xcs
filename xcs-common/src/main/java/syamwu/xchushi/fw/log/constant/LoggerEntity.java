@@ -19,7 +19,7 @@ public class LoggerEntity extends Entity<LoggerEvent>{
     }
 
     @Override
-    public LoggerEvent getValue() {
+    public LoggerEvent getData() {
         return data;
     }
 

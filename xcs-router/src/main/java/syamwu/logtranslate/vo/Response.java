@@ -1,51 +1,69 @@
 package syamwu.logtranslate.vo;
 
-public class Response {
-    
-    public static final String SUCCESS_CODE = "0";
-    
-    public static final String FAIL_CODE = "1";
+public class Response<T> {
 
-    private String resultCode;
+    public static final int SUCCESS_CODE = 200;
+
+    public static final int FAIL_CODE = 500;
+
+    private int resultCode;
 
     private String resultMessage;
 
-    private String result;
-    
-    public Response(){
-        System.out.println(resultCode);
-        System.out.println(resultMessage);
+    private T result;
+
+    public Response() {
         this.resultCode = SUCCESS_CODE;
         this.resultMessage = "success";
     }
 
-    public String getResultCode() {
+    public Response(T t) {
+        this.resultCode = SUCCESS_CODE;
+        this.resultMessage = "success";
+        this.result = t;
+    }
+
+    public Response(int resultCode, String resultMessage) {
+        this(resultCode, resultMessage, null);
+    }
+
+    public Response(int resultCode, String resultMessage, T result) {
+        this.resultCode = resultCode;
+        this.resultMessage = resultMessage;
+        this.result = result;
+    }
+
+    public int getResultCode() {
         return resultCode;
     }
 
-    public void setResultCode(String resultCode) {
+    public Response<T> setResultCode(int resultCode) {
         this.resultCode = resultCode;
+        return this;
     }
 
-    public String getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public Response<T> setResult(T result) {
         this.result = result;
+        return this;
     }
 
     public String getResultMessage() {
         return resultMessage;
     }
 
-    public void setResultMessage(String resultMessage) {
+    public Response<T> setResultMessage(String resultMessage) {
         this.resultMessage = resultMessage;
+        return this;
     }
-    
-    public void setResultCodeAndMessage(String resultCode, String resultMessage) {
+
+    public Response<T> setResultCodeAndMessage(int resultCode, String resultMessage) {
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
+        return this;
     }
-    
+
 }

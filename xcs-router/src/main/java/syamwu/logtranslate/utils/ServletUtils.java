@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import syamwu.xchushi.fw.common.util.JsonUtils;
 import syamwu.xchushi.fw.common.util.MapUtils;
@@ -81,6 +82,20 @@ public class ServletUtils {
             break;
         }
         return result;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> getParamsByReqeust(HttpServletRequest request) throws Exception {
+        return getParamsByReqeust(request, Map.class);
+    }
+    
+    public static String getUriParams(String uri, int index){
+        if (StringUtils.isEmpty(uri))
+            return null;
+        if(index < 0)
+            return null;
+        String[] uris = uri.split("/");
+        return uris.length > index ? uris[index] : null;
     }
 
 }
