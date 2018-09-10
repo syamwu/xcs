@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import syamwu.logtranslate.dao.BaseDao;
-import syamwu.logtranslate.utils.ServletUtils;
 import syamwu.logtranslate.vo.Request;
 import syamwu.logtranslate.vo.RequestMethod;
 import syamwu.logtranslate.vo.Response;

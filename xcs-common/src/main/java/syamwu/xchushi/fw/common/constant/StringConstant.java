@@ -18,7 +18,7 @@ public class StringConstant {
     
     public static final String DEFAULT_CHARSET = "UTF-8";
     
-    public static final String BULK_HEAD = "{ \"index\": {}}";
+    public static final String BULK_HEAD = "{\"index\":{}}";
     
     public static final String BULK_HEAD_LINE = BULK_HEAD + NEW_LINE;
     

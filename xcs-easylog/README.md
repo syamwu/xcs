@@ -52,8 +52,8 @@
             </changer>
             <observer class="syamwu.xchushi.fw.transfer.runner.CollectSenderObserverRunner">
                 <sender class="syamwu.xchushi.fw.transfer.sender.HttpAndHttpsSender">
-                    <serverHosts>eslog.wsy.my:7777</serverHosts>
-                    <uri>yunyi_log/test</uri>
+                    <serverHosts>eslog.syamwu:7202</serverHosts>
+                    <uri>sys-app-log/eslog/_bulk</uri>
                 </sender>
             </observer>
         </xcsLogger>

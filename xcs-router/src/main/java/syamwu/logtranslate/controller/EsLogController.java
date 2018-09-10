@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,21 +17,17 @@ import syamwu.logtranslate.dao.LogNodeDao;
 import syamwu.logtranslate.entity.LogApp;
 import syamwu.logtranslate.entity.LogNode;
 import syamwu.logtranslate.entity.LogNodeApp;
-import syamwu.logtranslate.service.ResourcesService;
 import syamwu.logtranslate.translate.impl.KibinaTranslater;
 import syamwu.logtranslate.utils.ServletUtils;
-import syamwu.logtranslate.vo.Request;
-import syamwu.logtranslate.vo.RequestMethod;
 import syamwu.logtranslate.vo.Response;
 import syamwu.logtranslate.vo.TranslateRequest;
-import syamwu.xchushi.fw.common.constant.HttpContentType;
 import syamwu.xchushi.fw.common.util.DateUtils;
 import syamwu.xchushi.fw.common.util.JsonUtils;
 import syamwu.xchushi.fw.common.util.StringUtil;
 import syamwu.xchushi.fw.common.util.UUIDUtils;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("_msearch")
 public class EsLogController {
 
     static Logger logger = LoggerFactory.getLogger(EsLogController.class);
@@ -48,10 +41,7 @@ public class EsLogController {
     @Autowired
     private KibinaTranslater kibinaTranslater;
 
-    @Autowired
-    private ResourcesService resourcesService;
-
-    @RequestMapping("/_msearch/**")
+    @RequestMapping("/**")
     @ResponseBody
     public String index(HttpServletRequest request, HttpServletResponse httpResponse) {
         return kibinaTranslater.translate(new TranslateRequest(request)).getResult();
@@ -162,28 +152,6 @@ public class EsLogController {
         return JsonUtils.toJSONString(response);
     }
 
-    @SuppressWarnings("rawtypes")
-    @RequestMapping("/setting/**")
-    public ResponseEntity<Response> setting(HttpServletRequest request, HttpServletResponse httpResponse) {
-        Response response = null;
-        try {
-            Request apiRequest = new Request().setApiUri(request.getRequestURI())
-                    .setMethod(getMethod(request.getMethod()))
-                    .setRequestParams(ServletUtils.getParamsByReqeust(request))
-                    .setResourceId(ServletUtils.getUriParams(request.getRequestURI(), 3));
-            response = resourcesService.getApiService(apiRequest).invoke(apiRequest);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            response.setResultCodeAndMessage(Response.FAIL_CODE, "system exception:" + e.getMessage());
-        } finally {
-            logger.info("setting response->" + JsonUtils.toJSONString(response));
-        }
-        ResponseEntity<Response> result = new ResponseEntity<>(response, HttpStatus.valueOf(response.getResultCode()));
-        return result;
-    }
 
-    private RequestMethod getMethod(String method) {
-        return RequestMethod.valueOf(method);
-    }
 
 }

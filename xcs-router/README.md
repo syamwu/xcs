@@ -3,7 +3,9 @@
 
 ## xcs-router
 
-用以将日志搜索请求路由至各个集群或者节点（不同集群内的es节点），并将搜索结果返回给请求方
+路由控制器，实现RESTful风格接口进行节点配置，将http请求根据自定义规则转发至指定节点，并返回节点的响应；
+
+该路由器用以将日志搜索请求路由至各个集群或者节点（不同集群内的es节点），并将搜索结果返回给请求方。
 
 ## 开源项目选择
 
@@ -30,8 +32,8 @@ syamwu.logtranslate.Main
 
 ```properties
 spring.datasource.url: 数据库地址
-spring.username: 数据库用户名
-spring.password: 数据库密码
+spring.datasource.username: 数据库用户名
+spring.datasource.password: 数据库密码
 
 storey.key: kibana或者其他搜索工具搜索请求的json报文中的AppCode键位
 ```

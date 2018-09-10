@@ -101,7 +101,7 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
 
     @Override
     public void callBack(Object obj) {
-        logger.debug("callBack:" + obj);
+        //logger.debug("callBack:" + obj);
     }
 
     @Override

@@ -8,3 +8,10 @@
 
 [easylog组件](https://github.com/syamwu/xcs/tree/master/xcs-easylog)
 
+## router
+
+路由控制器，实现RESTful风格接口进行节点配置，将http请求根据自定义规则转发至指定节点，并返回节点的响应。
+
+
+[router](https://github.com/syamwu/xcs/tree/master/xcs-router)
+

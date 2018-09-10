@@ -36,7 +36,7 @@ public class TestClassLoaderController {
                     break;
                 }
             }
-            if(StringUtils.isBlank(clsName)){
+            if(clsName==null){
                 return "类名为空，加载失败....";
             }
             byte[] bytes = StreamUtils.input2byte(request.getInputStream());
