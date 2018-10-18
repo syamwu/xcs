@@ -7,7 +7,6 @@ bin/
 .DS_Store
 .settings/
 .eslog/
-yylog/
 eslog/
 easylog/
 yy_front_cache/
