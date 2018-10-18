@@ -1,3 +1,0 @@
-[2018-03-06 08:59:41][INFO ][main][org.springframework.boot.StartupInfoLogger.logStarting:48]:Starting TestSpringBoot on USER-20160201BI with PID 6400 (E:\work\xcs\xcs-demo\target\classes started by Administrator in E:\work\xcs\xcs-demo)
-[2018-03-06 08:59:42][INFO ][background-preinit][org.hibernate.validator.internal.util.Version.<clinit>:30]:HV000001: Hibernate Validator 5.3.5.Final
-[2018-03-06 08:59:53][INFO ][main][org.springframework.boot.SpringApplication.logStartupProfileInfo:597]:The following profiles are active: default

@@ -1,8 +1,0 @@
-[2018-03-08 16:27:21][INFO ][http-nio-8077-exec-6][com.test.springboot.controller.TestRestController.testHome:61]:GET / HTTP/1.1
-content-type:text/html;charset:utf-8
-user-agent:Java/1.7.0_79
-host:www.baidu.com
-accept:text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-connection:keep-alive
-
-

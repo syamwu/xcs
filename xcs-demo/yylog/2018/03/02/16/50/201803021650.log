@@ -1,2 +1,0 @@
-[2018-03-02 16:50:01][INFO ][pool-1-thread-3][com.xchushi.transfer.runner.DefalutCollectSendRunner.callBack:152]:succes failQueue.size:0
-[2018-03-02 16:50:26][INFO ][main][com.xchushi.transfer.runner.DefalutCollectSendRunner.<init>:71]:CollectSendRunner created
