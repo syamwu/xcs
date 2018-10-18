@@ -11,6 +11,8 @@
     <modules>
         <module>xcs-common</module>
         <module>xcs-demo</module>
+        <module>xcs-easylog</module>
+        <module>xcs-router</module>
     </modules>
     
     <properties>
@@ -144,22 +146,6 @@
         <!-- Environment -->
         <skipTests>true</skipTests>
     </properties>
-    
-   <repositories>
-        <repository>
-            <id>nexus</id>
-            <name>Team Nexus Repository</name>
-            <url>http://myrepertory.cn:8081/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus</id>
-            <name>Team Nexus Repository</name>
-            <url>http://myrepertory.cn:8081/nexus/content/groups/public</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <build>
         <pluginManagement/>

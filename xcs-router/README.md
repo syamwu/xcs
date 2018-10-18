@@ -23,7 +23,7 @@ xcs-router主要实现为RESTful风格的服务，同时使用了mybatis+mysql�
 
 ## 启动类
 
-syamwu.logtranslate.Main
+syamwu.Main
 
 ## 主要配置
 

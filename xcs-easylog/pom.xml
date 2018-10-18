@@ -95,7 +95,7 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
-        
+
         <dependency>
 	        <groupId>syamwu.xchushi</groupId>
 	        <artifactId>xcs-common</artifactId>

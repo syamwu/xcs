@@ -9,4 +9,5 @@ bin/
 .eslog/
 yylog/
 eslog/
+easylog/
 yy_front_cache/

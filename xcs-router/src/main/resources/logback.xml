@@ -46,9 +46,10 @@
 
 
 	<!--打印任意包日志 -->
-	<root level="DEBUG">
+	<root level="INFO">
 	     <appender-ref ref="STDOUT" />
 		<appender-ref ref="esappender" />
+		<appender-ref ref="ALL" />
 	</root>
 	
    <!-- <logger name="com.test.springboot.controller" level="INFO" additivity="false">
