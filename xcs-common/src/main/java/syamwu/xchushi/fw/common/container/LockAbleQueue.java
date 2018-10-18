@@ -1,6 +1,7 @@
 package syamwu.xchushi.fw.common.container;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -8,13 +9,18 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class LockAbleQueue<E> {
 
-    protected final Lock queueLock = new ReentrantLock();
+    private final Lock queueLock = new ReentrantLock();
 
-    protected final Condition notEmpty = queueLock.newCondition();
+    private final Condition notEmpty = queueLock.newCondition();
 
-    protected Queue<E> queue;
+    private Queue<E> queue;
+
+    private boolean isLockQueue = false;
 
     public LockAbleQueue(Queue<E> queue) {
+        if (queue instanceof BlockingDeque) {
+            isLockQueue = true;
+        }
         this.queue = queue;
     }
 
@@ -31,31 +37,39 @@ public class LockAbleQueue<E> {
     }
 
     public E poll() throws InterruptedException {
-        return poll(false, 10l);
+        return poll(false, 10l, isLockQueue);
     }
 
-    public E poll(boolean fastReturn, long waitTime) throws InterruptedException {
-        try {
-            queueLock.lock();
-            while (queue.isEmpty() && !fastReturn) {
-                notEmpty.await(waitTime, TimeUnit.MILLISECONDS);
-                if (queue.isEmpty()) {
-                    return null;
+    public E poll(boolean fastReturn, long waitTime, boolean isLockQueue) throws InterruptedException {
+        if (isLockQueue) {
+            return ((BlockingDeque<E>) queue).poll(waitTime, TimeUnit.MILLISECONDS);
+        } else {
+            try {
+                queueLock.lock();
+                while (queue.isEmpty() && !fastReturn) {
+                    notEmpty.await(waitTime, TimeUnit.MILLISECONDS);
+                    if (queue.isEmpty()) {
+                        return null;
+                    }
                 }
+                return queue.poll();
+            } finally {
+                queueLock.unlock();
             }
-            return queue.poll();
-        } finally {
-            queueLock.unlock();
         }
     }
 
     public boolean offer(E e) throws InterruptedException {
-        try {
-            queueLock.lock();
-            notEmpty.signal();
+        if (isLockQueue) {
             return queue.offer(e);
-        } finally {
-            queueLock.unlock();
+        } else {
+            try {
+                queueLock.lock();
+                notEmpty.signal();
+                return queue.offer(e);
+            } finally {
+                queueLock.unlock();
+            }
         }
     }
 

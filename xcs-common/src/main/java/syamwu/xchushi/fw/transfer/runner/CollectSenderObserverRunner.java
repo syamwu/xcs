@@ -67,7 +67,7 @@ public class CollectSenderObserverRunner extends AbstractSenderRunner implements
     }
 
     /**
-     * 日志收集和任务分发主线程
+     * 数据收集和任务分发主线程
      * 
      * @author syam_wu
      */
