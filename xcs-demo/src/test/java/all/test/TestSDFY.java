@@ -1,16 +1,12 @@
 package all.test;
 
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
+import org.springframework.boot.lang.UsesUnsafeJava;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.TreeMap;
 
-import com.xcs.utils.HttpUtils;
-import com.xcs.utils.MD5Utils;
 
 public class TestSDFY {
     
@@ -21,7 +17,6 @@ public class TestSDFY {
         System.out.println("[{\"".indexOf("{\""));
         
         
-        System.out.println(URLEncoder.encode("http://120.76.98.17:7777/app/es-transfer"));
     }
     
     

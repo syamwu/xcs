@@ -56,7 +56,7 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
         try {
             StackTraceElement[] sts = eventObject.getCallerData();
             Thread thread = Thread.currentThread();
-            LoggerType loggerType = exchangeLevel(eventObject.getLevel());
+            LoggerType loggerType = exLevel(eventObject.getLevel());
             Throwable t = eventObject.getThrowableProxy() == null ? null
                     : ((ThrowableProxy) eventObject.getThrowableProxy()).getThrowable();
             Map<String, String> threadMap = null;
@@ -129,7 +129,7 @@ public class XcsLogbackAppender extends AppenderBase<LoggingEvent> {
      * @param level
      * @return
      */
-    protected LoggerType exchangeLevel(Level level) {
+    protected LoggerType exLevel(Level level) {
         Asset.notNull(level);
         LoggerType logType = LoggerType.valueOf(level.levelStr);
         if (logType == null) {
